@@ -5,4 +5,16 @@ class HomePageMentorVM extends BaseViewModel {
   void onInit() {
     // TODO: implement onInit
   }
+  final List<Map> mentees = List.generate(
+      5,
+      (index) => {
+            "profile": "",
+            "name": "Professor $index",
+            "profession": "profession $index",
+            "review": "⭐️ 4.5 (135 reviews)"
+          }).toList();
+
+
+
+          
 }

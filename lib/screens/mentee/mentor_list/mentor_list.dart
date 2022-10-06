@@ -112,7 +112,7 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
                             offset: Offset(0, 1),
                             blurStyle: BlurStyle.inner,
                             blurRadius: 10,
-                            color: Color(0xff979797),
+                            color: Color(0xffFFD680),
                           )
                         ],
                         borderRadius: BorderRadius.circular(20)),

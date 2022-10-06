@@ -31,18 +31,40 @@ class _ForgetPasswordState extends State<ForgetPassword>
   @override
   Widget build(BuildContext context) {
     return builder(() => Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "Forget Password",
-              style: TextStyle(color: Color(0xff202020).withOpacity(0.5)),
-            ),
-            leading: const BackButtonCustom(),
-            backgroundColor: Colors.white,
-            elevation: 0,
-          ),
           backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffFFD680),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                      blurStyle: BlurStyle.normal),
+                ],
+              ),
+              child: AppBar(
+                title: const Text(
+                  "Forgot Password",
+                  style: TextStyle(
+                      color: const Color(0xffFDBA2F),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                leading: const BackButtonCustom(),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                )),
+              ),
+            ),
+          ),
           body: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: SingleChildScrollView(
               child: Form(
                 child: Column(
@@ -129,7 +151,7 @@ class _ForgetPasswordState extends State<ForgetPassword>
                             onPressed: () {
                               provider.sendEmail();
                             },
-                            color: const Color(0xff202020),
+                            color: const Color(0xffFDBA2F),
                             textColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),

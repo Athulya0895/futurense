@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:futurensemobileapp/api/mentor_service.dart';
 import './auth_services.dart';
 import '/api/api_config.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -18,6 +19,7 @@ class ApiClient {
   );
 
   late AuthRepo authRepo;
+  late MentorRepo mentorRepo;
   ApiClient() {
     _dio.interceptors.add(
       PrettyDioLogger(
@@ -50,5 +52,6 @@ class ApiClient {
       ),
     );
     authRepo = AuthRepo(_dio);
+    mentorRepo = MentorRepo(_dio);
   }
 }

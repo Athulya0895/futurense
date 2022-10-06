@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
 import 'package:futurensemobileapp/screens/auth/login/login.dart';
-
 import 'package:futurensemobileapp/screens/mentee/setPreference/setPreference.dart';
+import 'package:futurensemobileapp/screens/mentor/setPreference/setpreference.dart';
 
 class LoginVM extends BaseViewModel {
   @override
@@ -47,8 +45,7 @@ class LoginVM extends BaseViewModel {
 //     }
 //   }
 
-
-
+  String role = "mentor";
   login(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       FormData formData = FormData();
@@ -64,12 +61,18 @@ class LoginVM extends BaseViewModel {
       hideLoading();
       if (response.runtimeType == Response) {
         print("response");
-        if (response.data['STATUS'] == "SUCCESS") {
+        if (response.data['SUCCESS'] == "TRUE") {
           print("true");
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => SetPreference()),
-              (route) => false);
+          response.data['ROLE'] == "MENTORS"
+              ? Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SetPreferenceMentor()),
+                  (route) => false)
+              : Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SetPrefrenceMentee()),
+                  (route) => false);
         } else {
           showError(response.data['MESSAGE']);
         }
@@ -78,6 +81,4 @@ class LoginVM extends BaseViewModel {
       }
     }
   }
-
-
 }

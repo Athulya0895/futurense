@@ -71,6 +71,7 @@ class _DropDownMenuModeState extends State<DropDownMenuMode> {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
           prefixIcon: widget.icon,
+          
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Color(0xff6B779A).withOpacity(0.05)),
             borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -82,6 +83,7 @@ class _DropDownMenuModeState extends State<DropDownMenuMode> {
           filled: true,
           alignLabelWithHint: false,
           labelText: widget.hinttext,
+          
 
           // hintText: widget.hinttext,
           // labelText: widget.hinttext,

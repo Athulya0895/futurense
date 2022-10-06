@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/screens/auth/login/login.dart';
+import 'package:futurensemobileapp/screens/splas_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'utils/locator.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
       // theme: ThemeData(primarySwatch: Colors.yellow),
-      home: const Login(),
+      home: const SplashScreen(),
     );
   }
 }

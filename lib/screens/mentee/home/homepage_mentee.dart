@@ -80,7 +80,7 @@ class _ZoomState extends State<Zoom> {
                           // ),
                           SizedBox(height: 5),
                           Text("Peter Parker", style: TextStyles.titleM),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           // Text(
@@ -251,53 +251,132 @@ class _HomePageMenteeState extends State<HomePageMentee>
 
   //header
   Widget _header() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Hello,",
-          style: TextStyles.title.subTitleColor,
-        ),
-        Text("Peter Parker", style: TextStyles.h1Style),
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Color(0xffFDBA2F)),
+              shape: BoxShape.circle),
+          // height: 40,
+          // width: 40,
+          child: Image.asset("assets/profile.png", fit: BoxFit.fill),
+        ).p(8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[
+            Text("Hello Mahmudul !,",
+                // style: TextStyles.title.subTitleColor,
+                style: TextStyle(
+                  color: Color(0xff202020),
+                  fontSize: 18,
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Find your suitable mentor here",
+              // style: TextStyles.h1Style
+              style: TextStyle(color: Color(0xff979797), fontSize: 16),
+            ),
+          ],
+        ).p16,
       ],
-    ).p16;
+    );
   }
 
 //search
   Widget _searchField() {
     return Container(
-      height: 55,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Color(0xff6B779A).withOpacity(0.1),
-        borderRadius: BorderRadius.all(Radius.circular(13)),
-        // boxShadow: <BoxShadow>[
-        //   BoxShadow(
-        //     color: Colors.grey,
-        //     blurRadius: 15,
-        //     offset: Offset(5, 5),
-        //   )
-        // ],
-      ),
-      child: TextField(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
+      child: TextFormField(
+        textInputAction: TextInputAction.search,
+        // controller: _doctorName,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          border: InputBorder.none,
-          hintText: "Search for mentor",
-          hintStyle: TextStyles.body.subTitleColor,
-          suffixIcon: SizedBox(
-            width: 50,
-            child: const Icon(Icons.search, color: Colors.orange)
-                .alignCenter
-                .ripple(
-                  () {},
-                  borderRadius: BorderRadius.circular(13),
-                ),
+          contentPadding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Color(0xffEBF6F7),
+          hintText: 'Search for Mentor',
+          hintStyle: TextStyle(color: Color(0xff6EBFC3)),
+
+          // hintStyle: GoogleFonts.lato(
+          //   color: Colors.black26,
+          //   fontSize: 18,
+          //   fontWeight: FontWeight.w800,
+          // ),
+          suffixIcon: Container(
+            decoration: BoxDecoration(
+              color: Color(0xff6EBFC3).withOpacity(0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: IconButton(
+              iconSize: 20,
+              splashRadius: 20,
+              color: Color(0xff6EBFC3),
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
           ),
         ),
+        // style: GoogleFonts.lato(
+        //   fontSize: 18,
+        //   fontWeight: FontWeight.w800,
+        // ),
+        onFieldSubmitted: (String value) {
+          setState(
+            () {
+              // value.length == 0
+              //     ? Container()
+              //     : Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => SearchList(
+              //             searchKey: value,
+              //           ),
+              //         ),
+              //       );
+            },
+          );
+        },
       ),
     );
+    // return Container(
+    //   height: 55,
+    //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    //   width: MediaQuery.of(context).size.width,
+    //   decoration: BoxDecoration(
+    //     color: const Color(0xff6B779A).withOpacity(0.1),
+    //     borderRadius: const BorderRadius.all(Radius.circular(13)),
+    //     // boxShadow: <BoxShadow>[
+    //     //   BoxShadow(
+    //     //     color: Colors.grey,
+    //     //     blurRadius: 15,
+    //     //     offset: Offset(5, 5),
+    //     //   )
+    //     // ],
+    //   ),
+    //   child: TextField(
+    //     decoration: InputDecoration(
+    //       contentPadding:
+    //           const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    //       border: InputBorder.none,
+    //       hintText: "Search for mentor",
+    //       hintStyle: TextStyles.body.subTitleColor,
+    //       suffixIcon: SizedBox(
+    //         width: 50,
+    //         child: const Icon(Icons.search, color: Colors.orange)
+    //             .alignCenter
+    //             .ripple(
+    //               () {},
+    //               borderRadius: BorderRadius.circular(13),
+    //             ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   //categories
@@ -328,20 +407,20 @@ class _HomePageMenteeState extends State<HomePageMentee>
               _categoryCardWidget(
                 "Technical Assistance",
                 "27 Mentors",
-                color: LightColor.green,
-                lightColor: LightColor.lightGreen,
+                color: const Color(0xffFDBA2F),
+                lightColor: const Color(0xffFFC958),
               ),
               _categoryCardWidget(
                 "Mental Health",
                 "43 Mentors",
-                color: LightColor.skyBlue,
-                lightColor: LightColor.lightBlue,
+                color: const Color(0xff90D8DC),
+                lightColor: Color(0xff95E1E4),
               ),
               _categoryCardWidget(
                 "Engagement Manager",
                 "50 Mentors ",
-                color: LightColor.orange,
-                lightColor: LightColor.lightOrange,
+                color: Color(0xffFFAA5F),
+                lightColor: const Color(0xffFFBC80),
               )
             ],
           ),
@@ -358,19 +437,22 @@ class _HomePageMenteeState extends State<HomePageMentee>
   }) {
     TextStyle titleStyle = TextStyles.title.bold.white;
     TextStyle subtitleStyle = TextStyles.body.bold.white;
-    if (AppTheme.fullWidth(context) < 392) {
-      titleStyle = TextStyles.body.bold.white;
-      subtitleStyle = TextStyles.bodySm.bold.white;
-    }
+    // if (AppTheme.fullWidth(context) < 392) {
+    //   titleStyle = TextStyles.body.bold.white;
+    //   subtitleStyle = TextStyles.bodySm.bold.white;
+    // }
     return AspectRatio(
-      aspectRatio: 6 / 8,
+      aspectRatio: 5.6 / 8,
       child: Container(
         // height: 280,
         width: AppTheme.fullWidth(context) * .3,
         margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+              topLeft: Radius.circular(10)),
           boxShadow: <BoxShadow>[
             BoxShadow(
               offset: Offset(4, 4),
@@ -385,18 +467,18 @@ class _HomePageMenteeState extends State<HomePageMentee>
             child: Stack(
               children: <Widget>[
                 Positioned(
-                  top: -20,
-                  left: -20,
+                  top: -30,
+                  right: -30,
                   child: CircleAvatar(
                     backgroundColor: lightColor,
-                    radius: 60,
+                    radius: 70,
                   ),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Flexible(
-                      child: Text(title, style: titleStyle).hP8,
+                      child: Text(title, style: titleStyle).vP4,
                     ),
                     const SizedBox(
                       height: 10,
@@ -433,12 +515,17 @@ class _HomePageMenteeState extends State<HomePageMentee>
                   onPressed: () {
                     //show mentor list
                   },
-                  child: Text("Explore"))
+                  child: const Text(
+                    "Explore",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ))
             ],
           ),
         ),
         SizedBox(
-          height: AppTheme.fullHeight(context) * .28,
+          height: AppTheme.fullHeight(context) * .2,
           width: AppTheme.fullWidth(context),
           child: ListView.builder(
               itemCount: 5,
@@ -449,26 +536,6 @@ class _HomePageMenteeState extends State<HomePageMentee>
                     color: Colors.white);
               }),
         ),
-        // ListView(
-        //   scrollDirection: Axis.horizontal,
-        //   children: <Widget>[
-        //     _questionCardWidget(
-        //       "What is SAP ?",
-        //       "SAP stands for System Applications and Products in Data Processing.",
-        //       color: Colors.white,
-        //     ),
-        //     _questionCardWidget(
-        //       "What is SAP ?",
-        //       "SAP stands for System Applications and Products in Data Processing.",
-        //       color: Colors.white,
-        //     ),
-        //     _questionCardWidget(
-        //       "What is SAP ?",
-        //       "SAP stands for System Applications and Products in Data Processing.",
-        //       color: Colors.white,
-        //     )
-        //   ],
-        // ),
       ],
     );
   }
@@ -486,7 +553,106 @@ class _HomePageMenteeState extends State<HomePageMentee>
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        border: Border.all(color: Color(0xffA0A2B3).withOpacity(0.5)),
+        border: Border.all(color: Color(0xffFFD680), style: BorderStyle.solid),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            offset: Offset(0, 2),
+            blurStyle: BlurStyle.inner,
+            blurRadius: 6,
+            spreadRadius: 1.5,
+            color: Color(0xffFFD680),
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          const VerticalDivider(
+            color: Color(0xff129A7F),
+            thickness: 1,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name, style: TextStyles.title.subTitleColor),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: AppTheme.fullWidth(context) * .6,
+                child: Expanded(
+                  child: Text(details,
+                      maxLines: 4,
+                      style: const TextStyle(
+                        color: Color(0xffA0A2B3),
+                      )),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+//upcomming Meetings
+
+  Widget _upcommingMeetings() {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text("Upcoming meetings", style: TextStyles.title.bold),
+              TextButton(
+                  onPressed: () {
+                    //show mentor list
+                  },
+                  child: const Text(
+                    "View all",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: AppTheme.fullHeight(context) * .159,
+          width: AppTheme.fullWidth(context),
+          child: ListView.builder(
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return _upcommingCardWidget("Klimsha", "voice call",
+                    "Today-10 Am", "assets/profile.png", Color(0xffFFFFFF));
+              }),
+        ),
+      ],
+    );
+  }
+
+  //upcomming card widget
+  Widget _upcommingCardWidget(
+    String name,
+    String meetingType,
+    String meetingDateTime,
+    String profile,
+    Color color,
+  ) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      width: AppTheme.fullWidth(context) * .6,
+      margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(
+            color: Color(0xffFFD551), width: 1, style: BorderStyle.solid),
         boxShadow: <BoxShadow>[
           BoxShadow(
             offset: Offset(4, 2),
@@ -495,14 +661,49 @@ class _HomePageMenteeState extends State<HomePageMentee>
           )
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(name, style: TextStyles.title.subTitleColor),
-          SizedBox(
-            height: 10,
+          ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            child: SizedBox(
+              // height: 46,
+              // width: 46,
+              child: Image.asset(profile, fit: BoxFit.fill),
+            ),
+          ).p(8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(name + ", " + meetingType, style: TextStyle(fontSize: 10)),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                meetingDateTime,
+                style: TextStyle(fontSize: 10),
+              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "View details",
+                  style: TextStyle(
+                      color: Color(
+                        0xffFD2FE2,
+                      ),
+                      fontSize: 10),
+                ),
+              )
+
+              // Text(details)
+            ],
           ),
-          Text(details)
         ],
       ),
     );
@@ -528,7 +729,12 @@ class _HomePageMenteeState extends State<HomePageMentee>
                           MaterialPageRoute(
                               builder: (context) => MentorList()));
                     },
-                    child: Text("View All"))
+                    child: const Text(
+                      "View All",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ))
               ],
             ).hP16,
           ),
@@ -559,12 +765,13 @@ class _HomePageMenteeState extends State<HomePageMentee>
                     color: Colors.white,
                     border:
                         Border.all(color: Color(0xff979797).withOpacity(0.1)),
-                    boxShadow: const <BoxShadow>[
+                    boxShadow: <BoxShadow>[
                       BoxShadow(
-                        offset: Offset(0, 1),
+                        offset: Offset(0, 2),
                         blurStyle: BlurStyle.inner,
-                        blurRadius: 10,
-                        color: Color(0xff979797),
+                        blurRadius: 6,
+                        spreadRadius: 1.5,
+                        color: Color(0xffFFD680),
                       )
                     ],
                     borderRadius: BorderRadius.circular(20)),
@@ -596,66 +803,166 @@ class _HomePageMenteeState extends State<HomePageMentee>
   @override
   Widget build(BuildContext context) {
     return builder((() => Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            actions: [
-              // Using Stack to show Notification Badge
-              Stack(
-                children: <Widget>[
-                  IconButton(
-                      icon: const Icon(
-                        Icons.notifications,
-                        size: 30,
-                        color: Color(0xffFDBA2F),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          // counter = 0;
-                        });
-                      }),
-                  Positioned(
-                    right: 11,
-                    top: 11,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 14,
-                        minHeight: 14,
-                      ),
-                      child: Text(
-                        '$counter',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  )
+          // backgroundColor: Colors.white,
+          // appBar: AppBar(
+          //   actions: [
+          //     // Using Stack to show Notification Badge
+          //     Stack(
+          //       children: <Widget>[
+          //         IconButton(
+          //             icon: const Icon(
+          //               Icons.notifications,
+          //               size: 30,
+          //               color: Color(0xffFDBA2F),
+          //             ),
+          //             onPressed: () {
+          //               setState(() {
+          //                 // counter = 0;
+          //               });
+          //             }),
+          //         Positioned(
+          //           right: 11,
+          //           top: 11,
+          //           child: Container(
+          //             padding: const EdgeInsets.all(2),
+          //             decoration: BoxDecoration(
+          //               color: Colors.red,
+          //               borderRadius: BorderRadius.circular(6),
+          //             ),
+          //             constraints: const BoxConstraints(
+          //               minWidth: 14,
+          //               minHeight: 14,
+          //             ),
+          //             child: Text(
+          //               '$counter',
+          //               style: const TextStyle(
+          //                 color: Colors.white,
+          //                 fontSize: 8,
+          //               ),
+          //               textAlign: TextAlign.center,
+          //             ),
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ],
+          //   backgroundColor: Colors.white,
+          //   elevation: 0,
+          //   leading: IconButton(
+          //     icon: const Icon(
+          //       Icons.menu,
+          //       color: Colors.black,
+          //     ),
+          //     onPressed: () {
+          //       z.toggle!();
+          //     },
+          //   ),
+          // ),
+          // backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(60.0),
+            child: Container(
+              decoration:const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffFFD680),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                      blurStyle: BlurStyle.normal),
                 ],
               ),
-            ],
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
+              child: AppBar(
+                // title: const Text(
+                //   "Profile",
+                //   style: TextStyle(
+                //       color: const Color(0xffFDBA2F),
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold),
+                // ),
+                // leading: const BackButtonCustom(),
+                leading: IconButton(
+                  icon: Container(
+                    padding:const EdgeInsets.all(5),
+                    child:  const Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color:const Color(0xffFDBA2F)),
+                  ),
+                  onPressed: () {
+                    z.toggle!();
+                  },
+                ),
+
+                actions: [
+                  // Using Stack to show Notification Badge
+                  Stack(
+                    children: <Widget>[
+                      IconButton(
+                          icon: const Icon(
+                            Icons.notifications,
+                            size: 30,
+                            color: Color(0xffFDBA2F),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              // counter = 0;
+                            });
+                          }),
+                      Positioned(
+                        right: 11,
+                        top: 11,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                              color:const Color(0xff682FFD),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                  color:const Color(0xffA0A2B3).withOpacity(0.5))),
+                          constraints: const BoxConstraints(
+                            minWidth: 14,
+                            minHeight: 14,
+                          ),
+                          child: Text(
+                            '$counter',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+
+                backgroundColor: Colors.white,
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                )),
               ),
-              onPressed: () {
-                z.toggle!();
-              },
             ),
           ),
           body: CustomScrollView(
             slivers: <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate(
-                  [_header(), _searchField(), _category(), _questionAnswer()],
+                  [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _header(),
+                    _searchField(),
+                    _category(),
+                    _upcommingMeetings(),
+                    _questionAnswer()
+                  ],
                 ),
               ),
               _topmentorsList()

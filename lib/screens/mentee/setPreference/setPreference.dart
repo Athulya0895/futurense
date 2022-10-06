@@ -3,37 +3,58 @@ import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+import 'package:futurensemobileapp/components/button/button.dart';
 import 'package:futurensemobileapp/components/dropdown/dropdown_menu_mode.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
 
 import 'package:futurensemobileapp/screens/mentee/myaccount/myaccount.dart';
 import 'package:futurensemobileapp/screens/mentee/setPreference/setPreference_vm.dart';
+
 import 'package:futurensemobileapp/utils/validators.dart';
 
-class SetPreference extends StatefulWidget {
-  const SetPreference({super.key});
+class SetPrefrenceMentee extends StatefulWidget {
+  const SetPrefrenceMentee({super.key});
 
   @override
-  State<SetPreference> createState() => _SetPreferenceState();
+  State<SetPrefrenceMentee> createState() => _SetPrefrenceMenteeState();
 }
 
-class _SetPreferenceState extends State<SetPreference>
-    with BasePage<SetPreferenceVM> {
+class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
+    with BasePage<SetPreferenceMenteeVM> {
   @override
   Widget build(BuildContext context) {
     return builder(() => Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: Text(
-              "Set Your Mentoring Type",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffFFD680),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                      blurStyle: BlurStyle.normal),
+                ],
+              ),
+              child: AppBar(
+                title: const Text(
+                  "Set your mentoring type",
+                  style: TextStyle(
+                      color: const Color(0xffFDBA2F),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                // leading: const BackButtonCustom(),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                )),
+              ),
             ),
-            leading: const BackButtonCustom(),
-            backgroundColor: Colors.white,
-            elevation: 0.5,
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(15, 30, 15, 15),
@@ -62,6 +83,7 @@ class _SetPreferenceState extends State<SetPreference>
                   ),
                   const SizedBox(height: 5),
                   InputField(
+                      maxline: 5,
                       hintText: "Describe what you are looking for",
                       controller: provider.preferenceDescription,
                       // prefixIcon: const Icon(Icons.person),
@@ -159,26 +181,38 @@ class _SetPreferenceState extends State<SetPreference>
                   const SizedBox(
                     height: 15,
                   ),
-                  MaterialButton(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      padding: const EdgeInsets.only(bottom: 15, top: 15),
-                      minWidth: double.infinity,
-                      color: const Color(0xffFDBA2F),
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyAccount()));
-                      })
+
+                  Center(
+                    child: MaterialButton(
+                        padding: const EdgeInsets.only(top: 23, bottom: 23),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        minWidth: MediaQuery.of(context).size.width * 0.7,
+                        color: const Color(0xffFDBA2F),
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyAccount()));
+                        }),
+                  ),
+                  // Center(
+                  //     child: CustomMaterialButtton(
+                  //   textColor: Colors.white,
+                  //   text: "Next",
+                  //   onPressed: () {
+                  //     Navigator.push(context,
+                  //         MaterialPageRoute(builder: (context) => MyAccount()));
+                  //   },
+                  // )),
                 ],
               ),
             ),
@@ -187,7 +221,7 @@ class _SetPreferenceState extends State<SetPreference>
   }
 
   @override
-  SetPreferenceVM create() => SetPreferenceVM();
+  SetPreferenceMenteeVM create() => SetPreferenceMenteeVM();
 
   @override
   void initialise(BuildContext context) {
