@@ -92,29 +92,29 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                   const SizedBox(
                     height: 25,
                   ),
-                  const Text(
-                    "Prefered Meeting Type",
-                    style: TextStyle(
-                        color: Color(0xff6B779A),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  DropDownMenuMode(
-                      borderRadius: 10,
-                      hinttext: "Virtual or in Person Meeting",
-                      validationText: "",
-                      items: const [
-                        "Virtual Meeting",
-                        "inPerson Meeting",
-                        "virtual & PersonalMeeting"
-                      ],
-                      setdata: () {}),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  // const Text(
+                  //   "Prefered Meeting Type",
+                  //   style: TextStyle(
+                  //       color: Color(0xff6B779A),
+                  //       fontWeight: FontWeight.w500,
+                  //       fontSize: 14),
+                  // ),
+                  // const SizedBox(
+                  //   height: 5,
+                  // ),
+                  // DropDownMenuMode(
+                  //     borderRadius: 10,
+                  //     hinttext: "Virtual or in Person Meeting",
+                  //     validationText: "",
+                  //     items: const [
+                  //       "Virtual Meeting",
+                  //       "inPerson Meeting",
+                  //       "virtual & PersonalMeeting"
+                  //     ],
+                  //     setdata: () {}),
+                  // const SizedBox(
+                  //   height: 25,
+                  // ),
                   const Text(
                     "Which areas are you looking to develop?",
                     style: TextStyle(

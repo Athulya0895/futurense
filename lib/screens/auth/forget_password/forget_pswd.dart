@@ -147,9 +147,10 @@ class _ForgetPasswordState extends State<ForgetPassword>
                         child: Visibility(
                           visible: !provider.enterOtpScreen,
                           child: MaterialButton(
-                            child: const Text("Send the Verification Code"),
+                            child: const Text("Send the Reset Link"),
                             onPressed: () {
-                              provider.sendEmail();
+                              provider.sendEmail(context);
+                             
                             },
                             color: const Color(0xffFDBA2F),
                             textColor: Colors.white,
@@ -160,7 +161,7 @@ class _ForgetPasswordState extends State<ForgetPassword>
                           replacement: MaterialButton(
                             child: const Text("Verify"),
                             onPressed: () {
-                              provider.validateOtp(context);
+                              // provider.validateOtp(context);
                             },
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
@@ -175,12 +176,12 @@ class _ForgetPasswordState extends State<ForgetPassword>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Did not receive verification code?",
+                            "Did not receive reset link ?",
                             style: TextStyle(fontSize: 16),
                           ),
                           TextButton(
                             onPressed: () {
-                              provider.resendOtp();
+                              // provider.resendOtp();
                             },
                             child: const Text(
                               "Resend",

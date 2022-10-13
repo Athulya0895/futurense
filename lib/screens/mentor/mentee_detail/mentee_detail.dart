@@ -155,27 +155,18 @@ class _MenteeDetailState extends State<MenteeDetail>
                             height: 20,
                           ),
                           Text(
-                            "Skill Set",
+                            "Looking for mentorship in",
                             style: TextStyles.title.bold,
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text("Flutter , Mysql,java , node js"),
+                          const Text(
+                              "Bellamy Nicholas is a top mentor at London Bridge Univercity at London. He has achieved several awards and recognition for is contri."),
                           const SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            "Working Time",
-                            style: TextStyles.title.bold,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text("Mon - Sat (08:30 AM - 09:00 PM)"),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
                           Text(
                             "Preffered Communication",
                             style: TextStyles.title.bold,

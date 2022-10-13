@@ -9,6 +9,7 @@ import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/light_color.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/components/theme/theme.dart';
+import 'package:futurensemobileapp/screens/auth/login/login.dart';
 
 import 'package:futurensemobileapp/screens/mentee/home/homepage_mentee_vm.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_list/mentor_list.dart';
@@ -181,7 +182,15 @@ class _ZoomState extends State<Zoom> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pop(context, 'YES');
+                                            //  provider.prefs.removeAll();
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Login()),
+                                                    (route) => false);
+                                                // provider.logOut();
+                                // Navigator.pop(context, 'YES');
                                 // provider.logOut();
                               },
                               child: const Text('OK'),
@@ -763,9 +772,9 @@ class _HomePageMenteeState extends State<HomePageMentee>
                 // alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border:
-                        Border.all(color: Color(0xff979797).withOpacity(0.1)),
-                    boxShadow: <BoxShadow>[
+                    border: Border.all(
+                        color: const Color(0xff979797).withOpacity(0.1)),
+                    boxShadow: const <BoxShadow>[
                       BoxShadow(
                         offset: Offset(0, 2),
                         blurStyle: BlurStyle.inner,
@@ -862,7 +871,7 @@ class _HomePageMenteeState extends State<HomePageMentee>
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60.0),
             child: Container(
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(
                       color: Color(0xffFFD680),
@@ -883,14 +892,14 @@ class _HomePageMenteeState extends State<HomePageMentee>
                 // leading: const BackButtonCustom(),
                 leading: IconButton(
                   icon: Container(
-                    padding:const EdgeInsets.all(5),
-                    child:  const Icon(
+                    padding: const EdgeInsets.all(5),
+                    child: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color:const Color(0xffFDBA2F)),
+                        color: const Color(0xffFDBA2F)),
                   ),
                   onPressed: () {
                     z.toggle!();
@@ -918,10 +927,11 @@ class _HomePageMenteeState extends State<HomePageMentee>
                         child: Container(
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                              color:const Color(0xff682FFD),
+                              color: const Color(0xff682FFD),
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(
-                                  color:const Color(0xffA0A2B3).withOpacity(0.5))),
+                                  color: const Color(0xffA0A2B3)
+                                      .withOpacity(0.5))),
                           constraints: const BoxConstraints(
                             minWidth: 14,
                             minHeight: 14,

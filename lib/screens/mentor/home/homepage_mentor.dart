@@ -33,12 +33,12 @@ class _ZoomMentorState extends State<ZoomMentor> {
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       duration: const Duration(milliseconds: 500),
       // angle: 0.0,
-      menuBackgroundColor: Color(0xffFDBA2F),
+      menuBackgroundColor: const Color(0xffFDBA2F),
       mainScreen: const Body(),
       menuScreen: Theme(
         data: ThemeData.dark(),
         child: Scaffold(
-          backgroundColor: Color(0xffFDBA2F),
+          backgroundColor: const Color(0xffFDBA2F),
           body: Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Center(
@@ -55,7 +55,8 @@ class _ZoomMentorState extends State<ZoomMentor> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(13)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(13)),
                             child: SizedBox(
                               // height: 40,
                               // width: 40,
@@ -76,7 +77,7 @@ class _ZoomMentorState extends State<ZoomMentor> {
                           //   //   ),
                           //   // ),
                           // ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Text("Peter Parker", style: TextStyles.titleM),
                           const SizedBox(
                             height: 5,
@@ -559,9 +560,13 @@ class _HomepageMentorState extends State<HomepageMentor>
     Color color,
   ) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      padding: const EdgeInsets.fromLTRB(5, 20, 5, 0),
       width: AppTheme.fullWidth(context) * .6,
-      margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
+      // margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
+      margin: const EdgeInsets.only(
+        left: 15,
+        right: 10,
+      ),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -592,17 +597,15 @@ class _HomepageMentorState extends State<HomepageMentor>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(name + ", " + meetingType, style: TextStyle(fontSize: 10)),
+              Text(name + ", " + meetingType, style: TextStyle(fontSize: 12)),
               const SizedBox(
                 height: 5,
               ),
               Text(
                 meetingDateTime,
-                style: TextStyle(fontSize: 10),
+                style: TextStyle(fontSize: 12),
               ),
-              // SizedBox(
-              //   height: 10,
-              // ),
+
               TextButton(
                 onPressed: () {},
                 child: const Text(
@@ -611,7 +614,7 @@ class _HomepageMentorState extends State<HomepageMentor>
                       color: Color(
                         0xffFD2FE2,
                       ),
-                      fontSize: 10),
+                      fontSize: 14),
                 ),
               )
 
@@ -673,7 +676,10 @@ class _HomepageMentorState extends State<HomepageMentor>
     return Container(
       padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
       width: AppTheme.fullWidth(context) * .8,
-      margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
+      margin: const EdgeInsets.only(
+        left: 15,
+        right: 10,
+      ),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -759,7 +765,9 @@ class _HomepageMentorState extends State<HomepageMentor>
   //mentee widget list
   Widget _menteeWidgetList() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15),
+      padding: const EdgeInsets.only(
+        left: 15,
+      ),
       // implement GridView.builder
       child: SizedBox(
         height: 500,
@@ -777,7 +785,7 @@ class _HomepageMentorState extends State<HomepageMentor>
                     color: Colors.white,
                     border:
                         Border.all(color: Color(0xff979797).withOpacity(0.1)),
-                    boxShadow: <BoxShadow>[
+                    boxShadow: const <BoxShadow>[
                       BoxShadow(
                         offset: Offset(0, 2),
                         blurStyle: BlurStyle.inner,

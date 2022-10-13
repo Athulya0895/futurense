@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/screens/mentee/book_appointment/book_appointment.dart';
@@ -11,6 +10,7 @@ import 'package:futurensemobileapp/screens/mentor/home/home/home_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/home/homepage_mentor.dart';
 import 'package:futurensemobileapp/screens/mentor/mentor_myaccount/mentor_myaccount.dart';
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/myappointments_mentor.dart';
+import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeting_mentor_vm.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class Home extends StatefulWidget {
@@ -37,60 +37,90 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
     return [
       PersistentBottomNavBarItem(
         icon: Container(
+          height: 50,
+          width: 50,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color(0xffE7CBCB),
+            color: Color(0xffE7CBCB).withOpacity(0.5),
           ),
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: SvgPicture.asset(
             'assets/home.svg',
-            color: controller.index == 0 ? Color(0xffFDBA2F) : Colors.grey,
+            color:
+                controller.index == 0 ? Color(0xffFDBA2F) : Color(0xff979797),
           ),
         ),
         title: ("HOME"),
-        activeColorPrimary: Color(0xffFDBA2F),
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        activeColorPrimary: const Color(0xffFDBA2F),
+        inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
         icon: Container(
-          padding: EdgeInsets.all(10),
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Color(0xffE7CBCB)),
-          child: SvgPicture.asset(
-            'assets/forums.svg',
-            color: controller.index == 1 ? Color(0xffFDBA2F) : Colors.grey,
-          ),
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffE7CBCB).withOpacity(0.5)),
+          child: controller.index == 1
+              ? SvgPicture.asset(
+                  'assets/forumfilled.svg',
+                  color:
+                      controller.index == 1 ? Color(0xffFDBA2F) : Colors.grey,
+                )
+              : SvgPicture.asset(
+                  'assets/forums.svg',
+                  color:
+                      controller.index == 1 ? Color(0xffFDBA2F) : Colors.grey,
+                ),
         ),
         title: ("FORUMS"),
         activeColorPrimary: Color(0xffFDBA2F),
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset(
-          'assets/chats.svg',
-          color: controller.index == 2 ? Color(0xffFDBA2F) : Colors.grey,
+        icon: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffE7CBCB).withOpacity(0.5)),
+          child: SvgPicture.asset(
+            'assets/chats.svg',
+            color:
+                controller.index == 2 ? Color(0xffFDBA2F) : Color(0xff979797),
+          ),
         ),
         title: ("CHATS"),
         activeColorPrimary: Color(0xffFDBA2F),
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset(
-          'assets/myappointments.svg',
-          color: controller.index == 3 ? Color(0xffFDBA2F) : Colors.grey,
+        icon: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffE7CBCB).withOpacity(0.5)),
+          child: SvgPicture.asset(
+            'assets/myappointments.svg',
+            color: controller.index == 3 ? Color(0xffFDBA2F) : Colors.grey,
+          ),
         ),
         title: ("MY APPOINTMENTS"),
         activeColorPrimary: Color(0xffFDBA2F),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset(
-          'assets/profile.svg',
-          color: controller.index == 4 ? Color(0xffFDBA2F) : Colors.grey,
+        icon: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffE7CBCB).withOpacity(0.5)),
+          child: SvgPicture.asset(
+            'assets/profile.svg',
+            color: controller.index == 4 ? Color(0xffFDBA2F) : Colors.grey,
+          ),
         ),
         title: ("PROFILE"),
         activeColorPrimary: Color(0xffFDBA2F),
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        inactiveColorPrimary: Color(0xff979797),
       ),
     ];
   }
@@ -124,8 +154,18 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           stateManagement: true,
           hideNavigationBarWhenKeyboardShows: true,
           decoration: NavBarDecoration(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25), topRight: Radius.circular(25)),
             colorBehindNavBar: Colors.white,
+            // border: Border.all(color: Color(0xffFDBA2F))
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0xffFFD680),
+                  spreadRadius: 0.5,
+                  blurRadius: 6,
+                  offset: Offset(0, 2),
+                  blurStyle: BlurStyle.normal),
+            ],
           ),
           popAllScreensOnTapOfSelectedTab: true,
           popActionScreens: PopActionScreensType.all,
@@ -140,7 +180,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
             curve: Curves.ease,
             duration: Duration(milliseconds: 200),
           ),
-          navBarStyle: NavBarStyle.style12,
+          navBarStyle: NavBarStyle.style6,
         )));
   }
 

@@ -11,6 +11,16 @@ class BackButtonCustom extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Container(
+            decoration: BoxDecoration(
+              // shape: BoxShape.circle,
+
+              // color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(1, 1), color: Colors.grey, blurRadius: 5),
+              ],
+            ),
             child: Material(
                 child: InkWell(
                   onTap: () {
@@ -26,16 +36,6 @@ class BackButtonCustom extends StatelessWidget {
                   ),
                 ),
                 color: const Color(0xffFDBA2F)),
-            decoration: BoxDecoration(
-              // shape: BoxShape.circle,
-
-              // color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    offset: Offset(1, 1), color: Colors.grey, blurRadius: 5),
-              ],
-            ),
           ),
         ),
       ),

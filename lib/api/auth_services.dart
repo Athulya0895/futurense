@@ -6,7 +6,7 @@ import 'api_config.dart';
 abstract class AuthRepo {
   factory AuthRepo(Dio dio) = _AuthServices;
   Future<dynamic> login(FormData body);
-  //  Future<dynamic> createVideoPromo(FormData body);
+  Future<dynamic> forgetPasswordSendEmail(FormData body);
   Future<dynamic> signup(String body);
 }
 
@@ -39,5 +39,16 @@ class _AuthServices implements AuthRepo {
     //     return false;
     //   }
     // }
+  }
+
+  @override
+  Future forgetPasswordSendEmail(FormData body) async {
+    try {
+      var res = await _dio.post(ApiConfig.forgetPasswordSendEmail, data: body);
+      return res;
+    } catch (e) {
+      log("Error while calling forgetpasswordApi", error: e);
+      return false;
+    }
   }
 }

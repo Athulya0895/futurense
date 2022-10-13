@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/screens/auth/login/login.dart';
+import 'package:futurensemobileapp/utils/Utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ForgetPasswordVM extends BaseViewModel {
   @override
@@ -13,45 +19,86 @@ class ForgetPasswordVM extends BaseViewModel {
   final formKeyOTP = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController otpController = TextEditingController();
+  //
+
+  Future<void> launchemail(Uri url) async {
+    await canLaunchUrl(url)
+        ? await launchUrl(url)
+        : Text("something went wrong");
+  }
 
 //send Email
-  void sendEmail() async {
+  void sendEmail(BuildContext context) async {
     if (formKey.currentState!.validate()) {
+      FormData formData = FormData();
+      formData.fields.addAll([
+        const MapEntry("fn", "ForgotPassword"),
+        MapEntry("email", emailController.text),
+      ]);
       showLoading();
-      Map<String, dynamic> body = {"email": emailController.text};
-      Response res = true as Response;
-      // await api.authRepo.forgetPasswordSendEmail(jsonEncode(body));
+      final response = await api.authRepo.login(formData);
+      print(response);
       hideLoading();
-      if (res.data['success'] == true) {
-        enterOtpScreen = true;
-        notifyListeners();
+      if (response.runtimeType == Response) {
+        print("response");
+        if (response.data['SUCCESS'] == "TRUE") {
+          print("true");
+          // Utils.sendEmail(email: emailController.text);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Done'),
+                  content:
+                      Text('To reset Password Link is sent your email address'),
+                  actions: <Widget>[
+                    MaterialButton(
+                      child: Text(
+                        'Okay',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      onPressed: () {
+                        // Navigator.pop(context);
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => Login()));
+                        Utils.openLink(
+                            url:
+                                'https://mail.google.com/mail/u/0/?tab=rm#inbox');
+                      },
+                    ),
+                  ],
+                );
+              });
+        } else {
+          showError(response.data['MESSAGE']);
+        }
       } else {
-        showError(res.data['message'] ?? "");
+        showError("Something went wrong");
       }
     }
   }
 
-  void validateOtp(BuildContext context) async {
-    showLoading();
-    Map<String, dynamic> body = {
-      "email": emailController.text,
-      "otp": otpController.text.toString()
-    };
-    hideLoading();
-    // Response res =
-    //     await api.authRepo.forgetPasswordValidateEmail(jsonEncode(body));
-    // if (res.data['success'] == true) {
-    //   prefs.token = res.data['access'];
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => ConfirmPassword(email: emailController.text),
-    //     ),
-    //   );
-    // } else {
-    //   showError("incorrect pin");
-    // }
-  }
+  // void validateOtp(BuildContext context) async {
+  //   showLoading();
+  //   Map<String, dynamic> body = {
+  //     "email": emailController.text,
+  //     "otp": otpController.text.toString()
+  //   };
+  //   hideLoading();
+  //   Response res =
+  //       await api.authRepo.forgetPasswordValidateEmail(jsonEncode(body));
+  //   if (res.data['success'] == true) {
+  //     prefs.token = res.data['access'];
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => ConfirmPassword(email: emailController.text),
+  //       ),
+  //     );
+  //   } else {
+  //     showError("incorrect pin");
+  //   }
+  // }
 
   //resend otp
   resendOtp() async {

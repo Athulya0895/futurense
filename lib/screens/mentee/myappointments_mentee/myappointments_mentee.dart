@@ -5,22 +5,20 @@ import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
-import 'package:futurensemobileapp/components/theme/theme.dart';
-import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/cancelled_meeting_mentor/cancelled_meeting_mentor.dart';
-import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/myappointments_mentor_vm.dart';
-import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/previous_meeting_mentor/previous_meeting_mentor.dart';
-import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeeting_mentor.dart';
-import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeting_mentor_vm.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/cancelled_appointments_mentee/cancelled_appointments_mentee.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/myappointments_mentee_vm.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/previous_appointments_mentee/previous_appointment_mentee.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/upcoming_appointments_mentee/upcoming_appointments_mentee.dart';
 
-class MyappointmentsMentor extends StatefulWidget {
-  const MyappointmentsMentor({super.key});
+class MyappointmentsMentee extends StatefulWidget {
+  const MyappointmentsMentee({super.key});
 
   @override
-  State<MyappointmentsMentor> createState() => _MyappointmentsMentorState();
+  State<MyappointmentsMentee> createState() => _MyappointmentsMenteeState();
 }
 
-class _MyappointmentsMentorState extends State<MyappointmentsMentor>
-    with BasePage<MyAppointmentsMentorVM> {
+class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
+    with BasePage<MyAppointmentsMenteeVM> {
   @override
   Widget build(BuildContext context) {
     return builder((() => Scaffold(
@@ -61,19 +59,19 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
               const SizedBox(
                 height: 45,
               ),
-              _meetingsCardWidget("Upcoming Appointments", onpressed: () {
+              _meetingsCardWidget("Upcoming Meetings", onpressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UpcomingMeetingMentor()));
+                        builder: (context) => UpcomingAppointmentsMentee()));
               },
                   color: const Color(0xffFDBA2F),
                   lightColor: const Color(0xffFFC958)),
-              _meetingsCardWidget("Previous Appointments", onpressed: () {
+              _meetingsCardWidget("Previous Meetings", onpressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PreviousMeetingMentor()));
+                        builder: (context) => PreviousAppointmentsMentee()));
               },
                   color: const Color(0xff90D8DC),
                   lightColor: const Color(0xff95E1E4)),
@@ -81,11 +79,10 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CancelledMeetingMentor()));
+                        builder: (context) => CancelledAppointmentsMentee()));
               },
                   color: const Color(0xffFFAA5F),
                   lightColor: const Color(0xffFFBC80)),
-
               SizedBox(
                 height: 160,
                 child: Image.asset(
@@ -93,27 +90,11 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                   fit: BoxFit.cover,
                 ),
               ),
-
-              // _meetingsCardWidget(
-              //   "Upcoming Meetings",
-              //   color: const Color(0xffFDBA2F),
-              //   lightColor: const Color(0xffFFC958),
-
-              // ),
-              // _meetingsCardWidget(
-              //   "Previous Meetings",
-              //   color: const Color(0xff90D8DC),
-              //   lightColor: const Color(0xff95E1E4),
-              // ),
-              // _meetingsCardWidget(
-              //   "Cancelled Meetings",
-              //   color: const Color(0xffFFAA5F),
-              //   lightColor: const Color(0xffFFBC80),
-              // ),
             ],
           ),
         )));
   }
+//widget for card design
 
   Widget _meetingsCardWidget(
     // final Function? onPressed,
@@ -193,7 +174,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
   }
 
   @override
-  MyAppointmentsMentorVM create() => MyAppointmentsMentorVM();
+  MyAppointmentsMenteeVM create() => MyAppointmentsMenteeVM();
 
   @override
   void initialise(BuildContext context) {

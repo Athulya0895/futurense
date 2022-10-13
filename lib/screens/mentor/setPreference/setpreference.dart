@@ -33,12 +33,14 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                 ],
               ),
               child: AppBar(
-                title: const Text(
-                  "Set your mentoring type",
-                  style: TextStyle(
-                      color: const Color(0xffFDBA2F),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                title: Center(
+                  child: const Text(
+                    "Mentor Preferences",
+                    style: TextStyle(
+                        color: const Color(0xffFDBA2F),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 // leading: const BackButtonCustom(),
                 backgroundColor: Colors.white,
@@ -145,25 +147,38 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                           fontWeight: FontWeight.w500,
                           fontSize: 14),
                     ),
-                    Column(
-                        children: provider.areaslooking.map((area) {
-                      return CheckboxListTile(
-                          activeColor: const Color(0xffFDBA2F),
-                          checkColor: Colors.white,
-                          value: area["isChecked"],
-                          title: Text(
-                            area["name"],
-                            style: const TextStyle(
-                                color: Color(0xff202020),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onChanged: (newValue) {
-                            setState(() {
-                              area["isChecked"] = newValue;
-                            });
-                          });
-                    }).toList()),
+                    ListView.builder(
+                        itemCount: provider.areaslooking.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                              leading: const Icon(Icons.list),
+                              trailing: const Text(
+                                "GFG",
+                                style: TextStyle(
+                                    color: Colors.green, fontSize: 15),
+                              ),
+                              title: Text("List item $index"));
+                        }),
+
+                    // Column(
+                    //     children: provider.areaslooking.map((area) {
+                    //   return CheckboxListTile(
+                    //       activeColor: const Color(0xffFDBA2F),
+                    //       checkColor: Colors.white,
+                    //       value: area["isChecked"],
+                    //       title: Text(
+                    //         area["name"],
+                    //         style: const TextStyle(
+                    //             color: Color(0xff202020),
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //       onChanged: (newValue) {
+                    //         setState(() {
+                    //           area["isChecked"] = newValue;
+                    //         });
+                    //       });
+                    // }).toList()),
                     const SizedBox(
                       height: 15,
                     ),

@@ -45,7 +45,7 @@ class LoginVM extends BaseViewModel {
 //     }
 //   }
 
-  String role = "mentor";
+
   login(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       FormData formData = FormData();
@@ -63,6 +63,7 @@ class LoginVM extends BaseViewModel {
         print("response");
         if (response.data['SUCCESS'] == "TRUE") {
           print("true");
+          prefs.token = response.data['TOKEN'];
           response.data['ROLE'] == "MENTORS"
               ? Navigator.pushAndRemoveUntil(
                   context,
