@@ -147,38 +147,119 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                           fontWeight: FontWeight.w500,
                           fontSize: 14),
                     ),
-                    ListView.builder(
-                        itemCount: provider.areaslooking.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                              leading: const Icon(Icons.list),
-                              trailing: const Text(
-                                "GFG",
-                                style: TextStyle(
-                                    color: Colors.green, fontSize: 15),
-                              ),
-                              title: Text("List item $index"));
-                        }),
 
-                    // Column(
-                    //     children: provider.areaslooking.map((area) {
-                    //   return CheckboxListTile(
-                    //       activeColor: const Color(0xffFDBA2F),
-                    //       checkColor: Colors.white,
-                    //       value: area["isChecked"],
-                    //       title: Text(
-                    //         area["name"],
-                    //         style: const TextStyle(
-                    //             color: Color(0xff202020),
-                    //             fontSize: 14,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //       onChanged: (newValue) {
-                    //         setState(() {
-                    //           area["isChecked"] = newValue;
-                    //         });
-                    //       });
-                    // }).toList()),
+                    //               ListView(
+                    //   shrinkWrap: true,
+                    //   children: <Widget>[
+                    //     provider.areaslooking.isNotEmpty
+                    //         ? Wrap(
+                    //             children: provider.areaslooking.map(
+                    //               (item) {
+                    //                 // var index = _list.indexOf(item);
+                    //                 return IntrinsicWidth(
+                    //                   child: Container(
+                    //                     width: 100,
+                    //                     height: 40,
+                    //                     child: InkWell(
+                    //                       child: Center(
+                    //                         child: Row(
+                    //                           children: <Widget>[
+                    //                             Checkbox(
+                    //                                 value: item["isChecked"],
+                    //                                 onChanged: ( val) {
+                    //                                   setState(() {
+                    //                                     selected[index] = val;
+                    //                                   });
+                    //                                 }),
+                    //                             Expanded(child: Text(item.toString())),
+                    //                           ],
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                 );
+                    //               },
+                    //             ).toList(),
+                    //           )
+                    //         : Container(),
+                    //   ],
+                    // ),
+                    // ListView.builder(
+                    //     itemCount: provider.areaslooking.length,
+                    //     itemBuilder: (BuildContext context, int index) {
+                    //       return Row(
+                    //           children: provider.areaslooking.map((area) {
+                    //         return CheckboxListTile(
+                    //             activeColor: const Color(0xffFDBA2F),
+                    //             checkColor: Colors.white,
+                    //             value: area["isChecked"],
+                    //             title: Text(
+                    //               area["name"],
+                    //               style: const TextStyle(
+                    //                   color: Color(0xff202020),
+                    //                   fontSize: 14,
+                    //                   fontWeight: FontWeight.w500),
+                    //             ),
+                    //             onChanged: (newValue) {
+                    //               setState(() {
+                    //                 area["isChecked"] = newValue;
+                    //               });
+                    //             });
+                    //       }).toList());
+                    //       // return ListTile(
+                    //       //     leading: const Icon(Icons.list),
+                    //       //     trailing: const Text(
+                    //       //       "GFG",
+                    //       //       style: TextStyle(
+                    //       //           color: Colors.green, fontSize: 15),
+                    //       //     ),
+                    //       //     title: Text("List item $index"));
+                    //     }),
+
+                    Wrap(
+                        children: provider.areaslooking.map((area) {
+                      return MaterialButton(
+                        onPressed: () => setState(
+                            () => area["isChecked"] = !area["isChecked"]),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 24.0,
+                              width: 24.0,
+                              child: Checkbox(
+                                value: area["isChecked"],
+                                onChanged: (value) {
+                                  setState(() => area["isChecked"] = value);
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 10.0),
+                            Text(
+                              area["name"],
+                            )
+                          ],
+                        ),
+                      );
+                      return CheckboxListTile(
+                          // contentPadding: EdgeInsets.zero,
+                          activeColor: const Color(0xffFDBA2F),
+                          checkColor: Colors.white,
+                          value: area["isChecked"],
+                          title: Text(
+                            area["name"],
+                            style: const TextStyle(
+                                color: Color(0xff202020),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onChanged: (newValue) {
+                            setState(() {
+                              area["isChecked"] = newValue;
+                            });
+                          });
+                    }).toList()),
                     const SizedBox(
                       height: 15,
                     ),

@@ -733,7 +733,7 @@ class _HomepageMentorState extends State<HomepageMentor>
       delegate: SliverChildListDelegate(
         [
           Padding(
-            padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 4),
+            padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -756,7 +756,7 @@ class _HomepageMentorState extends State<HomepageMentor>
             ).hP16,
           ),
           // getmentorWidgetList()
-          _menteeWidgetList()
+          _menteeWidgetList(),
         ],
       ),
     );

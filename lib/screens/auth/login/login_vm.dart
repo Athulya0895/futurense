@@ -10,12 +10,12 @@ class LoginVM extends BaseViewModel {
   void onInit() {}
 
   final formKey = GlobalKey<FormState>();
-  bool showPassword = true;
+  bool showPassword = false;
   String userName = '';
   String password = '';
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  showVisiblePassword() {
+  void changeShowPassword() {
     showPassword = !showPassword;
     notifyListeners();
   }
@@ -45,7 +45,6 @@ class LoginVM extends BaseViewModel {
 //     }
 //   }
 
-
   login(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       FormData formData = FormData();
@@ -64,6 +63,11 @@ class LoginVM extends BaseViewModel {
         if (response.data['SUCCESS'] == "TRUE") {
           print("true");
           prefs.token = response.data['TOKEN'];
+          prefs.userId = response.data['DATA']['ID'];
+          print("++++++++++++++");
+          print(prefs.token);
+          print(prefs.userId);
+          print("++++++++++++++");
           response.data['ROLE'] == "MENTORS"
               ? Navigator.pushAndRemoveUntil(
                   context,
@@ -75,10 +79,10 @@ class LoginVM extends BaseViewModel {
                   MaterialPageRoute(builder: (context) => SetPrefrenceMentee()),
                   (route) => false);
         } else {
-          showError(response.data['MESSAGE']);
+          showError(response.data['MESSAGE'] ?? "Login failed");
         }
       } else {
-        showError("Something went wrong");
+        showError("Server Error");
       }
     }
   }

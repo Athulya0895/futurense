@@ -245,221 +245,197 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     style:
                                                         TextStyle(fontSize: 12),
                                                   ),
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return Dialog(
-                                                            insetPadding:
-                                                                EdgeInsets.only(
-                                                                    left: 15,
-                                                                    right: 15),
+                                                  onPressed: () async {
+                                                    final res =
+                                                        await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return Dialog(
+                                                                insetPadding:
+                                                                    EdgeInsets.only(
+                                                                        left:
+                                                                            15,
+                                                                        right:
+                                                                            15),
 
-                                                            clipBehavior: Clip
-                                                                .antiAliasWithSaveLayer,
+                                                                clipBehavior: Clip
+                                                                    .antiAliasWithSaveLayer,
 
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
                                                                             10.0)), //this right here
-                                                            child: Container(
-                                                                // width: double
-                                                                //     .infinity,
-                                                                child: Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.fromLTRB(
-                                                                            20,
-                                                                            0,
-                                                                            20,
-                                                                            0),
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Align(
-                                                                          alignment:
-                                                                              Alignment.topRight,
-                                                                          child: Container(
-                                                                              // padding: EdgeInsets.all(5),
-                                                                              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Color(0xffD8D8D8))),
-                                                                              child: IconButton(
-                                                                                  onPressed: (() {
-                                                                                    Navigator.pop(context);
-                                                                                  }),
-                                                                                  icon: Icon(Icons.close))
-                                                                              //     const Icon(
-                                                                              //   Icons
-                                                                              //       .close,
-                                                                              //   color:
-                                                                              //       Color(0xffFDBA2F),
-                                                                              // ),
+                                                                child: Container(
+                                                                    // width: double
+                                                                    //     .infinity,
+                                                                    child: Padding(
+                                                                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                                                        child: Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Align(
+                                                                              alignment: Alignment.topRight,
+                                                                              child: Container(
+                                                                                  // padding: EdgeInsets.all(5),
+                                                                                  decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Color(0xffD8D8D8))),
+                                                                                  child: IconButton(
+                                                                                      onPressed: (() {
+                                                                                        Navigator.pop(context);
+                                                                                      }),
+                                                                                      icon: Icon(Icons.close))
+                                                                                  //     const Icon(
+                                                                                  //   Icons
+                                                                                  //       .close,
+                                                                                  //   color:
+                                                                                  //       Color(0xffFDBA2F),
+                                                                                  // ),
+                                                                                  ),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            const Center(
+                                                                              child: Text(
+                                                                                "Reschedule",
+                                                                                style: TextStyle(color: Color(0xffFDBA2F), fontSize: 18, fontWeight: FontWeight.bold),
                                                                               ),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        const Center(
-                                                                          child:
-                                                                              Text(
-                                                                            "Reschedule",
-                                                                            style: TextStyle(
-                                                                                color: Color(0xffFDBA2F),
-                                                                                fontSize: 18,
-                                                                                fontWeight: FontWeight.bold),
-                                                                          ),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        const TextField(
-                                                                          decoration: InputDecoration(
-                                                                              border: InputBorder.none,
-                                                                              hintText: 'Why you want to cancel?'),
-                                                                        ),
-                                                                        Column(
-                                                                            children:
-                                                                                provider.cancelReasons.map((area) {
-                                                                          return CheckboxListTile(
-                                                                              activeColor: const Color(0xffFDBA2F),
-                                                                              checkColor: Colors.white,
-                                                                              value: area["isChecked"],
-                                                                              title: Text(
-                                                                                area["name"],
-                                                                                style: const TextStyle(color: Color(0xff202020), fontSize: 14, fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            const TextField(
+                                                                              decoration: InputDecoration(border: InputBorder.none, hintText: 'Why you want to cancel?'),
+                                                                            ),
+                                                                            Column(
+                                                                                children: provider.cancelReasons.map((area) {
+                                                                              return CheckboxListTile(
+                                                                                  activeColor: const Color(0xffFDBA2F),
+                                                                                  checkColor: Colors.white,
+                                                                                  value: area["isChecked"],
+                                                                                  title: Text(
+                                                                                    area["name"],
+                                                                                    style: const TextStyle(color: Color(0xff202020), fontSize: 14, fontWeight: FontWeight.w500),
+                                                                                  ),
+                                                                                  onChanged: (newValue) {
+                                                                                    setState(() {
+                                                                                      area["isChecked"] = newValue;
+                                                                                    });
+                                                                                  });
+                                                                            }).toList()),
+                                                                            const SizedBox(
+                                                                              height: 20,
+                                                                            ),
+                                                                            const Text(
+                                                                              "Share in detail",
+                                                                              style: TextStyle(
+                                                                                color: Color(0xff202020),
                                                                               ),
-                                                                              onChanged: (newValue) {
-                                                                                setState(() {
-                                                                                  area["isChecked"] = newValue;
-                                                                                });
-                                                                              });
-                                                                        }).toList()),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              20,
-                                                                        ),
-                                                                        const Text(
-                                                                          "Share in detail",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Color(0xff202020),
-                                                                          ),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                            height:
-                                                                                5),
-                                                                        InputField(
-                                                                          maxline:
-                                                                              5,
-                                                                          // minline: 1,
-                                                                          hintText:
-                                                                              "Describe here",
-                                                                          controller:
-                                                                              provider.cancelReason,
+                                                                            ),
+                                                                            const SizedBox(height: 5),
+                                                                            InputField(
+                                                                              maxline: 5,
+                                                                              // minline: 1,
+                                                                              hintText: "Describe here",
+                                                                              controller: provider.cancelReason,
 
-                                                                          validation:
-                                                                              Validators.basic,
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              20,
-                                                                        ),
-                                                                        MaterialButton(
-                                                                          minWidth:
-                                                                              double.infinity,
-                                                                          onPressed:
-                                                                              () {
-                                                                            setState(() {
-                                                                              cancel = true;
-                                                                            });
-                                                                            //cancelled  message
-                                                                            // showDialog(
-                                                                            //   context:
-                                                                            //       context,
-                                                                            //   barrierDismissible:
-                                                                            //       false,
-                                                                            //   builder:
-                                                                            //       (BuildContext context) {
-                                                                            //     return Dialog(
-                                                                            //       backgroundColor: Colors.transparent,
-                                                                            //       elevation: 0,
-                                                                            //       child: Column(
-                                                                            //         children: [
-                                                                            //           Center(
-                                                                            //             child: Lottie.asset(
-                                                                            //               'assets/success.json',
-                                                                            //               repeat: true,
-                                                                            //               width: 300,
-                                                                            //               height: 300,
-                                                                            //               fit: BoxFit.fill,
-                                                                            //             ),
-                                                                            //           ),
-                                                                            //           const Center(
-                                                                            //             child: Text(
-                                                                            //               "No data found.please select from dropdown",
-                                                                            //               style: TextStyle(color: Color(0xff7E7E7E), fontSize: 12),
-                                                                            //             ),
-                                                                            //           )
-                                                                            //         ],
-                                                                            //       ),
-                                                                            //     );
-                                                                            //   },
-                                                                            // );
-                                                                          },
-                                                                          child:
-                                                                              Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            children: [
-                                                                              Text(
-                                                                                "Cancel",
-                                                                                style: TextStyle(color: Colors.white),
+                                                                              validation: Validators.basic,
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 20,
+                                                                            ),
+                                                                            MaterialButton(
+                                                                              minWidth: double.infinity,
+                                                                              onPressed: () {
+                                                                                Navigator.pop(context, "Cancel");
+                                                                                // setState(() {
+                                                                                //   cancel = true;
+                                                                                // });
+                                                                                //cancelled  message
+                                                                                // showDialog(
+                                                                                //   context:
+                                                                                //       context,
+                                                                                //   barrierDismissible:
+                                                                                //       false,
+                                                                                //   builder:
+                                                                                //       (BuildContext context) {
+                                                                                //     return Dialog(
+                                                                                //       backgroundColor: Colors.transparent,
+                                                                                //       elevation: 0,
+                                                                                //       child: Column(
+                                                                                //         children: [
+                                                                                //           Center(
+                                                                                //             child: Lottie.asset(
+                                                                                //               'assets/success.json',
+                                                                                //               repeat: true,
+                                                                                //               width: 300,
+                                                                                //               height: 300,
+                                                                                //               fit: BoxFit.fill,
+                                                                                //             ),
+                                                                                //           ),
+                                                                                //           const Center(
+                                                                                //             child: Text(
+                                                                                //               "No data found.please select from dropdown",
+                                                                                //               style: TextStyle(color: Color(0xff7E7E7E), fontSize: 12),
+                                                                                //             ),
+                                                                                //           )
+                                                                                //         ],
+                                                                                //       ),
+                                                                                //     );
+                                                                                //   },
+                                                                                // );
+                                                                              },
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    "Cancel",
+                                                                                    style: TextStyle(color: Colors.white),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: 10,
+                                                                                  ),
+                                                                                  Icon(
+                                                                                    Icons.arrow_forward,
+                                                                                    color: Colors.white,
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              SizedBox(
-                                                                                width: 10,
-                                                                              ),
-                                                                              Icon(
-                                                                                Icons.arrow_forward,
-                                                                                color: Colors.white,
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          color:
-                                                                              const Color(0xFFFDBA2F),
+                                                                              color: const Color(0xFFFDBA2F),
+                                                                            )
+                                                                          ],
                                                                         )
-                                                                      ],
-                                                                    )
-                                                                    // : Column(
-                                                                    //     children: [
-                                                                    //       Center(
-                                                                    //         child: Lottie.asset(
-                                                                    //           'assets/success.json',
-                                                                    //           repeat: true,
-                                                                    //           width: 300,
-                                                                    //           height: 300,
-                                                                    //           fit: BoxFit.fill,
-                                                                    //         ),
-                                                                    //       ),
-                                                                    //       const Center(
-                                                                    //         child: Text(
-                                                                    //           "No data found.please select from dropdown",
-                                                                    //           style: TextStyle(color: Color(0xff7E7E7E), fontSize: 12),
-                                                                    //         ),
-                                                                    //       )
-                                                                    //     ],
-                                                                    //   ),
-                                                                    )),
-                                                          );
-                                                        });
+                                                                        // : Column(
+                                                                        //     children: [
+                                                                        //       Center(
+                                                                        //         child: Lottie.asset(
+                                                                        //           'assets/success.json',
+                                                                        //           repeat: true,
+                                                                        //           width: 300,
+                                                                        //           height: 300,
+                                                                        //           fit: BoxFit.fill,
+                                                                        //         ),
+                                                                        //       ),
+                                                                        //       const Center(
+                                                                        //         child: Text(
+                                                                        //           "No data found.please select from dropdown",
+                                                                        //           style: TextStyle(color: Color(0xff7E7E7E), fontSize: 12),
+                                                                        //         ),
+                                                                        //       )
+                                                                        //     ],
+                                                                        //   ),
+                                                                        )),
+                                                              );
+                                                            });
+                                                      // res is passing from navigator.pop 
+                                                    if (res == "Cancel") {
+                                                      //TODO show cancel popup 
+                                                    }
+                                                    print(res);
                                                   }),
                                             ),
                                           ),

@@ -63,7 +63,8 @@ class ForgetPasswordVM extends BaseViewModel {
                         //     MaterialPageRoute(builder: (context) => Login()));
                         Utils.openLink(
                             url:
-                                'https://mail.google.com/mail/u/0/?tab=rm#inbox');
+                                // 'https://mail.google.com/mail/u/0/?tab=rm#inbox'
+                                'https://outlook.office.com/mail/inbox/id/AAQkADk5ZWEyZmRiLTk2MjYtNDExMi05ZDY0LWYwMDFmY2I2M2U1OQAQANKgIGv7twlJk%2BGmH6KeW10%3D');
                       },
                     ),
                   ],

@@ -56,254 +56,254 @@ class _MentorMyaccountState extends State<MentorMyaccount>
                     borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(25),
                 )),
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        //filter click show dialogue
-                        showGeneralDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          transitionDuration: Duration(milliseconds: 500),
-                          barrierLabel:
-                              MaterialLocalizations.of(context).dialogLabel,
-                          barrierColor: Colors.black.withOpacity(0.5),
-                          pageBuilder: (context, _, __) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  // color: Colors.white,
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Column(
-                                        children: [
-                                          ListView(
-                                            shrinkWrap: true,
-                                            children: <Widget>[
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Choose filter",
-                                                    style: TextStyles.titleM,
-                                                  ),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                        // setState(() {
-                                                        //   isSelectedfilter =
-                                                        //       false;
-                                                        // });
-                                                        // provider.filter();
-                                                      },
-                                                      icon: Icon(Icons.close))
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              const Text(
-                                                "Key Mentoring Areas",
-                                                style: TextStyle(
-                                                  color: Color(0xff9295A3),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              DropDownMenuMode(
-                                                borderRadius: 10,
-                                                selectedItem: "IT",
-                                                hinttext: "	",
-                                                validationText:
-                                                    "Please Select your currency type",
-                                                items: const [
-                                                  "IT",
-                                                  "finanace",
-                                                  "sdf",
-                                                  "cvb"
-                                                ],
-                                                setdata: (val) {
-                                                  // provider.selectedCurrency = val;
-                                                  // print(provider.selectedCurrency);
-                                                },
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: const [
-                                                  Expanded(
-                                                      child: Text(
-                                                    "Organisation",
-                                                    style: TextStyle(
-                                                      color: Color(0xff9295A3),
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Text(
-                                                    "Industry",
-                                                    style: TextStyle(
-                                                      color: Color(0xff9295A3),
-                                                    ),
-                                                  ))
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: DropDownMenuMode(
-                                                    borderRadius: 10,
-                                                    hinttext: "",
-                                                    items: const [
-                                                      "asdf",
-                                                      "sdfgh",
-                                                      ""
-                                                    ],
-                                                    setdata: () {},
-                                                    // controller: provider.yourCity,
-                                                    validationText:
-                                                        'please choose your city',
-                                                  )),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Expanded(
-                                                      child: DropDownMenuMode(
-                                                    borderRadius: 10,
-                                                    hinttext: "",
-                                                    items: const [
-                                                      "software engineer",
-                                                      "tester",
-                                                      "Projecrt Manager"
-                                                    ],
-                                                    setdata: () {},
-                                                    validationText:
-                                                        "please choose jobtitle",
-                                                  ))
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              const Text(
-                                                "Jobtitle",
-                                                style: TextStyle(
-                                                  color: Color(0xff9295A3),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              DropDownMenuMode(
-                                                borderRadius: 10,
-                                                selectedItem: "",
-                                                hinttext: "",
-                                                validationText:
-                                                    "Please Select jobtitle",
-                                                items: const [
-                                                  "Software Engineer",
-                                                  "finanace",
-                                                  "python",
-                                                  "java developer"
-                                                ],
-                                                setdata: (val) {
-                                                  // provider.selectedCurrency = val;
-                                                  // print(provider.selectedCurrency);
-                                                },
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  MaterialButton(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color:
-                                                        const Color(0xffFD2FE2)
-                                                            .withOpacity(0.5),
-                                                    onPressed: () {},
-                                                    child: const Text(
-                                                      "Clear",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  MaterialButton(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color: Color(0xffFDBA2F),
-                                                    onPressed: () {},
-                                                    child: const Text(
-                                                      "ok",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                          transitionBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: CurvedAnimation(
-                                parent: animation,
-                                curve: Curves.easeOut,
-                              ).drive(Tween<Offset>(
-                                begin: Offset(0, -1.0),
-                                end: Offset.zero,
-                              )),
-                              child: child,
-                            );
-                          },
-                        );
-                      },
-                      icon: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: const Color(0xffF1F4F7))),
-                        padding: const EdgeInsets.all(5),
-                        child: Center(
-                          child: const Icon(
-                            Icons.more_vert,
-                            color: Color(0xff979797),
-                          ),
-                        ),
-                      ))
-                ],
+                // actions: [
+                //   IconButton(
+                //       onPressed: () {
+                //filter click show dialogue
+                // showGeneralDialog(
+                //   context: context,
+                //   barrierDismissible: true,
+                //   transitionDuration: Duration(milliseconds: 500),
+                //   barrierLabel:
+                //       MaterialLocalizations.of(context).dialogLabel,
+                //   barrierColor: Colors.black.withOpacity(0.5),
+                //   pageBuilder: (context, _, __) {
+                //     return Column(
+                //       mainAxisAlignment: MainAxisAlignment.start,
+                //       children: <Widget>[
+                //         Container(
+                //           width: MediaQuery.of(context).size.width,
+                //           // color: Colors.white,
+                //           child: Card(
+                //             child: Padding(
+                //               padding: const EdgeInsets.only(
+                //                   left: 15, right: 15),
+                //               child: Column(
+                //                 children: [
+                //                   ListView(
+                //                     shrinkWrap: true,
+                //                     children: <Widget>[
+                //                       Row(
+                //                         mainAxisAlignment:
+                //                             MainAxisAlignment
+                //                                 .spaceBetween,
+                //                         children: [
+                //                           Text(
+                //                             "Choose filter",
+                //                             style: TextStyles.titleM,
+                //                           ),
+                //                           IconButton(
+                //                               onPressed: () {
+                //                                 Navigator.pop(context);
+                //                                 // setState(() {
+                //                                 //   isSelectedfilter =
+                //                                 //       false;
+                //                                 // });
+                //                                 // provider.filter();
+                //                               },
+                //                               icon: Icon(Icons.close))
+                //                         ],
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 20,
+                //                       ),
+                //                       const Text(
+                //                         "Key Mentoring Areas",
+                //                         style: TextStyle(
+                //                           color: Color(0xff9295A3),
+                //                         ),
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 10,
+                //                       ),
+                //                       DropDownMenuMode(
+                //                         borderRadius: 10,
+                //                         selectedItem: "IT",
+                //                         hinttext: "	",
+                //                         validationText:
+                //                             "Please Select your currency type",
+                //                         items: const [
+                //                           "IT",
+                //                           "finanace",
+                //                           "sdf",
+                //                           "cvb"
+                //                         ],
+                //                         setdata: (val) {
+                //                           // provider.selectedCurrency = val;
+                //                           // print(provider.selectedCurrency);
+                //                         },
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 20,
+                //                       ),
+                //                       Row(
+                //                         crossAxisAlignment:
+                //                             CrossAxisAlignment.start,
+                //                         children: const [
+                //                           Expanded(
+                //                               child: Text(
+                //                             "Organisation",
+                //                             style: TextStyle(
+                //                               color: Color(0xff9295A3),
+                //                             ),
+                //                           )),
+                //                           Expanded(
+                //                               child: Text(
+                //                             "Industry",
+                //                             style: TextStyle(
+                //                               color: Color(0xff9295A3),
+                //                             ),
+                //                           ))
+                //                         ],
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 5,
+                //                       ),
+                //                       Row(
+                //                         children: [
+                //                           Expanded(
+                //                               child: DropDownMenuMode(
+                //                             borderRadius: 10,
+                //                             hinttext: "",
+                //                             items: const [
+                //                               "asdf",
+                //                               "sdfgh",
+                //                               ""
+                //                             ],
+                //                             setdata: () {},
+                //                             // controller: provider.yourCity,
+                //                             validationText:
+                //                                 'please choose your city',
+                //                           )),
+                //                           const SizedBox(
+                //                             width: 10,
+                //                           ),
+                //                           Expanded(
+                //                               child: DropDownMenuMode(
+                //                             borderRadius: 10,
+                //                             hinttext: "",
+                //                             items: const [
+                //                               "software engineer",
+                //                               "tester",
+                //                               "Projecrt Manager"
+                //                             ],
+                //                             setdata: () {},
+                //                             validationText:
+                //                                 "please choose jobtitle",
+                //                           ))
+                //                         ],
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 20,
+                //                       ),
+                //                       const Text(
+                //                         "Jobtitle",
+                //                         style: TextStyle(
+                //                           color: Color(0xff9295A3),
+                //                         ),
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 10,
+                //                       ),
+                //                       DropDownMenuMode(
+                //                         borderRadius: 10,
+                //                         selectedItem: "",
+                //                         hinttext: "",
+                //                         validationText:
+                //                             "Please Select jobtitle",
+                //                         items: const [
+                //                           "Software Engineer",
+                //                           "finanace",
+                //                           "python",
+                //                           "java developer"
+                //                         ],
+                //                         setdata: (val) {
+                //                           // provider.selectedCurrency = val;
+                //                           // print(provider.selectedCurrency);
+                //                         },
+                //                       ),
+                //                       const SizedBox(
+                //                         height: 20,
+                //                       ),
+                //                       Row(
+                //                         mainAxisAlignment:
+                //                             MainAxisAlignment.end,
+                //                         children: [
+                //                           MaterialButton(
+                //                             shape:
+                //                                 RoundedRectangleBorder(
+                //                               borderRadius:
+                //                                   BorderRadius.circular(
+                //                                       10.0),
+                //                             ),
+                //                             color:
+                //                                 const Color(0xffFD2FE2)
+                //                                     .withOpacity(0.5),
+                //                             onPressed: () {},
+                //                             child: const Text(
+                //                               "Clear",
+                //                               style: TextStyle(
+                //                                   color: Colors.white),
+                //                             ),
+                //                           ),
+                //                           const SizedBox(
+                //                             width: 10,
+                //                           ),
+                //                           MaterialButton(
+                //                             shape:
+                //                                 RoundedRectangleBorder(
+                //                               borderRadius:
+                //                                   BorderRadius.circular(
+                //                                       10.0),
+                //                             ),
+                //                             color: Color(0xffFDBA2F),
+                //                             onPressed: () {},
+                //                             child: const Text(
+                //                               "ok",
+                //                               style: TextStyle(
+                //                                   color: Colors.white),
+                //                             ),
+                //                           ),
+                //                         ],
+                //                       )
+                //                     ],
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     );
+                //   },
+                //   transitionBuilder:
+                //       (context, animation, secondaryAnimation, child) {
+                //     return SlideTransition(
+                //       position: CurvedAnimation(
+                //         parent: animation,
+                //         curve: Curves.easeOut,
+                //       ).drive(Tween<Offset>(
+                //         begin: Offset(0, -1.0),
+                //         end: Offset.zero,
+                //       )),
+                //       child: child,
+                //     );
+                //   },
+                // );
+                //       },
+                //       icon: Container(
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(10),
+                //             border: Border.all(color: const Color(0xffF1F4F7))),
+                //         padding: const EdgeInsets.all(5),
+                //         child: Center(
+                //           child: const Icon(
+                //             Icons.more_vert,
+                //             color: Color(0xff979797),
+                //           ),
+                //         ),
+                //       ))
+                // ],
               ),
             ),
           ),
@@ -341,7 +341,7 @@ class _MentorMyaccountState extends State<MentorMyaccount>
                     height: 30,
                   ),
                   const Text(
-                    "Email",
+                    "First Name",
                     style: TextStyle(
                       color: Color(0xff202020),
                     ),
@@ -349,6 +349,7 @@ class _MentorMyaccountState extends State<MentorMyaccount>
                   const SizedBox(height: 5),
                   InputField(
                     hintText: "First Name",
+                    // initialval: provider.prefs.user!.mentorName.toString(),
                     controller: provider.firstName,
                     // prefixIcon: const Icon(Icons.person),
                     validation: Validators.basic,

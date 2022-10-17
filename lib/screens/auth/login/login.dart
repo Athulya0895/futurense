@@ -84,7 +84,7 @@ class _LoginState extends State<Login> with BasePage<LoginVM> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(15, 30, 15, 20),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          // mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
@@ -117,18 +117,24 @@ class _LoginState extends State<Login> with BasePage<LoginVM> {
                             ),
                             const SizedBox(height: 7),
                             InputField(
+                              textInputType: TextInputType.visiblePassword,
+                              maxline: 1,
+                              validation: Validators.basic,
                               hintText: "Password",
                               controller: provider.passwordController,
-                              prefixIcon: Icon(
+                              obscureText: !provider.showPassword,
+                              prefixIcon: const Icon(
                                 Icons.lock_outlined,
                                 color: Color(0xff6EBFC3),
                               ),
-                              validation: Validators.basic,
-                              suffixIcon: //                     suffixIcon: IconButton(
-
-                                  Icon(provider.showPassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  provider.changeShowPassword();
+                                },
+                                icon: Icon(provider.showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              ),
                             ),
                             const SizedBox(
                               height: 50,

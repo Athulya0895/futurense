@@ -36,14 +36,16 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
+        iconSize: 50,
         icon: Container(
-          height: 50,
-          width: 50,
+          // height: 50,
+          // width: 50,
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Color(0xffE7CBCB).withOpacity(0.5),
           ),
-          padding: const EdgeInsets.all(10),
+
           child: SvgPicture.asset(
             'assets/home.svg',
             color:
@@ -55,7 +57,10 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
         inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
+        iconSize: 50,
         icon: Container(
+          height: 50,
+          width: 50,
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -77,7 +82,10 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
         inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
+        iconSize: 50,
         icon: Container(
+          height: 50,
+          width: 50,
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -93,7 +101,10 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
         inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
+        iconSize: 50,
         icon: Container(
+          height: 50,
+          width: 50,
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -108,11 +119,13 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
+        iconSize: 50,
         icon: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xffE7CBCB).withOpacity(0.5)),
+          // height: 50,
+          // width: 50,
+          padding: EdgeInsets.all(10),
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: Color(0xffE7CBCB)),
           child: SvgPicture.asset(
             'assets/profile.svg',
             color: controller.index == 4 ? Color(0xffFDBA2F) : Colors.grey,
@@ -153,6 +166,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           resizeToAvoidBottomInset: true,
           stateManagement: true,
           hideNavigationBarWhenKeyboardShows: true,
+          navBarHeight: 90,
           decoration: NavBarDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),

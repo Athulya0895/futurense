@@ -20,6 +20,7 @@ class _MentorServices implements MentorRepo {
   Future getMentor(FormData body) async {
     try {
       var res = await _dio.post(ApiConfig.getMentor, data: body);
+      return res;
     } catch (e) {
       log("error api calling getmentor", error: e);
       return false;
