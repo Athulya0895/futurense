@@ -9,6 +9,7 @@ import 'package:futurensemobileapp/components/theme/theme.dart';
 import 'package:futurensemobileapp/screens/mentor/home/homepage_mentor_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list.dart';
 import 'package:futurensemobileapp/screens/mentor/mentor_myaccount/mentor_myaccount.dart';
+import 'package:futurensemobileapp/screens/mentor/notification/notification_mentor.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 final ZoomDrawerController z = ZoomDrawerController();
@@ -294,6 +295,11 @@ class _HomepageMentorState extends State<HomepageMentor>
                             setState(() {
                               // counter = 0;
                             });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NotificationMentor()));
                           }),
                       Positioned(
                         right: 11,

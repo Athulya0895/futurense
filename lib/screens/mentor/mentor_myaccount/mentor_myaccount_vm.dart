@@ -6,8 +6,14 @@ import 'package:futurensemobileapp/models/user_model.dart';
 class MentorMyaccountVM extends BaseViewModel {
   @override
   void onInit() {
-    // TODO: implement onInit
+    user = prefs.user;
     getUserDetails();
+    firstName.text = user!.mentorName ?? " ";
+    email.text = user!.mentorEmail ?? "";
+    phoneNumber.text = user!.mentorMobile ?? "";
+
+    print(user!.mentorName.toString());
+    print("object");
   }
 
   //data storing

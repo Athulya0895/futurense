@@ -382,7 +382,7 @@ class _MentorMyaccountState extends State<MentorMyaccount>
                   const SizedBox(height: 5),
                   InputField(
                     hintText: "email@gmail.com",
-                    controller: provider.lastName,
+                    controller: provider.email,
                     // prefixIcon: const Icon(Icons.person),
                     validation: Validators.basic,
                   ),
