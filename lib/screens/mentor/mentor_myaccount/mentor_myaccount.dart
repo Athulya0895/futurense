@@ -521,7 +521,7 @@ class _MentorMyaccountState extends State<MentorMyaccount>
                   const SizedBox(height: 5),
                   InputField(
                     // maxline: 5,
-                    hintText: "type your linkedin id",
+                    hintText: "Type your linkedin id",
                     controller: provider.linkedinid,
 
                     validation: Validators.basic,

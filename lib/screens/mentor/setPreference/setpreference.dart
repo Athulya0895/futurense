@@ -33,8 +33,8 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                 ],
               ),
               child: AppBar(
-                title: Center(
-                  child: const Text(
+                title: const Center(
+                  child: Text(
                     "Mentor Preferences",
                     style: TextStyle(
                         color: const Color(0xffFDBA2F),
@@ -72,7 +72,7 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                       height: 20,
                     ),
                     const Text(
-                      "Describe your experience and what you'd like to help memntees with",
+                      "Describe your experience and what you'd like to help mentees with",
                       style: TextStyle(
                           color: Color(0xff202020),
                           fontWeight: FontWeight.w500,
@@ -278,10 +278,12 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                               fontWeight: FontWeight.w700),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MentorMyaccount()));
+                          if (provider.formKey.currentState!.validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MentorMyaccount()));
+                          }
                         })
                   ],
                 ),

@@ -172,7 +172,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),
             colorBehindNavBar: Colors.white,
             // border: Border.all(color: Color(0xffFDBA2F))
-            boxShadow: const [
+            boxShadow:  [
               BoxShadow(
                   color: Color(0xffFFD680),
                   spreadRadius: 0.5,
