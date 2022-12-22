@@ -3,200 +3,292 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
+import 'package:futurensemobileapp/components/input/input_field.dart';
+import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/components/theme/theme.dart';
+import 'package:futurensemobileapp/models/mentor_model.dart';
+import 'package:futurensemobileapp/screens/auth/login/login.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/view_detail.dart';
+import 'package:futurensemobileapp/screens/mentor/book_appointment/book_appointment.dart';
 import 'package:futurensemobileapp/screens/mentor/home/homepage_mentor_vm.dart';
+import 'package:futurensemobileapp/screens/mentor/home/widgets/advertisment.dart';
+import 'package:futurensemobileapp/screens/mentor/home/widgets/header.dart';
+import 'package:futurensemobileapp/screens/mentor/home/widgets/search.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list.dart';
-import 'package:futurensemobileapp/screens/mentor/mentor_myaccount/mentor_myaccount.dart';
+import 'package:futurensemobileapp/screens/mentor/mentee_detail/mentee_detail.dart';
+import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeting_mentor_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/notification/notification_mentor.dart';
+import 'package:futurensemobileapp/screens/mentor/setPreference/setpreference.dart';
+import 'package:futurensemobileapp/utils/validators.dart';
+import 'package:laravel_echo/laravel_echo.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../../../utils/locator.dart';
+import '../../../utils/share_prefs.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 final ZoomDrawerController z = ZoomDrawerController();
 
 //Drawer zoom design
 class ZoomMentor extends StatefulWidget {
-  const ZoomMentor({Key? key}) : super(key: key);
+  final jumbToIndex;
+  const ZoomMentor({Key? key, required this.jumbToIndex}) : super(key: key);
 
   @override
   _ZoomMentorState createState() => _ZoomMentorState();
 }
 
-class _ZoomMentorState extends State<ZoomMentor> {
+class _ZoomMentorState extends State<ZoomMentor>
+    with BasePage<HomePageMentorVM> {
+  @override
+  void initState() {
+    print("object+++++++++++++++x");
+    try {
+      // IO.Socket socket = IO.io('http://13.127.192.123:6001');
+// Create echo instance
+      // Echo echo =  Echo({
+      //   'broadcaster': 'socket.io',
+      //   'client': IO.io,
+      //   'host': "http://13.127.192.123:6001"
+      // }, client: null);
+      IO.Socket socket = IO.io(
+        'http://13.127.192.123:6001',
+
+      );
+      Echo echo = Echo(
+        client: socket,
+        broadcaster: EchoBroadcasterType.SocketIO,
+      );
+// Listening public channel
+      echo.channel('messages').listen('PublicEvent', (e) {
+        print(e);
+      });
+
+// Listening private channel
+// Needs auth. See details how to authorize channel below in guides
+      // echo.private('private-channel').listen('PrivateEvent', (e) {
+      //   print(e);
+      // });
+
+// Listening presence channel
+// Needs auth. See details how to authorize channel below in guides
+      // echo.join('messages').here((users) {
+      //   print(users);
+      // }).joining((user) {
+      //   print(user);
+      // }).leaving((user) {
+      //   print(user);
+      // }).listen('PresenceEvent', (e) {
+      //   print(e);
+      // });
+
+// Accessing socket instance
+      // echo.connect();
+      // print("socket id ------");
+      //       echo.connect();
+      // print(echo.socketId());
+
+      // echo.channel('messages').listen('PublicEvent', (e) {
+      //   print(e);
+      // });
+
+      // echo.join('messages').listen("PublicEvent", (e) {
+      //   print(e);
+      // });
+      // echo.listen("messages", "PublicEvent", (e) {
+      //   print(e);
+      // });
+
+      // echo.connector.onConnectionStateChange((state) {
+      //   print(state!.currentState.toString());
+      // });
+    } catch (e) {
+      print("error case");
+      print(e);
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ZoomDrawer(
-      controller: z,
-      borderRadius: 24,
-      style: DrawerStyle.defaultStyle,
-      // showShadow: true,
-      openCurve: Curves.fastOutSlowIn,
-      slideWidth: MediaQuery.of(context).size.width * 0.65,
-      duration: const Duration(milliseconds: 500),
-      // angle: 0.0,
-      menuBackgroundColor: const Color(0xffFDBA2F),
-      mainScreen: const Body(),
-      menuScreen: Theme(
-        data: ThemeData.dark(),
-        child: Scaffold(
-          backgroundColor: const Color(0xffFDBA2F),
-          body: Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Center(
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: [
-                  InkWell(
-                    child: DrawerHeader(
-                      decoration: const BoxDecoration(
-                          // color: Colors.blue,
+    return builder(() => ZoomDrawer(
+          controller: z,
+          borderRadius: 24,
+          style: DrawerStyle.defaultStyle,
+          // showShadow: true,
+          openCurve: Curves.fastOutSlowIn,
+          slideWidth: MediaQuery.of(context).size.width * 0.65,
+          duration: const Duration(milliseconds: 500),
+          // angle: 0.0,
+          menuBackgroundColor: const Color(0xffFDBA2F),
+          mainScreen: const Body(),
+          menuScreen: Theme(
+            data: ThemeData.dark(),
+            child: Scaffold(
+              backgroundColor: const Color(0xffFDBA2F),
+              body: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Center(
+                  child: ListView(
+                    // Important: Remove any padding from the ListView.
+                    padding: EdgeInsets.zero,
+                    children: [
+                      InkWell(
+                        child: DrawerHeader(
+                          decoration: const BoxDecoration(
+                              // color: Colors.blue,
+                              ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ProfileImage(provider.user?.profilePic),
+                              const SizedBox(height: 10),
+                              Text(
+                                "${provider.user?.mentorFirstName.toString()} ${provider.user?.mentorLastName.toString()}",
+                                style: TextStyles.titleM,
+                              ),
+                              const SizedBox(height: 5),
+                            ],
                           ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(13)),
-                            child: SizedBox(
-                              // height: 40,
-                              // width: 40,
-
-                              child: Image.asset("assets/profile.png",
-                                  fit: BoxFit.fill),
-                            ),
-                          ).p(8),
-                          // SizedBox(
-                          //   width: 80,
-                          //   height: 80,
-                          //   child:
-                          //   // CircleAvatar(
-                          //   //   backgroundColor: Color(0xff202020),
-                          //   //   child: Icon(
-                          //   //     Icons.person,
-                          //   //     color: Colors.white,
-                          //   //   ),
-                          //   // ),
-                          // ),
-                          const SizedBox(height: 5),
-                          Text("Peter Parker", style: TextStyles.titleM),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          // Text(
-                          //   "Mahmudul@gmail.com",
-                          //   style: TextStyle(
-                          //     color: Colors.white,
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MentorMyaccount()));
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.home,
-                    ),
-                    title: const Text('Home'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ListTile(
-                    leading: SvgPicture.asset("assets/appointment.svg"),
-                    title: const Text('Appointment'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.forum,
-                    ),
-                    title: const Text('forum'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.message,
-                    ),
-                    title: const Text('Messages'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.notifications,
-                    ),
-                    title: const Text('Notifications'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.note,
-                    ),
-                    title: const Text('preferences'),
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MentorMyaccount()),
-                          (route) => false);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 90,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text(
-                      'Log Out',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          content:
-                              const Text('Are you sure you want to log out ?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'No'),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'YES');
-                                // provider.logOut();
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
                         ),
-                      );
-                    },
+                        onTap: () {
+                          z.close!();
+                          widget.jumbToIndex(4);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.home,
+                        ),
+                        title: const Text('Home'),
+                        onTap: () {
+                          z.close!();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ListTile(
+                        leading: SvgPicture.asset("assets/appointment.svg"),
+                        title: const Text('My Meetings'),
+                        onTap: () {
+                          widget.jumbToIndex(2);
+                        },
+                      ),
+                      // ListTile(
+                      //   leading: SvgPicture.asset(
+                      //     "assets/forumfilled.svg",
+                      //     color: Colors.white,
+                      //   ),
+                      //   title: const Text('Forum'),
+                      //   onTap: () {
+                      //     widget.jumbToIndex(1);
+                      //   },
+                      // ),
+                      // ListTile(
+                      //   leading: const Icon(
+                      //     Icons.message,
+                      //   ),
+                      //   title: const Text('Messages'),
+                      //   onTap: () {
+                      //     widget.jumbToIndex(3);
+                      //     // Navigator.pop(context);
+                      //   },
+                      // ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.notifications,
+                        ),
+                        title: const Text('Notifications'),
+                        onTap: () {
+                          // NotificationMentor
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NotificationMentor(),
+                            ),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.note,
+                        ),
+                        title: const Text('Preferences'),
+                        onTap: () {
+                          PersistentNavBarNavigator.pushNewScreen(context,
+                              screen: SetPreferenceMentor(),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SetPreferenceMentor(),
+                          //   ),
+                          // );
+                          // Navigator.pushAndRemoveUntil(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => const SetPreferenceMentor(),
+                          //     ),
+                          //     (route) => false);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 90,
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.logout),
+                        title: const Text(
+                          'Log Out',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              content: const Text(
+                                  'Are you sure you want to\nLog Out ?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'No'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    locator<SharedPrefs>().removeAll();
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login()),
+                                        (route) => false);
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
+  }
+
+  @override
+  HomePageMentorVM create() => HomePageMentorVM();
+
+  @override
+  void initialise(BuildContext context) {
+    // TODO: implement initialise
   }
 }
 
@@ -269,13 +361,13 @@ class _HomepageMentorState extends State<HomepageMentor>
                 leading: IconButton(
                   icon: Container(
                     padding: const EdgeInsets.all(5),
-                    child: Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                    ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color(0xffFDBA2F)),
+                    child: const Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                    ),
                   ),
                   onPressed: () {
                     z.toggle!();
@@ -296,36 +388,40 @@ class _HomepageMentorState extends State<HomepageMentor>
                               // counter = 0;
                             });
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        NotificationMentor()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const NotificationMentor(),
+                              ),
+                            );
                           }),
-                      Positioned(
-                        right: 11,
-                        top: 11,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              color: const Color(0xff682FFD),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                  color: const Color(0xffA0A2B3)
-                                      .withOpacity(0.5))),
-                          constraints: const BoxConstraints(
-                            minWidth: 14,
-                            minHeight: 14,
-                          ),
-                          child: Text(
-                            '$counter',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
+                      counter != 0
+                          ? Positioned(
+                              right: 11,
+                              top: 11,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xff682FFD),
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                        color: const Color(0xffA0A2B3)
+                                            .withOpacity(0.5))),
+                                constraints: const BoxConstraints(
+                                  minWidth: 14,
+                                  minHeight: 14,
+                                ),
+                                child: Text(
+                                  '$counter',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          : SizedBox()
                     ],
                   ),
                 ],
@@ -343,218 +439,353 @@ class _HomepageMentorState extends State<HomepageMentor>
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const SizedBox(
-                      height: 10,
+                    const SizedBox(height: 10),
+                    Header(user: provider.user),
+                    Search(topmenteelist: provider.topMenteeList),
+                    Advertisment(totalMentees: provider.topMenteeList.length),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20, right: 16, left: 16, bottom: 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          const Text("Upcoming Meetings",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 18)),
+                          TextButton(
+                              onPressed: () {
+                                //upcoming Meetings received confirmed list
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            UpcomingMeetingMentor()));
+                              },
+                              child: const Text(
+                                "View All",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Color(0xff682FFD)),
+                              ))
+                        ],
+                      ),
                     ),
-                    _header(),
-                    _searchField(),
-                    _add(),
-                    _upcommingMeetings(),
-                    _questionAnswer(),
+                    provider.confirmedupcomingmeetings.isNotEmpty
+                        ? SizedBox(
+                            height: AppTheme.fullHeight(context) * .140,
+                            width: AppTheme.fullWidth(context),
+                            child: ListView.builder(
+                                itemCount:
+                                    provider.confirmedupcomingmeetings.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    onTap: (() {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UpcomingMeetingMentor()));
+                                    }),
+                                    child: _upcommingCardWidget(
+                                        provider
+                                            .confirmedupcomingmeetings[index]
+                                            .userName
+                                            .toString(),
+                                        provider
+                                            .confirmedupcomingmeetings[index]
+                                            .communicationMode
+                                            .toString(),
+                                        "${provider.confirmedupcomingmeetings[index].fromDate} ${provider.confirmedupcomingmeetings[index].startTime}",
+                                        // provider.confirmedupcomingmeetings[index].fromDate
+                                        //     .toString(),
+                                        provider
+                                            .confirmedupcomingmeetings[index]
+                                            .profilepic
+                                            .toString(),
+                                        const Color(0xffFFFFFF), () {
+                                      showDialog<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ViewDetail(
+                                            url: provider
+                                                .confirmedupcomingmeetings[
+                                                    index]
+                                                .profilepic,
+                                            meetingDetails: provider
+                                                    .confirmedupcomingmeetings[
+                                                index],
+                                            buttonText1: "Reschedule",
+                                            buttonText1pressed: () {
+                                              //reschedule meeting
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return StatefulBuilder(
+                                                        builder: (context,
+                                                            setState) {
+                                                      return Dialog(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        elevation: 3,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topRight,
+                                                                child:
+                                                                    IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        icon: Icon(
+                                                                            Icons.close)),
+                                                              ),
+                                                              const Text(
+                                                                "Reschedule",
+                                                                style: TextStyle(
+                                                                    color: Color(
+                                                                        0xffFDBA2F),
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 15,
+                                                              ),
+                                                              ListView(
+                                                                physics:
+                                                                    NeverScrollableScrollPhysics(),
+                                                                shrinkWrap:
+                                                                    true,
+                                                                children: <
+                                                                    Widget>[
+                                                                  provider.rescheduleCheckbox
+                                                                          .isNotEmpty
+                                                                      ? Wrap(
+                                                                          children: provider
+                                                                              .rescheduleCheckbox
+                                                                              .map(
+                                                                                (area) => IntrinsicWidth(
+                                                                                  child: SizedBox(
+                                                                                    width: 180,
+                                                                                    // height: 40,
+                                                                                    child: InkWell(
+                                                                                      child: Center(
+                                                                                        child: Row(
+                                                                                          children: <Widget>[
+                                                                                            Checkbox(
+                                                                                              activeColor: Color(0xffFDBA2F),
+                                                                                              value: area["isChecked"],
+                                                                                              onChanged: (value) {
+                                                                                                setState(() => area["isChecked"] = value);
+                                                                                                provider.currText = area['name'];
+                                                                                                print(provider.currText);
+                                                                                              },
+                                                                                            ),
+                                                                                            Expanded(
+                                                                                                child: Text(
+                                                                                              area["name"],
+                                                                                            )),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              )
+                                                                              .toList(),
+                                                                        )
+                                                                      : Container(),
+                                                                ],
+                                                              ),
+                                                              const Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            15,
+                                                                        top:
+                                                                            15),
+                                                                child: Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topLeft,
+                                                                  child: Text(
+                                                                    "Share in detail",
+                                                                    style: TextStyle(
+                                                                        color: Color(
+                                                                            0xff202020),
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 10),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            15,
+                                                                        right:
+                                                                            15),
+                                                                child:
+                                                                    InputField(
+                                                                  maxline: 3,
+                                                                  // minline: 1,
+                                                                  hintText:
+                                                                      "write the reason for resheduling",
+                                                                  controller:
+                                                                      provider
+                                                                          .about,
+
+                                                                  validation:
+                                                                      Validators
+                                                                          .basic,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 30,
+                                                              ),
+                                                              MaterialButton(
+                                                                  color: Color(
+                                                                      0xffFDBA2F),
+                                                                  materialTapTargetSize:
+                                                                      MaterialTapTargetSize
+                                                                          .shrinkWrap,
+                                                                  // minWidth: 30,
+                                                                  // height: 30,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                    left: 35,
+                                                                    right: 35,
+                                                                  ),
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white,
+
+                                                                  // color: const Color(0xff6EBFC3),
+                                                                  shape:
+                                                                      const RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .all(
+                                                                      Radius.circular(
+                                                                          25.0),
+                                                                    ),
+                                                                    // side: BorderSide(color: Color(0xffFFAA5F), width: 1)
+                                                                  ),
+                                                                  child:
+                                                                      const Text(
+                                                                    "Reschedule  ->",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    //go to reschedule page of particular mentor
+
+                                                                    print(
+                                                                        "go to reschedule page of particular mentor");
+
+                                                                    Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) => BookAppointmentMentor(
+                                                                                  mentor: MentorModel(
+                                                                                    aboutYou: provider.confirmedupcomingmeetings[index].about,
+                                                                                    fName: provider.confirmedupcomingmeetings[index].userName,
+                                                                                    canHelpYou: provider.confirmedupcomingmeetings[index].canhelp,
+                                                                                    designationName: provider.confirmedupcomingmeetings[index].designtionName ?? "-",
+                                                                                    id: provider.confirmedupcomingmeetings[index].userId,
+                                                                                    email: provider.confirmedupcomingmeetings[index].email,
+                                                                                    profilePic: provider.confirmedupcomingmeetings[index].profilepic,
+                                                                                  ),
+                                                                                  resheduleStatus: true,
+                                                                                  cancelReason: provider.currText,
+                                                                                  cancelDetail: provider.about.text,
+                                                                                  channelName: provider.confirmedupcomingmeetings[index].channelName,
+                                                                                )));
+                                                                  }),
+                                                              const SizedBox(
+                                                                height: 30,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    });
+                                                  });
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }),
+                                  );
+                                }),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(
+                                left: 15, right: 15, top: 10),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color(0xffFFD551),
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: EdgeInsets.only(top: 15, bottom: 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  "Start scheduling your meetings!",
+                                  style: TextStyle(
+                                      color: Color(0xffFDBA2F),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  "No upcoming meetings to show",
+                                  style: TextStyle(
+                                      color: Color(0xffD8D8D8), fontSize: 12),
+                                )
+                              ],
+                            ),
+                          ),
+                    // _questionAnswer(),
                   ],
                 ),
               ),
-              // _topmentorsList()
               _topmenteelist(),
             ],
           ),
         )));
-  }
-
-  //header
-  Widget _header() {
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: Color(0xffFDBA2F)),
-              shape: BoxShape.circle),
-          // height: 40,
-          // width: 40,
-          child: Image.asset("assets/professor.png", fit: BoxFit.fill),
-        ).p(8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            Text("Hello Mahmudul !,",
-                // style: TextStyles.title.subTitleColor,
-                style: TextStyle(
-                  color: Color(0xff202020),
-                  fontSize: 18,
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Thanks for joining the mentorship\n Programe!",
-              // style: TextStyles.h1Style
-              style: TextStyle(color: Color(0xff979797), fontSize: 14),
-            ),
-          ],
-        ).p16,
-      ],
-    );
-  }
-
-//search
-  Widget _searchField() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(15, 10, 20, 15),
-      child: TextFormField(
-        textInputAction: TextInputAction.search,
-        // controller: _doctorName,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: const Color(0xffEBF6F7),
-          hintText: 'Search for Mentor',
-          hintStyle: const TextStyle(color: Color(0xff6EBFC3)),
-
-          // hintStyle: GoogleFonts.lato(
-          //   color: Colors.black26,
-          //   fontSize: 18,
-          //   fontWeight: FontWeight.w800,
-          // ),
-          suffixIcon: Container(
-            decoration: BoxDecoration(
-              color: Color(0xff6EBFC3).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: IconButton(
-              iconSize: 20,
-              splashRadius: 20,
-              color: Color(0xff6EBFC3),
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-          ),
-        ),
-        // style: GoogleFonts.lato(
-        //   fontSize: 18,
-        //   fontWeight: FontWeight.w800,
-        // ),
-        onFieldSubmitted: (String value) {
-          setState(
-            () {
-              // value.length == 0
-              //     ? Container()
-              //     : Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => SearchList(
-              //             searchKey: value,
-              //           ),
-              //         ),
-              //       );
-            },
-          );
-        },
-      ),
-    );
-  }
-
-  //advertisment
-  Widget _add() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomLeft,
-          colors: [Color(0xffFDBA2F), Color(0xffFFAA5F)],
-        ),
-      ),
-      padding: const EdgeInsets.fromLTRB(15, 10, 20, 15),
-      margin: const EdgeInsets.only(left: 15, right: 15),
-      child: Stack(children: [
-        Positioned(
-          // top: 40,
-          left: -15,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Image.asset(
-              'assets/PinkFlowers.png',
-              fit: BoxFit.contain,
-              width: 108,
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 50, bottom: 20, top: 20),
-          child: RichText(
-            text: const TextSpan(
-              text: ' 1000+ ',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-              children: [
-                TextSpan(
-                  text: 'Alumni has joined the mentorship community.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    // backgroundColor: Colors.teal,
-                    fontSize: 18,
-                  ),
-                ),
-                TextSpan(
-                  text: '\n Help them with your mentorship!  ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    // fontFamily: 'courier',
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ]),
-    );
-  }
-
-//upcomming Meetings
-
-  Widget _upcommingMeetings() {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text("Upcoming meetings", style: TextStyles.title.bold),
-              TextButton(
-                  onPressed: () {
-                    //show mentor list
-                  },
-                  child: const Text(
-                    "View all",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Color(0xff682FFD)),
-                  ))
-            ],
-          ),
-        ),
-        SizedBox(
-          height: AppTheme.fullHeight(context) * .159,
-          width: AppTheme.fullWidth(context),
-          child: ListView.builder(
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return _upcommingCardWidget("Klimsha", "voice call",
-                    "Today-10 Am", "assets/profile.png", Color(0xffFFFFFF));
-              }),
-        ),
-      ],
-    );
   }
 
   //upcomming card widget
@@ -564,23 +795,20 @@ class _HomepageMentorState extends State<HomepageMentor>
     String meetingDateTime,
     String profile,
     Color color,
+    Function viewdetailsButton,
   ) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(5, 20, 5, 0),
-      width: AppTheme.fullWidth(context) * .6,
-      // margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
-      margin: const EdgeInsets.only(
-        left: 15,
-        right: 10,
-      ),
+      padding: EdgeInsets.only(left: 10),
+      width: AppTheme.fullWidth(context) * .64,
+      margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(
-            color: Color(0xffFFD551), width: 1, style: BorderStyle.solid),
+            color: const Color(0xffFFD551), width: 1, style: BorderStyle.solid),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            offset: Offset(4, 2),
+            offset: const Offset(4, 2),
             blurRadius: 3,
             color: const Color(0xffA0A2B3).withOpacity(0.5),
           )
@@ -589,43 +817,68 @@ class _HomepageMentorState extends State<HomepageMentor>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-            child: SizedBox(
-              // height: 46,
-              // width: 46,
-              child: Image.asset(profile, fit: BoxFit.fill),
-            ),
-          ).p(8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(name + ", " + meetingType, style: TextStyle(fontSize: 12)),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                meetingDateTime,
-                style: TextStyle(fontSize: 12),
-              ),
-
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "View details",
-                  style: TextStyle(
-                      color: Color(
-                        0xffFD2FE2,
-                      ),
-                      fontSize: 14),
+          ProfileImage(profile),
+          const SizedBox(
+            width: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Text("$name, $meetingType",
+                //     style: const TextStyle(fontSize: 12)),
+                RichText(
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    text: "$name,",
+                    style: const TextStyle(
+                        color: Color(0xff202020),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500),
+                    children: <InlineSpan>[
+                      const WidgetSpan(
+                          alignment: PlaceholderAlignment.baseline,
+                          baseline: TextBaseline.alphabetic,
+                          child: SizedBox(width: 3)),
+                      TextSpan(
+                          text: meetingType,
+                          style: const TextStyle(
+                              color: Color(0xff6EBFC3),
+                              fontWeight: FontWeight.w300,
+                              fontSize: 10)),
+                    ],
+                  ),
                 ),
-              )
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  meetingDateTime,
+                  style: const TextStyle(fontSize: 10),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: Size.zero, // Set this
+                    padding: EdgeInsets.zero,
 
-              // Text(details)
-            ],
+                    // and this
+                  ),
+                  onPressed: () {
+                    viewdetailsButton();
+                  },
+                  child: const Text(
+                    "View details",
+                    style: TextStyle(
+                        color: Color(
+                          0xffFD2FE2,
+                        ),
+                        fontSize: 10),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -638,11 +891,12 @@ class _HomepageMentorState extends State<HomepageMentor>
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
+          padding:
+              const EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text("Questions & answer", style: TextStyles.title.bold),
+              Text("Questions & Answer", style: TextStyles.title.bold),
               TextButton(
                   onPressed: () {
                     //show mentor list
@@ -719,13 +973,11 @@ class _HomepageMentorState extends State<HomepageMentor>
               ),
               SizedBox(
                 width: AppTheme.fullWidth(context) * .6,
-                child: Expanded(
-                  child: Text(details,
-                      maxLines: 4,
-                      style: const TextStyle(
-                        color: Color(0xffA0A2B3),
-                      )),
-                ),
+                child: Text(details,
+                    maxLines: 4,
+                    style: const TextStyle(
+                      color: Color(0xffA0A2B3),
+                    )),
               )
             ],
           ),
@@ -739,25 +991,27 @@ class _HomepageMentorState extends State<HomepageMentor>
       delegate: SliverChildListDelegate(
         [
           Padding(
-            padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
+            padding:
+                const EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text("On boarded mentees", style: TextStyles.title.bold),
+                Text("On boarded mentees",
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
                 TextButton(
-                    onPressed: () {
-                      //show mentee list
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MenteeList()));
-                    },
-                    child: Text(
-                      "View All",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Color(0xff682FFD)),
-                    ))
+                  onPressed: () {
+                    //show mentee list
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MenteeList()));
+                  },
+                  child: const Text(
+                    "View All",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Color(0xff682FFD)),
+                  ),
+                )
               ],
             ).hP16,
           ),
@@ -770,54 +1024,107 @@ class _HomepageMentorState extends State<HomepageMentor>
 
   //mentee widget list
   Widget _menteeWidgetList() {
+    print("length________");
+    print(provider.topMenteeList.length);
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 15,
-      ),
+      padding: const EdgeInsets.only(left: 15, bottom: 40),
       // implement GridView.builder
       child: SizedBox(
-        height: 500,
+        // height: 500,
         child: GridView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 3.5,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20),
-            itemCount: provider.mentees.length,
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3 / 3.9,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+            ),
+            itemCount: provider.topMenteeList.length > 6
+                ? 6
+                : provider.topMenteeList.length,
             itemBuilder: (BuildContext ctx, index) {
-              return Container(
-                // alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border:
-                        Border.all(color: Color(0xff979797).withOpacity(0.1)),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                        offset: Offset(0, 2),
-                        blurStyle: BlurStyle.inner,
-                        blurRadius: 6,
-                        spreadRadius: 1.5,
-                        color: Color(0xffFFD680),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(20)),
-                child: Column(
+              return InkWell(
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MenteeDetail(
+                              topmentor: provider.topMenteeList[index])));
+                }),
+                child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(13)),
-                      child: SizedBox(
-                        // height: 40,
-                        // width: 40,
-                        // decoration: BoxDecoration(
-                        //   color: Theme.of(context).backgroundColor,
-                        // ),
-                        child: Image.asset("assets/profile.png",
-                            fit: BoxFit.contain),
+                    Container(
+                      constraints:
+                          const BoxConstraints(maxHeight: 200, minHeight: 160),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            color: const Color(0xff979797).withOpacity(0.1)),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            offset: Offset(0, 2),
+                            blurStyle: BlurStyle.inner,
+                            blurRadius: 6,
+                            spreadRadius: 1.5,
+                            color: Color(0xffFFD680),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ).p(8),
-                    Text(provider.mentees[index]["name"]),
-                    Text(provider.mentees[index]["profession"]),
-                    Text(provider.mentees[index]["review"]),
+                      child: Column(
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 10),
+                          SizedBox(
+                            width: 78.16,
+                            height: 78.16,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.network(
+                                provider.topMenteeList[index].profilePic
+                                    .toString(),
+                                errorBuilder: (_, __, ___) {
+                                  return Image.asset("assets/myaccount.png");
+                                },
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                              "${provider.topMenteeList[index].fName.toString()} ${provider.topMenteeList[index].lName.toString()}"),
+                          Text(provider.topMenteeList[index].designationName
+                              .toString()),
+                          Text(
+                              provider.topMenteeList[index].rating == null ||
+                                      provider.topMenteeList[index].reviews ==
+                                          null
+                                  ? "No Reviews"
+                                  : "⭐️ ${provider.topMenteeList[index].rating.toString()}(${provider.topMenteeList[index].reviews.toString()} reviews)",
+                              style: const TextStyle(color: Color(0xffFD2FE2))),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 40,
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xff6EBFC3),
+                          ),
+                          child: const Text(
+                            "View More",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               );
@@ -830,7 +1137,5 @@ class _HomepageMentorState extends State<HomepageMentor>
   HomePageMentorVM create() => HomePageMentorVM();
 
   @override
-  void initialise(BuildContext context) {
-    // TODO: implement initialise
-  }
+  void initialise(BuildContext context) {}
 }

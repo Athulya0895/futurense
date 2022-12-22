@@ -12,7 +12,15 @@ class MoreButtonCustom extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(100),
           child: Container(
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(1, 1), color: Colors.grey, blurRadius: 5),
+                ]),
             child: const Material(
+              color: Colors.transparent,
               child: SizedBox(
                 height: 100,
                 width: 100,
@@ -21,15 +29,7 @@ class MoreButtonCustom extends StatelessWidget {
                   color: Colors.orange,
                 ),
               ),
-              color: Colors.transparent,
             ),
-            decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      offset: Offset(1, 1), color: Colors.grey, blurRadius: 5),
-                ]),
           ),
         ),
       ),

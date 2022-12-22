@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
+import 'package:futurensemobileapp/main.dart';
 import 'package:futurensemobileapp/screens/mentee/book_appointment/book_appointment.dart';
 import 'package:futurensemobileapp/screens/mentor/chat_mentor/chat_mentor.dart';
 import 'package:futurensemobileapp/screens/mentor/forum_mentor/forum_mentor.dart';
@@ -25,11 +26,15 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
 
   List<Widget> _buildScreens() {
     return [
-      const ZoomMentor(),
-      const ForumMentor(),
-      const ChatMentor(),
-      const MyappointmentsMentor(),
-      const MentorMyaccount(),
+      ZoomMentor(jumbToIndex: jumbToIndex),
+      ForumMentor(
+        jumbToIndex: jumbToIndex,
+      ),
+      MyappointmentsMentor(
+        jumbToIndex: jumbToIndex,
+      ),
+      ChatMentor(jumbToIndex: jumbToIndex),
+      MentorMyaccount(jumbToIndex: jumbToIndex),
     ];
   }
 
@@ -43,7 +48,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color(0xffE7CBCB).withOpacity(0.5),
+            color: Color(0xffE7CBCB).withOpacity(0.2),
           ),
 
           child: SvgPicture.asset(
@@ -64,7 +69,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xffE7CBCB).withOpacity(0.5)),
+              color: Color(0xffE7CBCB).withOpacity(0.2)),
           child: controller.index == 1
               ? SvgPicture.asset(
                   'assets/forumfilled.svg',
@@ -77,7 +82,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
                       controller.index == 1 ? Color(0xffFDBA2F) : Colors.grey,
                 ),
         ),
-        title: ("FORUMS"),
+        title: ("FORUM"),
         activeColorPrimary: Color(0xffFDBA2F),
         inactiveColorPrimary: Color(0xff979797),
       ),
@@ -89,34 +94,48 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xffE7CBCB).withOpacity(0.5)),
-          child: SvgPicture.asset(
-            'assets/chats.svg',
-            color:
-                controller.index == 2 ? Color(0xffFDBA2F) : Color(0xff979797),
-          ),
+              color: Color(0xffE7CBCB).withOpacity(0.2)),
+          child: controller.index == 2
+              ? SvgPicture.asset(
+                  'assets/myappointmentfilled.svg',
+                  color:
+                      controller.index == 2 ? Color(0xffFDBA2F) : Colors.grey,
+                )
+              : SvgPicture.asset(
+                  'assets/myappointments.svg',
+                  color:
+                      controller.index == 2 ? Color(0xffFDBA2F) : Colors.grey,
+                ),
         ),
-        title: ("CHATS"),
-        activeColorPrimary: Color(0xffFDBA2F),
-        inactiveColorPrimary: Color(0xff979797),
-      ),
-      PersistentBottomNavBarItem(
-        iconSize: 50,
-        icon: Container(
-          height: 50,
-          width: 50,
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xffE7CBCB).withOpacity(0.5)),
-          child: SvgPicture.asset(
-            'assets/myappointments.svg',
-            color: controller.index == 3 ? Color(0xffFDBA2F) : Colors.grey,
-          ),
-        ),
-        title: ("MY APPOINTMENTS"),
+        title: ("MY MEETINGS"),
         activeColorPrimary: Color(0xffFDBA2F),
         inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        iconSize: 50,
+        icon: Container(
+          height: 50,
+          width: 50,
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffE7CBCB).withOpacity(0.2)),
+          child: controller.index == 3
+              ? SvgPicture.asset(
+                  'assets/chatfilled.svg',
+                  color:
+                      controller.index == 3 ? Color(0xffFDBA2F) : Colors.grey,
+                )
+              : SvgPicture.asset(
+                  'assets/chats.svg',
+                  color: controller.index == 3
+                      ? Color(0xffFDBA2F)
+                      : Color(0xff979797),
+                ),
+        ),
+        title: ("CHAT"),
+        activeColorPrimary: Color(0xffFDBA2F),
+        inactiveColorPrimary: Color(0xff979797),
       ),
       PersistentBottomNavBarItem(
         iconSize: 50,
@@ -124,12 +143,21 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           // height: 50,
           // width: 50,
           padding: EdgeInsets.all(10),
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Color(0xffE7CBCB)),
-          child: SvgPicture.asset(
-            'assets/profile.svg',
-            color: controller.index == 4 ? Color(0xffFDBA2F) : Colors.grey,
-          ),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffE7CBCB).withOpacity(0.2)),
+          child: controller.index == 4
+              ? SvgPicture.asset(
+                  'assets/profilefilled.svg',
+                  color:
+                      controller.index == 4 ? Color(0xffFDBA2F) : Colors.grey,
+                )
+              : SvgPicture.asset(
+                  'assets/profile.svg',
+                  color: controller.index == 4
+                      ? Color(0xffFDBA2F)
+                      : Color(0xff979797),
+                ),
         ),
         title: ("PROFILE"),
         activeColorPrimary: Color(0xffFDBA2F),
@@ -150,10 +178,16 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
     setState(() {});
   }
 
+  void jumbToIndex(int index) {
+    setState(() {
+      controller.jumpToTab(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return builder((() => PersistentTabView(
-          context,
+          MyApp.context,
           controller: controller,
           onItemSelected: (index) {
             setState(() {});
@@ -167,12 +201,12 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
           stateManagement: true,
           hideNavigationBarWhenKeyboardShows: true,
           navBarHeight: 90,
-          decoration: NavBarDecoration(
+          decoration: const NavBarDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),
             colorBehindNavBar: Colors.white,
             // border: Border.all(color: Color(0xffFDBA2F))
-            boxShadow:  [
+            boxShadow: [
               BoxShadow(
                   color: Color(0xffFFD680),
                   spreadRadius: 0.5,
@@ -181,7 +215,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
                   blurStyle: BlurStyle.normal),
             ],
           ),
-          popAllScreensOnTapOfSelectedTab: true,
+          popAllScreensOnTapOfSelectedTab: false,
           popActionScreens: PopActionScreensType.all,
           itemAnimationProperties: const ItemAnimationProperties(
             // Navigation Bar's items animation properties.

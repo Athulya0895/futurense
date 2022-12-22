@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
-import 'package:futurensemobileapp/components/back_button/backbutton.dart';
-import 'package:futurensemobileapp/components/theme/extension.dart';
-import 'package:futurensemobileapp/components/theme/text_styles.dart';
+
+
+
 import 'package:futurensemobileapp/screens/mentee/chat/chat/chat.dart';
 import 'package:futurensemobileapp/screens/mentee/chat/chat_home/chat_home_vm.dart';
+import 'package:futurensemobileapp/screens/mentor/coming_soon/coming_soon.dart';
 import 'package:intl/intl.dart';
 
 class ChatHome extends StatefulWidget {
-  const ChatHome({super.key});
+  final jumbToindex;
+  const ChatHome({super.key, this.jumbToindex});
 
   @override
   State<ChatHome> createState() => _ChatHomeState();
@@ -22,22 +23,48 @@ class _ChatHomeState extends State<ChatHome> with BasePage<ChatHomeVM> {
   @override
   Widget build(BuildContext context) {
     return builder((() => Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              "Messaging",
-              style: TextStyle(
-                  color: const Color(0xffFDBA2F),
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+          backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(60.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffFFD680),
+                      spreadRadius: 0,
+                      blurRadius: 10,
+                      offset: Offset(2, 2),
+                      blurStyle: BlurStyle.normal),
+                ],
+              ),
+              child: AppBar(
+                centerTitle: true,
+                title: const Text(
+                  "Messages",
+                  style: TextStyle(
+                      color:  Color(0xffFDBA2F),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
+                ),
+                // leading: const BackButtonCustom(),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                )),
+              ),
             ),
-            leading: const BackButtonCustom(),
-            backgroundColor: Colors.white,
-            elevation: 0,
           ),
-          body: ListView.builder(
-            itemCount: 7,
-            itemBuilder: (context, index) => chatTile(index),
-          ),
+
+          body: const ComingSoon(
+              text1: "Messaging Feature Coming\n Soon!",
+              text2:
+                  "You will be able to start\n messaging your mentors\n directly!"),
+          //  ListView.builder(
+          //   itemCount: 7,
+          //   itemBuilder: (context, index) => chatTile(index),
+          // ),
         )));
   }
 
@@ -106,7 +133,7 @@ class _ChatHomeState extends State<ChatHome> with BasePage<ChatHomeVM> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Chat(),
+              builder: (context) =>const Chat(),
             ),
           );
         },
@@ -151,7 +178,7 @@ class _ChatHomeState extends State<ChatHome> with BasePage<ChatHomeVM> {
             ],
           ),
         ),
-        title: Padding(
+        title:const Padding(
             padding: EdgeInsets.only(bottom: 6),
             child: Text(
               'Name',
@@ -160,13 +187,13 @@ class _ChatHomeState extends State<ChatHome> with BasePage<ChatHomeVM> {
           children: [
             SvgPicture.asset(
               'assets/message.svg',
-              color: Color(0xff6FBEC2),
+              color:const Color(0xff6FBEC2),
             ),
             const SizedBox(
               width: 5,
             ),
             // Text(chats?.last.message ?? "")
-            Text("lastmsg ..")
+           const Text("lastmsg ..")
           ],
         ),
         trailing: SizedBox(

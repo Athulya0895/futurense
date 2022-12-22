@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
+import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+import 'package:futurensemobileapp/components/button/button.dart';
 import 'package:futurensemobileapp/components/dropdown/dropdown_menu_mode.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
 import 'package:futurensemobileapp/screens/mentor/mentor_myaccount/mentor_myaccount.dart';
@@ -15,9 +17,11 @@ class SetPreferenceMentor extends StatefulWidget {
 
 class _SetPreferenceMentorState extends State<SetPreferenceMentor>
     with BasePage<SetPreferenceMentorVM> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return builder((() => Scaffold(
+          key: _scaffoldKey,
           backgroundColor: Colors.white,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(60.0),
@@ -33,16 +37,15 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                 ],
               ),
               child: AppBar(
-                title: const Center(
-                  child: Text(
-                    "Mentor Preferences",
-                    style: TextStyle(
-                        color: const Color(0xffFDBA2F),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
+                centerTitle: true,
+                title: const Text(
+                  "Mentor Preferences",
+                  style: TextStyle(
+                      color: const Color(0xffFDBA2F),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
-                // leading: const BackButtonCustom(),
+                leading: const BackButtonCustom(),
                 backgroundColor: Colors.white,
                 elevation: 0,
                 shape: const RoundedRectangleBorder(
@@ -91,55 +94,6 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                     const SizedBox(
                       height: 35,
                     ),
-                    // const Text(
-                    //   "Prefered Meeting Type",
-                    //   style: TextStyle(
-                    //       color: Color(0xff6B779A),
-                    //       fontWeight: FontWeight.w500,
-                    //       fontSize: 14),
-                    // ),
-                    // const SizedBox(
-                    //   height: 5,
-                    // ),
-                    // DropDownMenuMode(
-                    //     borderRadius: 10,
-                    //     hinttext: "Virtual or in Person Meeting",
-                    //     validationText: "",
-                    //     items: const [
-                    //       "Virtual Meeting",
-                    //       "inPerson Meeting",
-                    //       "virtual & PersonalMeeting"
-                    //     ],
-                    //     setdata: () {}),
-                    // const SizedBox(
-                    //   height: 25,
-                    // ),
-                    // const Text(
-                    //   "How many people can you mentor ?",
-                    //   style: TextStyle(
-                    //       color: Color(0xff6B779A),
-                    //       fontWeight: FontWeight.w500,
-                    //       fontSize: 14),
-                    // ),
-                    // const SizedBox(
-                    //   height: 5,
-                    // ),
-                    // DropDownMenuMode(
-                    //     borderRadius: 10,
-                    //     hinttext: "Virtual or in Person Meeting",
-                    //     validationText: "",
-                    //     items: const [
-                    //       "1 People",
-                    //       "2 People",
-                    //       "3 People",
-                    //       "4 People",
-                    //       "5 People",
-                    //       "Up to Ten People"
-                    //     ],
-                    //     setdata: () {}),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
                     const Text(
                       "Where can you offer help and support?",
                       style: TextStyle(
@@ -147,144 +101,106 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                           fontWeight: FontWeight.w500,
                           fontSize: 14),
                     ),
-
-                    //               ListView(
-                    //   shrinkWrap: true,
-                    //   children: <Widget>[
-                    //     provider.areaslooking.isNotEmpty
-                    //         ? Wrap(
-                    //             children: provider.areaslooking.map(
-                    //               (item) {
-                    //                 // var index = _list.indexOf(item);
-                    //                 return IntrinsicWidth(
-                    //                   child: Container(
-                    //                     width: 100,
-                    //                     height: 40,
-                    //                     child: InkWell(
-                    //                       child: Center(
-                    //                         child: Row(
-                    //                           children: <Widget>[
-                    //                             Checkbox(
-                    //                                 value: item["isChecked"],
-                    //                                 onChanged: ( val) {
-                    //                                   setState(() {
-                    //                                     selected[index] = val;
-                    //                                   });
-                    //                                 }),
-                    //                             Expanded(child: Text(item.toString())),
-                    //                           ],
-                    //                         ),
-                    //                       ),
-                    //                     ),
-                    //                   ),
-                    //                 );
-                    //               },
-                    //             ).toList(),
-                    //           )
-                    //         : Container(),
-                    //   ],
-                    // ),
-                    // ListView.builder(
-                    //     itemCount: provider.areaslooking.length,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return Row(
-                    //           children: provider.areaslooking.map((area) {
-                    //         return CheckboxListTile(
-                    //             activeColor: const Color(0xffFDBA2F),
-                    //             checkColor: Colors.white,
-                    //             value: area["isChecked"],
-                    //             title: Text(
-                    //               area["name"],
-                    //               style: const TextStyle(
-                    //                   color: Color(0xff202020),
-                    //                   fontSize: 14,
-                    //                   fontWeight: FontWeight.w500),
-                    //             ),
-                    //             onChanged: (newValue) {
-                    //               setState(() {
-                    //                 area["isChecked"] = newValue;
-                    //               });
-                    //             });
-                    //       }).toList());
-                    //       // return ListTile(
-                    //       //     leading: const Icon(Icons.list),
-                    //       //     trailing: const Text(
-                    //       //       "GFG",
-                    //       //       style: TextStyle(
-                    //       //           color: Colors.green, fontSize: 15),
-                    //       //     ),
-                    //       //     title: Text("List item $index"));
-                    //     }),
-
-                    Wrap(
-                        children: provider.areaslooking.map((area) {
-                      return MaterialButton(
-                        onPressed: () => setState(
-                            () => area["isChecked"] = !area["isChecked"]),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 24.0,
-                              width: 24.0,
-                              child: Checkbox(
-                                value: area["isChecked"],
-                                onChanged: (value) {
-                                  setState(() => area["isChecked"] = value);
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 10.0),
-                            Text(
-                              area["name"],
-                            )
-                          ],
-                        ),
-                      );
-                      return CheckboxListTile(
-                          // contentPadding: EdgeInsets.zero,
-                          activeColor: const Color(0xffFDBA2F),
-                          checkColor: Colors.white,
-                          value: area["isChecked"],
-                          title: Text(
-                            area["name"],
-                            style: const TextStyle(
-                                color: Color(0xff202020),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onChanged: (newValue) {
-                            setState(() {
-                              area["isChecked"] = newValue;
-                            });
-                          });
-                    }).toList()),
                     const SizedBox(
                       height: 15,
                     ),
-                    MaterialButton(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0))),
-                        padding: const EdgeInsets.only(bottom: 15, top: 15),
-                        minWidth: double.infinity,
-                        color: const Color(0xffFDBA2F),
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        ),
+                    ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        provider.areaslooking.isNotEmpty
+                            ? Wrap(
+                                children: provider.areaslooking
+                                    .map(
+                                      (area) => IntrinsicWidth(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.45,
+                                          // height: 40,
+                                          child: InkWell(
+                                            child: Center(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Checkbox(
+                                                    activeColor:
+                                                        const Color(0xffFDBA2F),
+                                                    value: area["isChecked"],
+                                                    onChanged: (value) {
+                                                      setState(() =>
+                                                          area["isChecked"] =
+                                                              value);
+                                                    },
+                                                  ),
+                                                  Expanded(
+                                                      child: Text(
+                                                    area["name"],
+                                                  )),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              )
+                            : Container(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    CustomMaterialButtton(
+                        textColor: Colors.white,
+                        text: "Next",
                         onPressed: () {
                           if (provider.formKey.currentState!.validate()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MentorMyaccount()));
+                            if (provider.areaslooking.any(
+                                (element) => element.values.contains(true))) {
+                              print("yes");
+                              provider.UpdateMentorPreference(context);
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => MentorMyaccount()));
+                            } else {
+                             const SnackBar(
+                                  content: Text("select atleast one checkbox"));
+                            }
                           }
-                        })
+                        }),
+                    // MaterialButton(
+                    //     shape: const RoundedRectangleBorder(
+                    //         borderRadius:
+                    //             BorderRadius.all(Radius.circular(15.0))),
+                    //     padding: const EdgeInsets.only(bottom: 15, top: 15),
+                    //     minWidth: double.infinity,
+                    //     color: const Color(0xffFDBA2F),
+                    //     child: const Text(
+                    //       "Next",
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.w700),
+                    //     ),
+                    //     onPressed: () {
+                    //       if (provider.formKey.currentState!.validate()) {
+                    //         if (provider.areaslooking.any(
+                    //             (element) => element.values.contains(true))) {
+                    //           print("yes");
+                    //           provider.UpdateMentorPreference(context);
+                    //           // Navigator.push(
+                    //           //     context,
+                    //           //     MaterialPageRoute(
+                    //           //         builder: (context) => MentorMyaccount()));
+                    //         } else {
+                    //           SnackBar(
+                    //               content: Text("select atleast one checkbox"));
+                    //         }
+                    //       }
+                    //     })
                   ],
                 ),
               ),

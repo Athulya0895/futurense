@@ -1,11 +1,21 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
-import 'package:futurensemobileapp/screens/auth/login/login.dart';
-import 'package:futurensemobileapp/screens/mentee/setPreference/setPreference.dart';
-import 'package:futurensemobileapp/screens/mentor/setPreference/setpreference.dart';
+
+import 'package:futurensemobileapp/screens/mentee/home/home/home.dart';
+
+import 'package:futurensemobileapp/screens/mentee/myaccount/myaccount.dart';
+
+import 'package:futurensemobileapp/screens/mentor/home/home/home.dart';
+
+import 'package:futurensemobileapp/screens/mentor/mentor_myaccount/mentor_myaccount.dart';
 
 class LoginVM extends BaseViewModel {
+  String? deviceId;
   @override
   void onInit() {}
 
@@ -46,6 +56,10 @@ class LoginVM extends BaseViewModel {
 //   }
 
   login(BuildContext context) async {
+    await Firebase.initializeApp();
+    print("firebase message");
+    String? deviceId = await FirebaseMessaging.instance.getToken();
+    print("firebase message1");
     if (formKey.currentState!.validate()) {
       FormData formData = FormData();
       formData.fields.addAll([
@@ -53,31 +67,54 @@ class LoginVM extends BaseViewModel {
         const MapEntry("key", "tR3PYbcVNZZ796tH88S4VQ2"),
         MapEntry("username", emailController.text),
         MapEntry("password", passwordController.text),
+        MapEntry("device_id", deviceId!)
       ]);
       showLoading();
       final response = await api.authRepo.login(formData);
-      print(response);
+
       hideLoading();
       if (response.runtimeType == Response) {
-        print("response");
         if (response.data['SUCCESS'] == "TRUE") {
-          print("true");
           prefs.token = response.data['TOKEN'];
           prefs.userId = response.data['DATA']['ID'];
-          print("++++++++++++++");
-          print(prefs.token);
-          print(prefs.userId);
-          print("++++++++++++++");
-          response.data['ROLE'] == "MENTORS"
-              ? Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SetPreferenceMentor()),
-                  (route) => false)
-              : Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => SetPrefrenceMentee()),
-                  (route) => false);
+          prefs.userType = response.data['ROLE'];
+          //  prefs.user = UserModel.fromJson(response.data['data']['user']);
+
+          prefs.role = response.data['ROLE'] == "MENTORS";
+
+          prefs.firsttimeLogin != true
+              ? response.data['ROLE'] == "MENTORS"
+                  ? Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MentorMyaccount(
+                                fromLogin: true,
+                              )),
+                      (route) => false)
+                  // Navigator.pushAndRemoveUntil(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => SetPreferenceMentor()),
+                  //     (route) => false)
+                  : Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyAccount(
+                                fromLogin: true,
+                              )),
+                      (route) => false)
+              : response.data['ROLE'] == "MENTORS"
+                  ? Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Home(),
+                      ),
+                      (route) => false)
+                  : Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeMentee()),
+                      (route) => false);
         } else {
           showError(response.data['MESSAGE'] ?? "Login failed");
         }

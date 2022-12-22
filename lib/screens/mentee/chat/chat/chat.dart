@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
-import 'package:futurensemobileapp/components/more_button/more_button.dart';
+
 import 'package:futurensemobileapp/screens/mentee/chat/chat/chat_vm.dart';
 
 class Chat extends StatefulWidget {
@@ -17,14 +16,14 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> with BasePage<ChatVm> {
   Widget _chatComposer() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding:const EdgeInsets.symmetric(horizontal: 20),
       color: Colors.white,
       height: 100,
       child: Row(
         children: [
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14),
+              padding:const EdgeInsets.symmetric(horizontal: 14),
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
@@ -36,7 +35,7 @@ class _ChatState extends State<Chat> with BasePage<ChatVm> {
                     Icons.emoji_emotions_outlined,
                     color: Colors.grey[500],
                   ),
-                  SizedBox(
+                 const SizedBox(
                     width: 10,
                   ),
                   Expanded(

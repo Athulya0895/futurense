@@ -65,7 +65,7 @@ class AppointmentSuccess extends StatelessWidget {
         color: Colors.white,
         boxShadow: <BoxShadow>[
           BoxShadow(
-            offset: Offset(4, 2),
+            offset:const Offset(4, 2),
             blurRadius: 3,
             color: const Color(0xffA0A2B3).withOpacity(0.5),
           )

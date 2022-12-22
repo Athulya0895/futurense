@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:futurensemobileapp/main.dart';
+import 'package:futurensemobileapp/screens/auth/login/login.dart';
 import '../components/dialog/loading_popup.dart';
 import '/base/base_view_model.dart';
 import 'package:provider/provider.dart';
@@ -20,31 +23,49 @@ mixin BasePage<T extends BaseViewModel> {
           _provider = create();
 
           _provider.onShowLoading = () {
-            LoadingPopup.show(context);
+            LoadingPopup.show(MyApp.context);
           };
 
           _provider.onHideLoading = () {
-            Navigator.of(context).pop();
+            Navigator.of(MyApp.context).pop();
           };
 
           _provider.onShowError = (message) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: Colors.red));
-            // PopupMessage.showError(context, message);
+            Fluttertoast.showToast(
+                msg: message,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                // timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white);
+            // ScaffoldMessenger.of(MyApp.context).showSnackBar(
+            //     SnackBar(content: Text(message), backgroundColor: Colors.red));
           };
 
           _provider.onShowNotification = (message) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(message), backgroundColor: Colors.green));
+            Fluttertoast.showToast(
+                msg: message,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                // timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white);
+            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //   content: Text(message),
+            //   backgroundColor: Colors.green,
+            // ));
+
+// Snackbar snackbar= Snackbar.make(view, text, duration);
+// snackbar.setAnchorView(bottomBar);
             // PopupMessage.showNotification(context, message);
           };
 
           _provider.onLogOut = () {
             _provider.prefs.removeAll();
-            // Navigator.pushAndRemoveUntil(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => const Login()),
-            //     (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+                (route) => false);
           };
 
           initialise(context);

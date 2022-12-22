@@ -4,7 +4,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+import 'package:futurensemobileapp/components/input/input_field.dart';
+import 'package:futurensemobileapp/components/profile/profile_image.dart';
+import 'package:futurensemobileapp/models/mentor_model.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/data_notfound.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/meetingcard_widget.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/view_detail.dart';
+import 'package:futurensemobileapp/screens/mentee/review_feedback/feedback.dart';
+import 'package:futurensemobileapp/screens/mentor/book_appointment/book_appointment.dart';
+import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list.dart';
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/previous_meeting_mentor/previous_meeting_mentor_vm.dart';
+import 'package:futurensemobileapp/utils/validators.dart';
 
 class PreviousMeetingMentor extends StatefulWidget {
   const PreviousMeetingMentor({super.key});
@@ -34,7 +44,7 @@ class _PreviousMeetingMentorState extends State<PreviousMeetingMentor>
               ),
               child: AppBar(
                 title: const Text(
-                  "Previous Appointments",
+                  "Previous Meetings",
                   style: TextStyle(
                       color: const Color(0xffFDBA2F),
                       fontSize: 18,
@@ -50,152 +60,488 @@ class _PreviousMeetingMentorState extends State<PreviousMeetingMentor>
               ),
             ),
           ),
-          body: Center(
-            child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Color(0xffF5F5F5), width: 1)),
-                    margin: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                          leading:
-                              // Image.network(provider
-                              //                 .couponlist[index]
-                              //             ['coupon_image'] !=
-                              //         null
-                              //     ? provider.couponlist[index]['coupon_image']
-                              //     : ""),
-                              Image.asset("assets/profile.png"),
-                          //     SvgPicture.asset(
-                          //   "assets/profile.svg",
-                          //   color: Theme.of(context).primaryColor,
-                          //   height: 50,
-                          //   width: 50,
-                          // ),
-                          trailing: IconButton(
-                              onPressed: (() {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         CouponIndividual(
-                                //       coupondetail:
-                                //           provider.couponlist[index],
-                                //     ),
-                                //   ),
-                                // );
-                              }),
-                              icon: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: Color(0xffFFC02D),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: SvgPicture.asset(
-                                  "assets/tick.svg",
-                                  color: Colors.white,
-                                ),
-                              )),
-                          title: Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  "Klimisch J",
-                                  style: TextStyle(
-                                      fontSize: 16, color: Color(0xff202020)),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Voice Call ",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text("Today- 10:00 AM",
-                                    style: TextStyle(fontSize: 12)),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text("View details",
-                                    style: TextStyle(
-                                        fontSize: 12, color: Color(0xffFD2FE2)))
-                              ],
-                            ),
-                          ),
-                          // subtitle: Column(
-                          //   mainAxisAlignment:
-                          //       MainAxisAlignment.start,
-                          //   crossAxisAlignment:
-                          //       CrossAxisAlignment.start,
-                          //   children: [
-                          //     Text(
-                          //       " Voice Call",
-                          //     ),
-                          //   ],
-                          // ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          // height:
-                          //     MediaQuery.of(context).size.height *
-                          //         0.06,
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          decoration: BoxDecoration(
-                              color: Color(0xffEBF6F7),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                MaterialButton(
-                                    // color: Colors.transparent,
-                                    textColor: Color(0xffFFAA5F),
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
+          body: provider.previousMeetings.isNotEmpty
+              ? Center(
+                  child: ListView.builder(
+                      itemCount: provider.previousMeetings.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return MeetingCard(
+                          url: provider.previousMeetings[index].profilepic,
+                          userName: provider.previousMeetings[index].userName,
+                          meetingMode: provider
+                              .previousMeetings[index].communicationMode,
+                          fromDate: provider.previousMeetings[index].fromDate,
+                          startTime: provider.previousMeetings[index].startTime,
+                          status: "Pending",
+                          icon: "assets/done.svg",
+                          buttonText1: "Schedule Another",
+                          buttonText2: "Leave a Review",
+                          buttonText1pressed: () {
+                            //schedule another in previous meeting mentor
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return Dialog(
+                                      backgroundColor: Colors.white,
+                                      elevation: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close)),
+                                            ),
+                                            const Text(
+                                              "Reschedule",
+                                              style: TextStyle(
+                                                  color: Color(0xffFDBA2F),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+                                            ListView(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              children: <Widget>[
+                                                provider.rescheduleCheckbox
+                                                        .isNotEmpty
+                                                    ? Wrap(
+                                                        children: provider
+                                                            .rescheduleCheckbox
+                                                            .map(
+                                                              (area) =>
+                                                                  IntrinsicWidth(
+                                                                child: SizedBox(
+                                                                  width: 180,
+                                                                  // height: 40,
+                                                                  child:
+                                                                      InkWell(
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Row(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Checkbox(
+                                                                            activeColor:
+                                                                                Color(0xffFDBA2F),
+                                                                            value:
+                                                                                area["isChecked"],
+                                                                            onChanged:
+                                                                                (value) {
+                                                                              setState(() => area["isChecked"] = value);
+                                                                              provider.currText = area['name'];
+                                                                              print(provider.currText);
+                                                                            },
+                                                                          ),
+                                                                          Expanded(
+                                                                              child: Text(
+                                                                            area["name"],
+                                                                          )),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                      )
+                                                    : Container(),
+                                              ],
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 15, top: 15),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "Share in detail",
+                                                  style: TextStyle(
+                                                      color: Color(0xff202020),
+                                                      fontSize: 14),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 15, right: 15),
+                                              child: InputField(
+                                                maxline: 3,
+                                                // minline: 1,
+                                                hintText:
+                                                    "write the reason for resheduling",
+                                                controller: provider.about,
+
+                                                validation: Validators.basic,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 30,
+                                            ),
+                                            MaterialButton(
+                                                color: Color(0xffFDBA2F),
+                                                materialTapTargetSize:
+                                                    MaterialTapTargetSize
+                                                        .shrinkWrap,
+                                                // minWidth: 30,
+                                                // height: 30,
+                                                padding: const EdgeInsets.only(
+                                                  left: 35,
+                                                  right: 35,
+                                                ),
+                                                textColor: Colors.white,
+
+                                                // color: const Color(0xff6EBFC3),
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(25.0),
+                                                  ),
+                                                  // side: BorderSide(color: Color(0xffFFAA5F), width: 1)
+                                                ),
+                                                child: const Text(
+                                                  "Reschedule  ->",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                onPressed: () {
+                                                  //go to reschedule page of particular mentor
+
+                                                  print(
+                                                      "go to reschedule page of particular mentor");
+
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              BookAppointmentMentor(
+                                                                mentor:
+                                                                    MentorModel(
+                                                                  aboutYou: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .about,
+                                                                  fName: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .userName,
+                                                                  canHelpYou: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .canhelp,
+                                                                  designationName: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .designtionName,
+                                                                  id: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .userId,
+                                                                  email: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .email,
+                                                                  profilePic: provider
+                                                                      .previousMeetings[
+                                                                          index]
+                                                                      .profilepic,
+                                                                ),
+                                                                resheduleStatus:
+                                                                    true,
+                                                                cancelReason:
+                                                                    provider
+                                                                        .currText,
+                                                                cancelDetail:
+                                                                    provider
+                                                                        .about
+                                                                        .text,
+                                                                channelName: provider
+                                                                    .previousMeetings[
+                                                                        index]
+                                                                    .channelName,
+                                                              )));
+                                                }),
+                                            const SizedBox(
+                                              height: 30,
+                                            ),
+                                          ],
                                         ),
-                                        side: BorderSide(
-                                            color: Color(0xffFFAA5F),
-                                            width: 1)),
-                                    child: const Text("Leave a Review "),
-                                    onPressed: () {}),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                MaterialButton(
-                                    color: const Color(0xff6EBFC3),
-                                    textColor: Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0),
                                       ),
-                                    ),
-                                    child: const Text(
-                                      "Schedule Another",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                    onPressed: () {}),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }),
-          ),
+                                    );
+                                  });
+                                });
+                          },
+                          buttonText2pressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (Context) => FeedbackPage(
+                                          mentor:
+                                              provider.previousMeetings[index],
+                                        )));
+                          },
+                          onPressedViewDetail: () {
+                            print("pressed view detail");
+                            //view detail cancelled
+                            showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ViewDetail(
+                                  url: provider
+                                      .previousMeetings[index].profilepic,
+                                  meetingDetails:
+                                      provider.previousMeetings[index],
+                                  buttonText1: "Reschedule",
+                                  buttonText1pressed: () {
+                                    //reschedule meeting
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return StatefulBuilder(
+                                              builder: (context, setState) {
+                                            return Dialog(
+                                              backgroundColor: Colors.white,
+                                              elevation: 3,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          icon: Icon(
+                                                              Icons.close)),
+                                                    ),
+                                                    const Text(
+                                                      "Reschedule",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Color(0xffFDBA2F),
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    ListView(
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      children: <Widget>[
+                                                        provider.rescheduleCheckbox
+                                                                .isNotEmpty
+                                                            ? Wrap(
+                                                                children: provider
+                                                                    .rescheduleCheckbox
+                                                                    .map(
+                                                                      (area) =>
+                                                                          IntrinsicWidth(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              180,
+                                                                          // height: 40,
+                                                                          child:
+                                                                              InkWell(
+                                                                            child:
+                                                                                Center(
+                                                                              child: Row(
+                                                                                children: <Widget>[
+                                                                                  Checkbox(
+                                                                                    activeColor: Color(0xffFDBA2F),
+                                                                                    value: area["isChecked"],
+                                                                                    onChanged: (value) {
+                                                                                      setState(() => area["isChecked"] = value);
+                                                                                      provider.currText = area['name'];
+                                                                                      print(provider.currText);
+                                                                                    },
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                      child: Text(
+                                                                                    area["name"],
+                                                                                  )),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                    .toList(),
+                                                              )
+                                                            : Container(),
+                                                      ],
+                                                    ),
+                                                    const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, top: 15),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        child: Text(
+                                                          "Share in detail",
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xff202020),
+                                                              fontSize: 14),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, right: 15),
+                                                      child: InputField(
+                                                        maxline: 3,
+                                                        // minline: 1,
+                                                        hintText:
+                                                            "write the reason for resheduling",
+                                                        controller:
+                                                            provider.about,
+
+                                                        validation:
+                                                            Validators.basic,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                    MaterialButton(
+                                                        color:
+                                                            Color(0xffFDBA2F),
+                                                        materialTapTargetSize:
+                                                            MaterialTapTargetSize
+                                                                .shrinkWrap,
+                                                        // minWidth: 30,
+                                                        // height: 30,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 35,
+                                                          right: 35,
+                                                        ),
+                                                        textColor: Colors.white,
+
+                                                        // color: const Color(0xff6EBFC3),
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                25.0),
+                                                          ),
+                                                          // side: BorderSide(color: Color(0xffFFAA5F), width: 1)
+                                                        ),
+                                                        child: const Text(
+                                                          "Reschedule  ->",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        onPressed: () {
+                                                          //go to reschedule page of particular mentor
+
+                                                          print(
+                                                              "go to reschedule page of particular mentor");
+
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          BookAppointmentMentor(
+                                                                            mentor:
+                                                                                MentorModel(
+                                                                              aboutYou: provider.previousMeetings[index].about,
+                                                                              fName: provider.previousMeetings[index].userName,
+                                                                              canHelpYou: provider.previousMeetings[index].canhelp,
+                                                                              designationName: provider.previousMeetings[index].designtionName,
+                                                                              id: provider.previousMeetings[index].userId,
+                                                                              email: provider.previousMeetings[index].email,
+                                                                              profilePic: provider.previousMeetings[index].profilepic,
+                                                                            ),
+                                                                            resheduleStatus:
+                                                                                true,
+                                                                            cancelReason:
+                                                                                provider.currText,
+                                                                            cancelDetail:
+                                                                                provider.about.text,
+                                                                            channelName:
+                                                                                provider.previousMeetings[index].channelName,
+                                                                          )));
+                                                        }),
+                                                    const SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                        });
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }),
+                )
+              : Center(
+                  child: DataNotFound(
+                    nodataimg: "assets/nodatafound.svg",
+                    cancelledText1: "No Previous Meetings",
+                    cancelledText2:
+                        "You do not have any previous meetings to\n show",
+                    buttonText: "Schedule Meeting ->",
+                    buttonpress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MenteeList()));
+                    },
+                  ),
+                ),
         )));
   }
 

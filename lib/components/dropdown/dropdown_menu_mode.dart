@@ -73,7 +73,7 @@ class _DropDownMenuModeState extends State<DropDownMenuMode> {
           prefixIcon: widget.icon,
           
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xff6B779A).withOpacity(0.05)),
+            borderSide: BorderSide(color:const Color(0xff6B779A).withOpacity(0.05)),
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
           border: OutlineInputBorder(
@@ -87,7 +87,7 @@ class _DropDownMenuModeState extends State<DropDownMenuMode> {
 
           // hintText: widget.hinttext,
           // labelText: widget.hinttext,
-          fillColor: Color(0xffEBF6F7),
+          fillColor:const Color(0xffEBF6F7),
         ),
         // dropdownSearchDecoration: InputDecoration(
         //   contentPadding:

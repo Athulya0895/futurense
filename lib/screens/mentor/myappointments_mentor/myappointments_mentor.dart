@@ -13,7 +13,8 @@ import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeting_mentor_vm.dart';
 
 class MyappointmentsMentor extends StatefulWidget {
-  const MyappointmentsMentor({super.key});
+  final jumbToIndex;
+  const MyappointmentsMentor({super.key, required this.jumbToIndex});
 
   @override
   State<MyappointmentsMentor> createState() => _MyappointmentsMentorState();
@@ -39,14 +40,16 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                 ],
               ),
               child: AppBar(
-                title: const Text(
-                  "My Meeting Room",
-                  style: TextStyle(
-                      color: const Color(0xffFDBA2F),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                title: Center(
+                  child: const Text(
+                    "My Meeting Room",
+                    style: TextStyle(
+                        color: const Color(0xffFDBA2F),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-                leading: const BackButtonCustom(),
+                // leading: const BackButtonCustom(),
                 backgroundColor: Colors.white,
                 elevation: 0,
                 shape: const RoundedRectangleBorder(
@@ -61,7 +64,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
               const SizedBox(
                 height: 45,
               ),
-              _meetingsCardWidget("Upcoming Appointments", onpressed: () {
+              _meetingsCardWidget("Upcoming Meetings", onpressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -69,7 +72,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
               },
                   color: const Color(0xffFDBA2F),
                   lightColor: const Color(0xffFFC958)),
-              _meetingsCardWidget("Previous Appointments", onpressed: () {
+              _meetingsCardWidget("Previous Meetings", onpressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -77,7 +80,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
               },
                   color: const Color(0xff90D8DC),
                   lightColor: const Color(0xff95E1E4)),
-              _meetingsCardWidget("Cancelled Appointments", onpressed: () {
+              _meetingsCardWidget("Cancelled Meetings", onpressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -85,30 +88,12 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
               },
                   color: const Color(0xffFFAA5F),
                   lightColor: const Color(0xffFFBC80)),
-
-              SizedBox(
-                height: 160,
-                child: Image.asset(
-                  "assets/meeting.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-
-              // _meetingsCardWidget(
-              //   "Upcoming Meetings",
-              //   color: const Color(0xffFDBA2F),
-              //   lightColor: const Color(0xffFFC958),
-
-              // ),
-              // _meetingsCardWidget(
-              //   "Previous Meetings",
-              //   color: const Color(0xff90D8DC),
-              //   lightColor: const Color(0xff95E1E4),
-              // ),
-              // _meetingsCardWidget(
-              //   "Cancelled Meetings",
-              //   color: const Color(0xffFFAA5F),
-              //   lightColor: const Color(0xffFFBC80),
+              // SizedBox(
+              //   height: 150,
+              //   child: Image.asset(
+              //     "assets/meeting.png",
+              //     fit: BoxFit.cover,
+              //   ),
               // ),
             ],
           ),

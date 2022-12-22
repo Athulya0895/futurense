@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/dropdown/dropdown_menu_mode.dart';
+import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
+import 'package:futurensemobileapp/screens/mentee/mentor_list/widgets/filter.dart';
+import 'package:futurensemobileapp/screens/mentor/home/widgets/search.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee_detail/mentee_detail.dart';
 
@@ -20,27 +21,30 @@ class _MenteeListState extends State<MenteeList> with BasePage<MenteeListVM> {
   @override
   Widget build(BuildContext context) {
     return builder(() => Scaffold(
-          backgroundColor: Colors.white,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(60.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffFFD680),
-                      spreadRadius: 0,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                      blurStyle: BlurStyle.normal),
-                ],
-              ),
-              child: AppBar(
-                title: const Text(
-                  "Listed Mentees",
-                  style: TextStyle(
-                      color: Color(0xffFDBA2F),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: Container(
+            decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xffFFD680),
+                    spreadRadius: 0,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                    blurStyle: BlurStyle.normal),
+              ],
+            ),
+            child: AppBar(
+                centerTitle: true,
+                title: const Center(
+                  child: Text(
+                    "Our Mentors",
+                    style: TextStyle(
+                        color: Color(0xffFDBA2F),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 leading: const BackButtonCustom(),
                 backgroundColor: Colors.white,
@@ -56,217 +60,21 @@ class _MenteeListState extends State<MenteeList> with BasePage<MenteeListVM> {
                         showGeneralDialog(
                           context: context,
                           barrierDismissible: true,
-                          transitionDuration: Duration(milliseconds: 500),
+                          transitionDuration: const Duration(milliseconds: 500),
                           barrierLabel:
                               MaterialLocalizations.of(context).dialogLabel,
                           barrierColor: Colors.black.withOpacity(0.5),
                           pageBuilder: (context, _, __) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  // color: Colors.white,
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Column(
-                                        children: [
-                                          ListView(
-                                            shrinkWrap: true,
-                                            children: <Widget>[
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Choose filter",
-                                                    style: TextStyles.titleM,
-                                                  ),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                        // setState(() {
-                                                        //   isSelectedfilter =
-                                                        //       false;
-                                                        // });
-                                                        // provider.filter();
-                                                      },
-                                                      icon: Icon(Icons.close))
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              const Text(
-                                                "Key Mentoring Areas",
-                                                style: TextStyle(
-                                                  color: Color(0xff9295A3),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              DropDownMenuMode(
-                                                borderRadius: 10,
-                                                selectedItem: "IT",
-                                                hinttext: "	",
-                                                validationText:
-                                                    "Please Select your currency type",
-                                                items: const [
-                                                  "IT",
-                                                  "finanace",
-                                                  "sdf",
-                                                  "cvb"
-                                                ],
-                                                setdata: (val) {
-                                                  // provider.selectedCurrency = val;
-                                                  // print(provider.selectedCurrency);
-                                                },
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: const [
-                                                  Expanded(
-                                                      child: Text(
-                                                    "Organisation",
-                                                    style: TextStyle(
-                                                      color: Color(0xff9295A3),
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Text(
-                                                    "Industry",
-                                                    style: TextStyle(
-                                                      color: Color(0xff9295A3),
-                                                    ),
-                                                  ))
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: DropDownMenuMode(
-                                                    borderRadius: 10,
-                                                    hinttext: "",
-                                                    items: const [
-                                                      "asdf",
-                                                      "sdfgh",
-                                                      ""
-                                                    ],
-                                                    setdata: () {},
-                                                    // controller: provider.yourCity,
-                                                    validationText:
-                                                        'please choose your city',
-                                                  )),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Expanded(
-                                                      child: DropDownMenuMode(
-                                                    borderRadius: 10,
-                                                    hinttext: "",
-                                                    items: const [
-                                                      "software engineer",
-                                                      "tester",
-                                                      "Projecrt Manager"
-                                                    ],
-                                                    setdata: () {},
-                                                    validationText:
-                                                        "please choose jobtitle",
-                                                  ))
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              const Text(
-                                                "Jobtitle",
-                                                style: TextStyle(
-                                                  color: Color(0xff9295A3),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              DropDownMenuMode(
-                                                borderRadius: 10,
-                                                selectedItem: "",
-                                                hinttext: "",
-                                                validationText:
-                                                    "Please Select jobtitle",
-                                                items: const [
-                                                  "Software Engineer",
-                                                  "finanace",
-                                                  "python",
-                                                  "java developer"
-                                                ],
-                                                setdata: (val) {
-                                                  // provider.selectedCurrency = val;
-                                                  // print(provider.selectedCurrency);
-                                                },
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  MaterialButton(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color:
-                                                        const Color(0xffFD2FE2)
-                                                            .withOpacity(0.5),
-                                                    onPressed: () {},
-                                                    child: const Text(
-                                                      "Clear",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  MaterialButton(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color: Color(0xffFDBA2F),
-                                                    onPressed: () {},
-                                                    child: const Text(
-                                                      "ok",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            return Filter(
+                              skillset: provider.skillsetList,
+                              filter: provider.filter,
+                              selectedSkillset: provider.selectedskillset,
+                              domainExpertise: provider.domainExpertiseList,
+                              selectedDomain: provider.selectedDomain,
+                              experience: provider.experiencesList,
+                              selectedExperience: provider.selectedExperience,
+                              jobtitleList: provider.jobtitleList,
+                              selectedJobtitle: provider.selectedJob,
                             );
                           },
                           transitionBuilder:
@@ -294,176 +102,226 @@ class _MenteeListState extends State<MenteeList> with BasePage<MenteeListVM> {
                           color: Color(0xff202020),
                         ),
                       ))
-                ],
-              ),
-            ),
+                ]),
           ),
-          body: CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    _searchField(),
-                  ],
-                ),
-              ),
-              _allmenteeList()
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Search(topmenteelist: provider.topMenteeList),
+              _allmenteeWidgetList(),
             ],
           ),
-        ));
+        )));
   }
 
 //search
   Widget _searchField() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(15, 20, 20, 15),
-      child: TextFormField(
-        textInputAction: TextInputAction.search,
-        // controller: _doctorName,
+      height: 55,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: const Color(0xff6B779A).withOpacity(0.1),
+        borderRadius: const BorderRadius.all(Radius.circular(13)),
+        // boxShadow: <BoxShadow>[
+        //   BoxShadow(
+        //     color: Colors.grey,
+        //     blurRadius: 15,
+        //     offset: Offset(5, 5),
+        //   )
+        // ],
+      ),
+      child: TextField(
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: const Color(0xffEBF6F7),
-          hintText: 'Search for Mentor',
-          hintStyle: const TextStyle(color: Color(0xff6EBFC3)),
-
-          // hintStyle: GoogleFonts.lato(
-          //   color: Colors.black26,
-          //   fontSize: 18,
-          //   fontWeight: FontWeight.w800,
-          // ),
-          suffixIcon: Container(
-            decoration: BoxDecoration(
-              color: Color(0xff6EBFC3).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: IconButton(
-              iconSize: 20,
-              splashRadius: 20,
-              color: Color(0xff6EBFC3),
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          border: InputBorder.none,
+          hintText: "Search for mentee",
+          hintStyle: TextStyles.body.subTitleColor,
+          suffixIcon: SizedBox(
+            width: 50,
+            child: const Icon(Icons.search, color: Colors.orange)
+                .alignCenter
+                .ripple(
+                  () {},
+                  borderRadius: BorderRadius.circular(13),
+                ),
           ),
         ),
-        // style: GoogleFonts.lato(
-        //   fontSize: 18,
-        //   fontWeight: FontWeight.w800,
-        // ),
-        onFieldSubmitted: (String value) {
-          setState(
-            () {
-              // value.length == 0
-              //     ? Container()
-              //     : Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => SearchList(
-              //             searchKey: value,
-              //           ),
-              //         ),
-              //       );
-            },
-          );
-        },
-      ),
-    );
-  }
-
-//all mentee list
-  Widget _allmenteeList() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        [
-          Padding(
-            padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 4),
-            // child: Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: <Widget>[
-            //     Text("Top Mentors", style: TextStyles.title.bold),
-            //     TextButton(
-            //         onPressed: () {
-            //           //show mentor list
-            //           Navigator.push(
-            //               context,
-            //               MaterialPageRoute(
-            //                   builder: (context) => MentorList()));
-            //         },
-            //         child: Text("View All"))
-            //   ],
-            // ).hP16,
-          ),
-          _allmenteeWidgetList()
-        ],
       ),
     );
   }
 
   Widget _allmenteeWidgetList() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
       // implement GridView.builder
       child: SizedBox(
-        height: 500,
+        // height: 600,
         child: GridView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 3.5,
+                childAspectRatio: 3 / 3.8,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
-            itemCount: provider.mentees.length,
+            itemCount: provider.filterList.isEmpty &&
+                    provider.isSelectedfilter == false
+                ? provider.topMenteeList.length
+                : provider.filterList.length,
+            //  provider.topMentorList.length > 6
+            //     ? 6
+            //     : provider.topMentorList
+            //         .length, //only five topmentors need to be displayed
+            // shrinkWrap: true,
+            // physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext ctx, index) {
               return InkWell(
-                  child: Container(
-                    // alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color: Color(0xff979797).withOpacity(0.1)),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            offset: Offset(0, 2),
-                            blurStyle: BlurStyle.inner,
-                            blurRadius: 6,
-                            spreadRadius: 1.5,
-                            color: Color(0xffFFD680),
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(13)),
-                          child: SizedBox(
-                            // height: 40,
-                            // width: 40,
-                            // decoration: BoxDecoration(
-                            //   color: Theme.of(context).backgroundColor,
-                            // ),
-                            child: Image.asset("assets/profile.png",
-                                fit: BoxFit.contain),
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MenteeDetail(
+                              topmentor: provider.topMenteeList[index])));
+                }),
+                child: Stack(
+                  // alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(maxHeight: 200),
+                      padding: const EdgeInsets.only(top: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: const Color(0xff979797).withOpacity(0.1)),
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              offset: Offset(0, 2),
+                              blurStyle: BlurStyle.inner,
+                              blurRadius: 6,
+                              spreadRadius: 1.5,
+                              color: Color(0xffFFD680),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ProfileImage(
+                              provider.topMenteeList[index].profilePic),
+                          //                   const SizedBox(
+                          //                     height: 20,
+                          //                   ),
+                          provider.isSelectedfilter == false
+                              ? Text(
+                                  "${provider.topMenteeList[index].fName.toString()} ${provider.topMenteeList[index].lName.toString()}",
+                                  textAlign: TextAlign.center,
+                                )
+                              : Text(
+                                  "${provider.filterList[index].fName.toString()} ${provider.filterList[index].lName.toString()}"),
+                          provider.isSelectedfilter == false
+                              ? Text(provider
+                                  .topMenteeList[index].designationName
+                                  .toString())
+                              : Text(provider.filterList[index].designationName
+                                  .toString()),
+                          provider.isSelectedfilter == false
+                              ? Text(
+                                  "⭐️ ${provider.topMenteeList[index].rating.toString()}(${provider.topMenteeList[index].reviews.toString()} reviews)",
+                                  style:
+                                      const TextStyle(color: Color(0xffFD2FE2)),
+                                )
+                              : Text(
+                                  "⭐️ ${provider.filterList[index].rating.toString()}(${provider.filterList[index].reviews.toString()} reviews)",
+                                  style:
+                                      const TextStyle(color: Color(0xffFD2FE2)),
+                                ),
+                          const SizedBox(
+                            height: 15,
                           ),
-                        ).p(8),
-                        Text(provider.mentees[index]["name"]),
-                        Text(provider.mentees[index]["profession"]),
-                        Text(provider.mentees[index]["review"]),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MenteeDetail()));
-                  });
+                    Positioned(
+                      bottom: -1,
+                      right: 40,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xff6EBFC3),
+                        ),
+                        child: const Text(
+                          "View More",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }),
       ),
     );
+    // return Padding(
+    //   padding: const EdgeInsets.only(left: 15),
+    //   // implement GridView.builder
+    //   child: SizedBox(
+    //     height: 500,
+    //     child: GridView.builder(
+    //         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+    //             maxCrossAxisExtent: 200,
+    //             childAspectRatio: 3 / 3.5,
+    //             crossAxisSpacing: 20,
+    //             mainAxisSpacing: 20),
+    //         itemCount: provider.topMenteeList.length,
+    //         itemBuilder: (BuildContext ctx, index) {
+    //           return InkWell(
+    //               child: Container(
+    //                 padding:const EdgeInsets.only(top: 15),
+    //                 // alignment: Alignment.center,
+    //                 decoration: BoxDecoration(
+    //                     color: Colors.white,
+    //                     border: Border.all(
+    //                         color: Color(0xff979797).withOpacity(0.1)),
+    //                     boxShadow: const <BoxShadow>[
+    //                       BoxShadow(
+    //                         offset: Offset(0, 2),
+    //                         blurStyle: BlurStyle.inner,
+    //                         blurRadius: 6,
+    //                         spreadRadius: 1.5,
+    //                         color: Color(0xffFFD680),
+    //                       )
+    //                     ],
+    //                     borderRadius: BorderRadius.circular(20)),
+    //                 child: Column(
+    //                   children: [
+    //                     ProfileImage(provider.topMenteeList[index].profilePic),
+    //                     Text(
+    //                         "${provider.topMenteeList[index].fName.toString()} ${provider.topMenteeList[index].lName.toString()}"),
+    //                     Text(provider.topMenteeList[index].designationName
+    //                         .toString()),
+    //                     Text(
+    //                         "⭐️ ${provider.topMenteeList[index].rating.toString()}(${provider.topMenteeList[index].reviews.toString()} reviews)",
+    //                         style: TextStyle(color: Color(0xffFD2FE2))),
+    //                   ],
+    //                 ),
+    //               ),
+    //               onTap: () {
+    //                 Navigator.push(
+    //                     context,
+    //                     MaterialPageRoute(
+    //                         builder: (context) => MenteeDetail(
+    //                               topmentor: provider.topMenteeList[index],
+    //                             )));
+    //               });
+    //         }),
+    //   ),
+    // );
   }
 
   @override

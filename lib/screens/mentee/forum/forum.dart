@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/screens/mentee/forum/forum_vm.dart';
+import 'package:futurensemobileapp/screens/mentor/coming_soon/coming_soon.dart';
 
 class ForumMentee extends StatefulWidget {
-  const ForumMentee({super.key});
+  final jumbToIndex;
+  const ForumMentee({super.key, this.jumbToIndex});
 
   @override
   State<ForumMentee> createState() => _ForumMenteeState();
@@ -15,14 +16,50 @@ class _ForumMenteeState extends State<ForumMentee>
     with BasePage<ForumMenteeVM> {
   @override
   Widget build(BuildContext context) {
-    return builder((() => Scaffold()));
+    return builder((() => Scaffold(
+          backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize:const Size.fromHeight(60.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffFFD680),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                      blurStyle: BlurStyle.normal),
+                ],
+              ),
+              child: AppBar(
+                title: const Center(
+                  child: Text(
+                    "Forum",
+                    style: TextStyle(
+                        color:  Color(0xffFDBA2F),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                // leading: const BackButtonCustom(),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                )),
+              ),
+            ),
+          ),
+          body: const ComingSoon(
+              text1: "Forum Feature Coming\n Soon!",
+              text2:
+                  "You will be able to join the\n ongoing tech discussions\n and updates!"),
+        )));
   }
 
   @override
-  ForumMenteeVM create() {
-    // TODO: implement create
-    throw UnimplementedError();
-  }
+  ForumMenteeVM create() => ForumMenteeVM();
 
   @override
   void initialise(BuildContext context) {

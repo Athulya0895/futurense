@@ -4,13 +4,19 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+import 'package:futurensemobileapp/components/button/button.dart';
+import 'package:futurensemobileapp/components/profile/profile_image.dart';
+import 'package:futurensemobileapp/components/show_more.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
+import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/mentor/book_appointment/book_appointment.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee_detail/mentee_detail_vm.dart';
+import 'package:futurensemobileapp/screens/mentor/mentor_review/mentor_review.dart';
 
 class MenteeDetail extends StatefulWidget {
-  const MenteeDetail({super.key});
+  MentorModel? topmentor;
+  MenteeDetail({super.key, required this.topmentor});
 
   @override
   State<MenteeDetail> createState() => _MenteeDetailState();
@@ -54,10 +60,11 @@ class _MenteeDetailState extends State<MenteeDetail>
                 ],
               ),
               child: AppBar(
-                title: const Text(
-                  "Bellamy N",
-                  style: TextStyle(
-                      color: const Color(0xffFDBA2F),
+                centerTitle: true,
+                title: Text(
+                  "${widget.topmentor!.fName.toString()} ${widget.topmentor!.lName.toString()}",
+                  style: const TextStyle(
+                      color: Color(0xffFDBA2F),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -87,14 +94,15 @@ class _MenteeDetailState extends State<MenteeDetail>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "About Mentee",
-                            style: TextStyles.title.bold,
+                            "About ${widget.topmentor?.fName.toString()} ${widget.topmentor?.lName.toString()}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 18),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               // border: Border.all(color: Color(0xffDCF1F4)),
@@ -108,69 +116,58 @@ class _MenteeDetailState extends State<MenteeDetail>
                                 )
                               ],
                             ),
-                            child: secondHalf.isEmpty
-                                ? Text(firstHalf)
-                                : Column(
-                                    children: <Widget>[
-                                      Text(flag
-                                          ? (firstHalf + "...")
-                                          : (firstHalf + secondHalf)),
-                                      InkWell(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            Text(
-                                              flag ? "View more " : "show less",
-                                              style: const TextStyle(
-                                                  color: Color(0xffFDBA2F),
-                                                  decoration:
-                                                      TextDecoration.underline),
-                                            ),
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            flag = !flag;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                            child: ViewMore(
+                              text: widget.topmentor!.aboutYou.toString(),
+                            ),
                           ),
                           // const Text(
                           //     "Bellamy Nicholas is a top mentor at London Bridge Univercity at London. He has achieved several awards and recognition for is contri... "),
                           const SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            "Experience",
-                            style: TextStyles.title.bold,
-                          ),
+                          const Text("Experience",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 18)),
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text("10 years of experience in developement"),
+                          Text(
+                            "${widget.topmentor?.workExperience.toString() ?? ""}  years",
+                            style: const TextStyle(color: Color(0xff6B779A)),
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            "Looking for mentorship in",
-                            style: TextStyles.title.bold,
-                          ),
+                          const Text("Looking for mentorship in",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 18)),
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
-                              "Bellamy Nicholas is a top mentor at London Bridge Univercity at London. He has achieved several awards and recognition for is contri."),
+                          Text(
+                            widget.topmentor?.canHelpYou.toString() ?? "",
+                            style: const TextStyle(color: Color(0xff6B779A)),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text("Master skills",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 18)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            widget.topmentor?.skills ?? "",
+                            style: const TextStyle(color: Color(0xff6B779A)),
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
 
-                          Text(
-                            "Preffered Communication",
-                            style: TextStyles.title.bold,
-                          ),
+                          const Text("Prefered Communication",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 18)),
                           const SizedBox(
                             height: 30,
                           ),
@@ -213,23 +210,62 @@ class _MenteeDetailState extends State<MenteeDetail>
                           const SizedBox(
                             height: 40,
                           ),
-                          MaterialButton(
-                              minWidth: double.infinity,
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 15),
-                              child: const Text("Set Meeting"),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              textColor: Colors.white,
-                              color: const Color(0xffFDBA2F),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (Context) =>
-                                            BookAppointmentMentor()));
-                              })
+                          CustomMaterialButtton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BookAppointmentMentor(
+                                            mentor: widget.topmentor,
+                                          )));
+                            },
+                            text: "Schedule Meeting",
+                            textColor: Colors.white,
+                          ),
+                          // MaterialButton(
+                          //     minWidth: double.infinity,
+                          //     padding:
+                          //         const EdgeInsets.only(top: 15, bottom: 15),
+                          //     child: const Text("Set Meeting"),
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //     ),
+                          //     textColor: Colors.white,
+                          //     color: const Color(0xffFDBA2F),
+                          //     onPressed: () {
+                          //       Navigator.push(
+                          //           context,
+                          //           MaterialPageRoute(
+                          //               builder: (Context) =>
+                          //                   BookAppointmentMentor(
+                          //                     mentor: widget.topmentor,
+                          //                   )));
+                          //     }),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MentorReview(
+                                                menteedetail: widget.topmentor,
+                                              )));
+                                },
+                                child: const Text(
+                                  "Check Reviews",
+                                  style: TextStyle(
+                                      color: Color(0xff682FFD),
+                                      decoration: TextDecoration.underline),
+                                  textAlign: TextAlign.center,
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
                         ],
                       ),
                     )
@@ -257,8 +293,8 @@ class _MenteeDetailState extends State<MenteeDetail>
       children: [
         Container(
           // height: 300,
-          margin: EdgeInsets.only(left: 15, right: 15),
-          padding: EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(left: 15, right: 15),
+          padding: const EdgeInsets.only(bottom: 20),
           width: MediaQuery.of(context).size.width * 1.5,
           decoration: BoxDecoration(
               // color: Colors.yellow,
@@ -267,7 +303,7 @@ class _MenteeDetailState extends State<MenteeDetail>
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.white,
-                  Color(0xff7AC4C8).withOpacity(0.5),
+                  const Color(0xff7AC4C8).withOpacity(0.5),
                 ],
               ),
               // boxShadow: <BoxShadow>[
@@ -278,73 +314,60 @@ class _MenteeDetailState extends State<MenteeDetail>
               //     color: Color(0xff979797),
               //   )
               // ],
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40))),
-          // child:
-          //  const Center(
-          //     child:
-          //      Text(
-          //   'Pro. Bellamy Nicholas',
-          //   style: TextStyle(
-          //     fontSize: 48.0,
-          //     fontWeight: FontWeight.bold,
-          //     color: Color(0xff),
-          //   ),
-          // )
-          // ),
+
           child: Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(13)),
-                  child: SizedBox(
-                    // height: 40,
-                    // width: 40,
-
-                    child:
-                        Image.asset("assets/professor.png", fit: BoxFit.fill),
-                  ),
-                ).p(8),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                const Text(
-                  "Bellamy N",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                ProfileImage(widget.topmentor?.profilePic).p(8),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "${widget.topmentor!.fName.toString()} ${widget.topmentor!.lName.toString()}",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 20),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
-                  "Junior Developer at ABC Pvt. Ltd",
+                Text(
+                  widget.topmentor!.designationName.toString(),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
-                  "bellamyN@futurense.com",
+                Text(
+                  widget.topmentor?.email.toString() ?? "email@example.com",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Color(0xff7AC4C8)),
+                  style: const TextStyle(color: Color(0xff7AC4C8)),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _headercontainer(
                         "Experience",
-                        "1000+",
+                        "${widget.topmentor?.workExperience.toString() ?? "0"} Years",
                         const Color(0xffe80010).withOpacity(.15),
                         SvgPicture.asset("assets/experience.svg")),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     _headercontainer(
                         "Reviews",
-                        "4.5,13+",
-                        const Color(0xff682ffd).withOpacity(.15),
-                        SvgPicture.asset("assets/students.svg")),
+                        " ${widget.topmentor!.rating.toString()}, ${widget.topmentor!.reviews.toString()}+",
+                        const Color(0xffF7C480).withOpacity(.15),
+                        SvgPicture.asset("assets/reviews.svg")),
                   ],
                 )
               ],
@@ -388,17 +411,21 @@ class _MenteeDetailState extends State<MenteeDetail>
       children: [
         Container(
           padding: const EdgeInsets.fromLTRB(20, 70, 20, 10),
+          // constraints: BoxConstraints(
+          //   maxWidth: 150,
+          // ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(21),
             // border: Border.all(
             //   color: Color(0xff979797),
             // ),
+
             boxShadow: <BoxShadow>[
               BoxShadow(
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
                 blurRadius: 25,
-                color: Color(0xff6B779A).withOpacity(0.5),
+                color: const Color(0xff6B779A).withOpacity(0.5),
               )
             ],
           ),
@@ -424,7 +451,7 @@ class _MenteeDetailState extends State<MenteeDetail>
           ),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+          padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
           decoration: BoxDecoration(
               color: color,
               borderRadius: const BorderRadius.only(

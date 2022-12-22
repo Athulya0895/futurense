@@ -16,12 +16,13 @@ class BackButtonCustom extends StatelessWidget {
 
               // color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
+              boxShadow:const [
                 BoxShadow(
                     offset: Offset(1, 1), color: Colors.grey, blurRadius: 5),
               ],
             ),
             child: Material(
+                color: const Color(0xffFDBA2F),
                 child: InkWell(
                   onTap: () {
                     Navigator.pop(context);
@@ -34,8 +35,7 @@ class BackButtonCustom extends StatelessWidget {
                       color: Color(0xff202020),
                     ),
                   ),
-                ),
-                color: const Color(0xffFDBA2F)),
+                )),
           ),
         ),
       ),

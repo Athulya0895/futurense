@@ -6,6 +6,13 @@ class Validators {
     return null;
   }
 
+  static String? password(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter Password';
+    }
+    return null;
+  }
+
   static String? mobile(String? value) {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = RegExp(patttern);
@@ -25,6 +32,19 @@ class Validators {
       return 'Please enter Email';
     } else if (!regExp.hasMatch(value ?? "")) {
       return 'Please enter valid Email';
+    }
+    return null;
+  }
+
+  static String? linkedIN(String? value) {
+    String patttern =
+        r"http(s)?:\/\/([\w]+\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?";
+
+    RegExp regExp = RegExp(patttern);
+    if (value?.isEmpty ?? true) {
+      return 'Please enter linkedin';
+    } else if (!regExp.hasMatch(value ?? "")) {
+      return 'Please enter valid linkedin';
     }
     return null;
   }

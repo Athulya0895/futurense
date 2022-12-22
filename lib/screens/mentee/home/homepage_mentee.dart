@@ -5,20 +5,41 @@ import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 import 'package:futurensemobileapp/base/base_page.dart';
+import 'package:futurensemobileapp/components/input/input_field.dart';
+import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
-import 'package:futurensemobileapp/components/theme/light_color.dart';
+
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/components/theme/theme.dart';
+import 'package:futurensemobileapp/models/mentor_model.dart';
+
 import 'package:futurensemobileapp/screens/auth/login/login.dart';
+import 'package:futurensemobileapp/screens/mentee/book_appointment/book_appointment.dart';
+import 'package:futurensemobileapp/screens/mentee/category/engagement_manager/engagement_manager.dart';
+import 'package:futurensemobileapp/screens/mentee/category/mental_wellbeing/mental_wellbeing.dart';
+import 'package:futurensemobileapp/screens/mentee/category/technical_assistance/technical_assistance.dart';
 
 import 'package:futurensemobileapp/screens/mentee/home/homepage_mentee_vm.dart';
+import 'package:futurensemobileapp/screens/mentee/home/widget/search_mentee.dart';
+import 'package:futurensemobileapp/screens/mentee/mentor_detail/mentor_detail.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_list/mentor_list.dart';
-import 'package:futurensemobileapp/screens/mentee/myaccount/myaccount.dart';
+
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/upcoming_appointments_mentee/upcoming_appointments_mentee.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/view_detail.dart';
+import 'package:futurensemobileapp/screens/mentee/notification/notification.dart';
+import 'package:futurensemobileapp/screens/mentee/setPreference/setPreference.dart';
+import 'package:futurensemobileapp/utils/validators.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../../../utils/locator.dart';
+import '../../../utils/share_prefs.dart';
 
 final ZoomDrawerController z = ZoomDrawerController();
 
 class Zoom extends StatefulWidget {
-  const Zoom({Key? key}) : super(key: key);
+  final jumbToIndex; //for changing the bottom navigation index
+  const Zoom({Key? key, this.jumbToIndex}) : super(key: key);
 
   @override
   _ZoomState createState() => _ZoomState();
@@ -36,12 +57,12 @@ class _ZoomState extends State<Zoom> {
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       duration: const Duration(milliseconds: 500),
       // angle: 0.0,
-      menuBackgroundColor: Color(0xffFDBA2F),
+      menuBackgroundColor: const Color(0xffFDBA2F),
       mainScreen: const Body(),
       menuScreen: Theme(
         data: ThemeData.dark(),
         child: Scaffold(
-          backgroundColor: Color(0xffFDBA2F),
+          backgroundColor: const Color(0xffFDBA2F),
           body: Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Center(
@@ -57,49 +78,23 @@ class _ZoomState extends State<Zoom> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(13)),
-                            child: SizedBox(
-                              // height: 40,
-                              // width: 40,
-
-                              child: Image.asset("assets/profile.png",
-                                  fit: BoxFit.fill),
-                            ),
-                          ).p(8),
-                          // SizedBox(
-                          //   width: 80,
-                          //   height: 80,
-                          //   child:
-                          //   // CircleAvatar(
-                          //   //   backgroundColor: Color(0xff202020),
-                          //   //   child: Icon(
-                          //   //     Icons.person,
-                          //   //     color: Colors.white,
-                          //   //   ),
-                          //   // ),
-                          // ),
-                          SizedBox(height: 5),
-                          Text("Peter Parker", style: TextStyles.titleM),
-                          const SizedBox(
-                            height: 5,
+                          ProfileImage(locator<SharedPrefs>().user?.profilePic),
+                          const SizedBox(height: 5),
+                          Text(
+                            locator<SharedPrefs>()
+                                    .user
+                                    ?.mentorFirstName
+                                    .toString() ??
+                                "",
+                            style: TextStyles.titleM,
                           ),
-                          // Text(
-                          //   "Mahmudul@gmail.com",
-                          //   style: TextStyle(
-                          //     color: Colors.white,
-                          //   ),
-                          // ),
+                          const SizedBox(height: 5),
                         ],
                       ),
                     ),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyAccount()));
-                      // Navigator.pushAndRemoveUntil(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => MyAccount()),
-                      //     (route) => false);
+                      z.close!();
+                      widget.jumbToIndex(4);
                     },
                   ),
                   ListTile(
@@ -108,7 +103,7 @@ class _ZoomState extends State<Zoom> {
                     ),
                     title: const Text('Home'),
                     onTap: () {
-                      Navigator.pop(context);
+                      z.close!();
                     },
                   ),
                   const SizedBox(
@@ -116,48 +111,69 @@ class _ZoomState extends State<Zoom> {
                   ),
                   ListTile(
                     leading: SvgPicture.asset("assets/appointment.svg"),
-                    title: const Text('Appointment'),
+                    title: const Text('My Meetings'),
                     onTap: () {
-                      Navigator.pop(context);
+                      widget.jumbToIndex(2);
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.forum,
-                    ),
-                    title: const Text('forum'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.message,
-                    ),
-                    title: const Text('Messages'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+                  // ListTile(
+                  //   leading: SvgPicture.asset(
+                  //     "assets/forumfilled.svg",
+                  //     color: Colors.white,
+                  //   ),
+                  //   title: const Text('Forum'),
+                  //   onTap: () {
+                  //     widget.jumbToIndex(1);
+                  //   },
+                  // ),
+                  // ListTile(
+                  //   leading: const Icon(
+                  //     Icons.message,
+                  //   ),
+                  //   title: const Text('Messages'),
+                  //   onTap: () {
+                  //     widget.jumbToIndex(3);
+                  //     // Navigator.pop(context);
+                  //   },
+                  // ),
                   ListTile(
                     leading: const Icon(
                       Icons.notifications,
                     ),
                     title: const Text('Notifications'),
                     onTap: () {
-                      Navigator.pop(context);
+                      // NotificationMentor
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotificationMentee(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
                     leading: const Icon(
                       Icons.note,
                     ),
-                    title: const Text('preferences'),
+                    title: const Text('Preferences'),
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyAccount()),
-                          (route) => false);
+                      PersistentNavBarNavigator.pushNewScreen(context,
+                          screen: const SetPrefrenceMentee(),
+                          withNavBar: false,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const SetPreferenceMentor(),
+                      //   ),
+                      // );
+                      // Navigator.pushAndRemoveUntil(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const SetPreferenceMentor(),
+                      //     ),
+                      //     (route) => false);
                     },
                   ),
                   const SizedBox(
@@ -174,7 +190,7 @@ class _ZoomState extends State<Zoom> {
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                           content:
-                              const Text('Are you sure you want to log out ?'),
+                              const Text('Are you sure you want to\nLog Out ?'),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () => Navigator.pop(context, 'No'),
@@ -182,16 +198,12 @@ class _ZoomState extends State<Zoom> {
                             ),
                             TextButton(
                               onPressed: () {
-                                            //  provider.prefs.removeAll();
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const Login()),
-                                                    (route) => false);
-                                                // provider.logOut();
-                                // Navigator.pop(context, 'YES');
-                                // provider.logOut();
+                                locator<SharedPrefs>().removeAll();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Login()),
+                                    (route) => false);
                               },
                               child: const Text('OK'),
                             ),
@@ -239,7 +251,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: HomePageMentee(),
     );
   }
@@ -258,152 +270,175 @@ class _HomePageMenteeState extends State<HomePageMentee>
     with BasePage<HomePageMenteeVM> {
   int counter = 0;
 
-  //header
-  Widget _header() {
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: Color(0xffFDBA2F)),
-              shape: BoxShape.circle),
-          // height: 40,
-          // width: 40,
-          child: Image.asset("assets/profile.png", fit: BoxFit.fill),
-        ).p(8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            Text("Hello Mahmudul !,",
-                // style: TextStyles.title.subTitleColor,
-                style: TextStyle(
-                  color: Color(0xff202020),
-                  fontSize: 18,
+  @override
+  Widget build(BuildContext context) {
+    return builder((() => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(60.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xffFFD680),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                      blurStyle: BlurStyle.normal),
+                ],
+              ),
+              child: AppBar(
+                leading: IconButton(
+                  icon: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xffFDBA2F)),
+                    child: const Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                    ),
+                  ),
+                  onPressed: () {
+                    z.toggle!();
+                  },
+                ),
+                actions: [
+                  // Using Stack to show Notification Badge
+                  Stack(
+                    children: <Widget>[
+                      IconButton(
+                          icon: const Icon(
+                            Icons.notifications,
+                            size: 30,
+                            color: Color(0xffFDBA2F),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NotificationMentee()));
+                            setState(() {
+                              // counter = 0;
+                            });
+                          }),
+                      counter != 0
+                          ? Positioned(
+                              right: 11,
+                              top: 11,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xff682FFD),
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                        color: const Color(0xffA0A2B3)
+                                            .withOpacity(0.5))),
+                                constraints: const BoxConstraints(
+                                  minWidth: 14,
+                                  minHeight: 14,
+                                ),
+                                child: Text(
+                                  counter != 0 ? '$counter' : "",
+                                  //  style: GoogleFonts.archivo(
+                                  //     fontWeight: FontWeight.w700,
+                                  //     fontSize: 18,
+                                  //     color: Colors.black),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
+                ],
+                backgroundColor: Colors.white,
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
                 )),
-            SizedBox(
-              height: 10,
+              ),
             ),
-            Text(
-              "Find your suitable mentor here",
-              // style: TextStyles.h1Style
-              style: TextStyle(color: Color(0xff979797), fontSize: 16),
-            ),
-          ],
-        ).p16,
-      ],
-    );
+          ),
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _header(),
+                    // _searchField(),
+                    SearchMentee(topmentorlist: provider.topMentorList),
+                    _category(),
+                    _upcommingMeetings(),
+                    // _questionAnswer()
+                  ],
+                ),
+              ),
+              _topmentorsList()
+            ],
+          ),
+        )));
   }
 
-//search
-  Widget _searchField() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-      child: TextFormField(
-        textInputAction: TextInputAction.search,
-        // controller: _doctorName,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Color(0xffEBF6F7),
-          hintText: 'Search for Mentor',
-          hintStyle: TextStyle(color: Color(0xff6EBFC3)),
+  //header----------------------------------------------------------------
 
-          // hintStyle: GoogleFonts.lato(
-          //   color: Colors.black26,
-          //   fontSize: 18,
-          //   fontWeight: FontWeight.w800,
-          // ),
-          suffixIcon: Container(
-            decoration: BoxDecoration(
-              color: Color(0xff6EBFC3).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: IconButton(
-              iconSize: 20,
-              splashRadius: 20,
-              color: Color(0xff6EBFC3),
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-          ),
-        ),
-        // style: GoogleFonts.lato(
-        //   fontSize: 18,
-        //   fontWeight: FontWeight.w800,
-        // ),
-        onFieldSubmitted: (String value) {
-          setState(
-            () {
-              // value.length == 0
-              //     ? Container()
-              //     : Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => SearchList(
-              //             searchKey: value,
-              //           ),
-              //         ),
-              //       );
-            },
-          );
-        },
+  Widget _header() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15),
+      child: Row(
+        children: [
+          ProfileImage(provider.user?.profilePic.toString()),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Hello, ${provider.user?.mentorFirstName.toString()} ${provider.user?.mentorLastName.toString()}",
+                // style: TextStyle(
+                //     fontFamily: "Helvetica",
+                //     fontSize: 20,
+                //     fontWeight: FontWeight.w600)
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const Text(
+                "Welcome to the Futurense Family",
+                // style: TextStyles.h1Style
+                style: TextStyle(color: Color(0xff979797), fontSize: 14),
+              ),
+            ],
+          ).p16,
+        ],
       ),
     );
-    // return Container(
-    //   height: 55,
-    //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    //   width: MediaQuery.of(context).size.width,
-    //   decoration: BoxDecoration(
-    //     color: const Color(0xff6B779A).withOpacity(0.1),
-    //     borderRadius: const BorderRadius.all(Radius.circular(13)),
-    //     // boxShadow: <BoxShadow>[
-    //     //   BoxShadow(
-    //     //     color: Colors.grey,
-    //     //     blurRadius: 15,
-    //     //     offset: Offset(5, 5),
-    //     //   )
-    //     // ],
-    //   ),
-    //   child: TextField(
-    //     decoration: InputDecoration(
-    //       contentPadding:
-    //           const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-    //       border: InputBorder.none,
-    //       hintText: "Search for mentor",
-    //       hintStyle: TextStyles.body.subTitleColor,
-    //       suffixIcon: SizedBox(
-    //         width: 50,
-    //         child: const Icon(Icons.search, color: Colors.orange)
-    //             .alignCenter
-    //             .ripple(
-    //               () {},
-    //               borderRadius: BorderRadius.circular(13),
-    //             ),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
-  //categories
+//search-------------------------------------------------------------------------------------------
+
+  //categories------------------------------------------------------------------
 
   Widget _category() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 4),
+          padding:
+              const EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text("Category", style: TextStyles.title.bold),
-              // Text(
-              //   "swipe",
-              //   style: TextStyles.titleNormal
-              //       .copyWith(color: Theme.of(context).primaryColor),
-              // ).p(8).ripple(() {})
+            children: const <Widget>[
+              Text("Category",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -414,23 +449,35 @@ class _HomePageMenteeState extends State<HomePageMentee>
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               _categoryCardWidget(
-                "Technical Assistance",
-                "27 Mentors",
-                color: const Color(0xffFDBA2F),
-                lightColor: const Color(0xffFFC958),
-              ),
+                  "${provider.category?[2]?['Technical Assistance']} +\nMentors",
+                  "Technical Assistance",
+                  color: const Color(0xffFDBA2F),
+                  lightColor: const Color(0xffFFC958), onpressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TechnicalAssistance()));
+              }),
               _categoryCardWidget(
-                "Mental Health",
-                "43 Mentors",
-                color: const Color(0xff90D8DC),
-                lightColor: Color(0xff95E1E4),
-              ),
+                  "${provider.category?[1]['Mental Well Being']} + \nMentors",
+                  "Mental Well Being",
+                  color: const Color(0xff90D8DC),
+                  lightColor: const Color(0xff95E1E4), onpressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MentalWellBeing()));
+              }),
               _categoryCardWidget(
-                "Engagement Manager",
-                "50 Mentors ",
-                color: Color(0xffFFAA5F),
-                lightColor: const Color(0xffFFBC80),
-              )
+                  "${provider.category?[0]['Engagement Manager']} +\nMentors",
+                  "Your Engagement Manager",
+                  color: const Color(0xffFFAA5F),
+                  lightColor: const Color(0xffFFBC80), onpressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EngagementManager()));
+              })
             ],
           ),
         ),
@@ -438,41 +485,40 @@ class _HomePageMenteeState extends State<HomePageMentee>
     );
   }
 
+//Category Card widget--------------------------------------------------------------------
+
   Widget _categoryCardWidget(
     String title,
     String subtitle, {
     required Color color,
     required Color lightColor,
+    required Function onpressed,
   }) {
-    TextStyle titleStyle = TextStyles.title.bold.white;
-    TextStyle subtitleStyle = TextStyles.body.bold.white;
-    // if (AppTheme.fullWidth(context) < 392) {
-    //   titleStyle = TextStyles.body.bold.white;
-    //   subtitleStyle = TextStyles.bodySm.bold.white;
-    // }
+    // TextStyle titleStyle = TextStyles.title.bold.white;
+    // TextStyle subtitleStyle = TextStyles.body.bold.white;
+
     return AspectRatio(
       aspectRatio: 5.6 / 8,
-      child: Container(
-        // height: 280,
-        width: AppTheme.fullWidth(context) * .3,
-        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-              topLeft: Radius.circular(10)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              offset: Offset(4, 4),
-              blurRadius: 10,
-              color: lightColor.withOpacity(.8),
-            )
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          child: Container(
+      child: InkWell(
+        child: Container(
+            // height: 280,
+            width: AppTheme.fullWidth(context) * .3,
+            margin:
+                const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                  topLeft: Radius.circular(10)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                  color: lightColor.withOpacity(.8),
+                )
+              ],
+            ),
             child: Stack(
               children: <Widget>[
                 Positioned(
@@ -484,42 +530,60 @@ class _HomePageMenteeState extends State<HomePageMentee>
                   ),
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Flexible(
-                      child: Text(title, style: titleStyle).vP4,
-                    ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Flexible(
                       child: Text(
-                        subtitle,
-                        style: subtitleStyle,
-                      ).hP8,
+                        title,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Flexible(
+                        child: Text(
+                      "for",
+                      style: TextStyle(
+                          fontSize: 8,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    )),
+                    Flexible(
+                        child: Text(
+                      subtitle,
+                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                    )),
                   ],
                 ).p16
               ],
-            ),
-          ),
-        ).ripple(() {},
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+            )),
+        onTap: () {
+          onpressed();
+        },
       ),
     );
   }
 
-//Questions and answers
+//Questions and answers-------------------------------------------------------------------------
 
   Widget _questionAnswer() {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
+          padding:
+              const EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text("Questions & answer", style: TextStyles.title.bold),
+              Text("Questions & Answer", style: TextStyles.title.bold),
               TextButton(
                   onPressed: () {
                     //show mentor list
@@ -534,7 +598,7 @@ class _HomePageMenteeState extends State<HomePageMentee>
           ),
         ),
         SizedBox(
-          height: AppTheme.fullHeight(context) * .2,
+          height: AppTheme.fullHeight(context) * .165,
           width: AppTheme.fullWidth(context),
           child: ListView.builder(
               itemCount: 5,
@@ -548,7 +612,8 @@ class _HomePageMenteeState extends State<HomePageMentee>
       ],
     );
   }
-  //Qusetion widget
+
+  //Qusetion widget-------------------------------------------------------
 
   Widget _questionCardWidget(
     String name,
@@ -562,7 +627,8 @@ class _HomePageMenteeState extends State<HomePageMentee>
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        border: Border.all(color: Color(0xffFFD680), style: BorderStyle.solid),
+        border: Border.all(
+            color: const Color(0xffFFD680), style: BorderStyle.solid),
         boxShadow: const <BoxShadow>[
           BoxShadow(
             offset: Offset(0, 2),
@@ -595,8 +661,7 @@ class _HomePageMenteeState extends State<HomePageMentee>
                   child: Text(details,
                       maxLines: 4,
                       style: const TextStyle(
-                        color: Color(0xffA0A2B3),
-                      )),
+                          color: Color(0xffA0A2B3), fontSize: 12)),
                 ),
               )
             ],
@@ -606,65 +671,349 @@ class _HomePageMenteeState extends State<HomePageMentee>
     );
   }
 
-//upcomming Meetings
+//upcomming Meetings--------------------------------------------
 
   Widget _upcommingMeetings() {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
+          padding:
+              const EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text("Upcoming meetings", style: TextStyles.title.bold),
+              const Text("Upcoming Meetings",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
               TextButton(
                   onPressed: () {
-                    //show mentor list
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const UpcomingAppointmentsMentee()));
+                    // PersistentNavBarNavigator.pushNewScreen(context,
+                    //     screen: UpcomingAppointmentsMentee(),
+                    //     withNavBar: false,
+                    //     pageTransitionAnimation: PageTransitionAnimation.fade);
                   },
                   child: const Text(
-                    "View all",
+                    "View All",
                     style: TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
+                        decoration: TextDecoration.underline,
+                        color: Color(0xff682FFD)),
                   ))
             ],
           ),
         ),
-        SizedBox(
-          height: AppTheme.fullHeight(context) * .159,
-          width: AppTheme.fullWidth(context),
-          child: ListView.builder(
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return _upcommingCardWidget("Klimsha", "voice call",
-                    "Today-10 Am", "assets/profile.png", Color(0xffFFFFFF));
-              }),
-        ),
+        provider.confirmedupcomingmeetings.isNotEmpty
+            ? SizedBox(
+                height: AppTheme.fullHeight(context) * .140,
+                width: AppTheme.fullWidth(context),
+                child: ListView.builder(
+                    itemCount: provider.confirmedupcomingmeetings.length,
+                    // < 3
+                    //     ? provider.confirmedupcomingmeetings.length
+                    //     : 3,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: (() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UpcomingAppointmentsMentee()));
+                        }),
+                        child: _upcommingCardWidget(
+                            provider.confirmedupcomingmeetings[index].userName
+                                .toString(),
+                            provider.confirmedupcomingmeetings[index]
+                                .communicationMode
+                                .toString(),
+                            "${provider.confirmedupcomingmeetings[index].fromDate} - ${provider.confirmedupcomingmeetings[index].startTime}",
+                            provider.confirmedupcomingmeetings[index].profilepic
+                                .toString(),
+                            const Color(0xffFFFFFF), () {
+                          showDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ViewDetail(
+                                url: provider.confirmedupcomingmeetings[index]
+                                    .profilepic,
+                                meetingDetails:
+                                    provider.confirmedupcomingmeetings[index],
+                                buttonText1: "Reschedule",
+                                buttonText1pressed: () {
+                                  //reschedule meeting
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          return Dialog(
+                                            backgroundColor: Colors.white,
+                                            elevation: 3,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: IconButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        icon:
+                                                            Icon(Icons.close)),
+                                                  ),
+                                                  const Text(
+                                                    "Reschedule",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xffFDBA2F),
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  ListView(
+                                                    physics:
+                                                        NeverScrollableScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    children: <Widget>[
+                                                      provider.rescheduleCheckbox
+                                                              .isNotEmpty
+                                                          ? Wrap(
+                                                              children: provider
+                                                                  .rescheduleCheckbox
+                                                                  .map(
+                                                                    (area) =>
+                                                                        IntrinsicWidth(
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width:
+                                                                            180,
+                                                                        // height: 40,
+                                                                        child:
+                                                                            InkWell(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Row(
+                                                                              children: <Widget>[
+                                                                                Checkbox(
+                                                                                  activeColor: Color(0xffFDBA2F),
+                                                                                  value: area["isChecked"],
+                                                                                  onChanged: (value) {
+                                                                                    setState(() => area["isChecked"] = value);
+                                                                                    provider.currText = area['name'];
+                                                                                    print(provider.currText);
+                                                                                  },
+                                                                                ),
+                                                                                Expanded(
+                                                                                    child: Text(
+                                                                                  area["name"],
+                                                                                )),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                  .toList(),
+                                                            )
+                                                          : Container(),
+                                                    ],
+                                                  ),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 15, top: 15),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: Text(
+                                                        "Share in detail",
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xff202020),
+                                                            fontSize: 14),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 15,
+                                                            right: 15),
+                                                    child: InputField(
+                                                      maxline: 3,
+                                                      // minline: 1,
+                                                      hintText:
+                                                          "write the reason for resheduling",
+                                                      controller:
+                                                          provider.about,
+
+                                                      validation:
+                                                          Validators.basic,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  MaterialButton(
+                                                      color: Color(0xffFDBA2F),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      // minWidth: 30,
+                                                      // height: 30,
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 35,
+                                                        right: 35,
+                                                      ),
+                                                      textColor: Colors.white,
+
+                                                      // color: const Color(0xff6EBFC3),
+                                                      shape:
+                                                          const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(25.0),
+                                                        ),
+                                                        // side: BorderSide(color: Color(0xffFFAA5F), width: 1)
+                                                      ),
+                                                      child: const Text(
+                                                        "Reschedule  ->",
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      onPressed: () {
+                                                        //go to reschedule page of particular mentor
+
+                                                        print(
+                                                            "go to reschedule page of particular mentor");
+
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        BookAppointment(
+                                                                          topmentor:
+                                                                              MentorModel(
+                                                                            aboutYou:
+                                                                                provider.confirmedupcomingmeetings[index].about,
+                                                                            fName:
+                                                                                provider.confirmedupcomingmeetings[index].userName,
+                                                                            canHelpYou:
+                                                                                provider.confirmedupcomingmeetings[index].canhelp,
+                                                                            designationName:
+                                                                                provider.confirmedupcomingmeetings[index].designtionName,
+                                                                            id: provider.confirmedupcomingmeetings[index].userId,
+                                                                            email:
+                                                                                provider.confirmedupcomingmeetings[index].email,
+                                                                            profilePic:
+                                                                                provider.confirmedupcomingmeetings[index].profilepic,
+                                                                          ),
+                                                                          resheduleStatus:
+                                                                              true,
+                                                                          cancelReason:
+                                                                              provider.currText,
+                                                                          cancelDetail: provider
+                                                                              .about
+                                                                              .text,
+                                                                          channelName: provider
+                                                                              .confirmedupcomingmeetings[index]
+                                                                              .channelName,
+                                                                        )));
+                                                      }),
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                      });
+                                },
+                              );
+                            },
+                          );
+                        }),
+                      );
+                    }),
+              )
+            : Container(
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xffFFD551),
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Start scheduling your meetings!",
+                      style: TextStyle(
+                          color: Color(0xffFDBA2F),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "No upcoming meetings to show",
+                      style: TextStyle(color: Color(0xffD8D8D8), fontSize: 12),
+                    )
+                  ],
+                ),
+              )
       ],
     );
   }
 
-  //upcomming card widget
+  //upcomming card widget--------------------------------------------------
   Widget _upcommingCardWidget(
     String name,
     String meetingType,
     String meetingDateTime,
     String profile,
     Color color,
+    Function viewdetailsButton,
   ) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
-      width: AppTheme.fullWidth(context) * .6,
+      padding: const EdgeInsets.only(left: 10),
+      // padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      width: AppTheme.fullWidth(context) * .58,
       margin: const EdgeInsets.only(left: 15, right: 10, top: 10),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(
-            color: Color(0xffFFD551), width: 1, style: BorderStyle.solid),
+            color: const Color(0xffFFD551), width: 1, style: BorderStyle.solid),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            offset: Offset(4, 2),
+            offset: const Offset(4, 2),
             blurRadius: 3,
             color: const Color(0xffA0A2B3).withOpacity(0.5),
           )
@@ -673,34 +1022,37 @@ class _HomePageMenteeState extends State<HomePageMentee>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-            child: SizedBox(
-              // height: 46,
-              // width: 46,
-              child: Image.asset(profile, fit: BoxFit.fill),
-            ),
-          ).p(8),
+          ProfileImage(profile),
+          const SizedBox(
+            width: 5,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(name + ", " + meetingType, style: TextStyle(fontSize: 10)),
+              const SizedBox(
+                height: 10,
+              ),
+              Text("$name, $meetingType", style: const TextStyle(fontSize: 10)),
               const SizedBox(
                 height: 5,
               ),
               Text(
                 meetingDateTime,
-                style: TextStyle(fontSize: 10),
+                style: const TextStyle(fontSize: 10),
               ),
-              // SizedBox(
-              //   height: 10,
-              // ),
+
               TextButton(
-                onPressed: () {},
-                child: Text(
+                style: TextButton.styleFrom(
+                  minimumSize: Size.zero, // Set this
+                  padding: EdgeInsets.zero,
+                  // and this
+                ),
+                onPressed: () {
+                  //upcoming meetings
+                  viewdetailsButton();
+                },
+                child: const Text(
                   "View details",
                   style: TextStyle(
                       color: Color(
@@ -718,267 +1070,139 @@ class _HomePageMenteeState extends State<HomePageMentee>
     );
   }
 
-  //top Mentors list
+  //top Mentors list-----------------------------------------------------------------
 
   Widget _topmentorsList() {
     return SliverList(
       delegate: SliverChildListDelegate(
         [
           Padding(
-            padding: EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 4),
+            padding:
+                const EdgeInsets.only(top: 20, right: 16, left: 16, bottom: 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text("Top Mentors", style: TextStyles.title.bold),
+                const Text("Top Mentors",
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
                 TextButton(
                     onPressed: () {
                       //show mentor list
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MentorList()));
+                              builder: (context) => MentorList(
+                                  topmentorlists: provider.topMentorList)));
                     },
                     child: const Text(
                       "View All",
                       style: TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
+                          decoration: TextDecoration.underline,
+                          color: Color(0xff682FFD)),
                     ))
               ],
             ).hP16,
           ),
-          // getmentorWidgetList()
           _mentorWidgetList()
         ],
       ),
     );
   }
 
+//Mentor List widet ----------------------------------------------------------------------------------
+
   Widget _mentorWidgetList() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
       // implement GridView.builder
-      child: SizedBox(
-        height: 500,
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 3.5,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20),
-            itemCount: provider.mentors.length,
-            itemBuilder: (BuildContext ctx, index) {
-              return Container(
-                // alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                        color: const Color(0xff979797).withOpacity(0.1)),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                        offset: Offset(0, 2),
-                        blurStyle: BlurStyle.inner,
-                        blurRadius: 6,
-                        spreadRadius: 1.5,
-                        color: Color(0xffFFD680),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(20)),
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(13)),
-                      child: SizedBox(
-                        // height: 40,
-                        // width: 40,
-                        // decoration: BoxDecoration(
-                        //   color: Theme.of(context).backgroundColor,
-                        // ),
-                        child: Image.asset("assets/profile.png",
-                            fit: BoxFit.contain),
-                      ),
-                    ).p(8),
-                    Text(provider.mentors[index]["name"]),
-                    Text(provider.mentors[index]["profession"]),
-                    Text(provider.mentors[index]["review"]),
-                  ],
-                ),
-              );
-            }),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return builder((() => Scaffold(
-          // backgroundColor: Colors.white,
-          // appBar: AppBar(
-          //   actions: [
-          //     // Using Stack to show Notification Badge
-          //     Stack(
-          //       children: <Widget>[
-          //         IconButton(
-          //             icon: const Icon(
-          //               Icons.notifications,
-          //               size: 30,
-          //               color: Color(0xffFDBA2F),
-          //             ),
-          //             onPressed: () {
-          //               setState(() {
-          //                 // counter = 0;
-          //               });
-          //             }),
-          //         Positioned(
-          //           right: 11,
-          //           top: 11,
-          //           child: Container(
-          //             padding: const EdgeInsets.all(2),
-          //             decoration: BoxDecoration(
-          //               color: Colors.red,
-          //               borderRadius: BorderRadius.circular(6),
-          //             ),
-          //             constraints: const BoxConstraints(
-          //               minWidth: 14,
-          //               minHeight: 14,
-          //             ),
-          //             child: Text(
-          //               '$counter',
-          //               style: const TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 8,
-          //               ),
-          //               textAlign: TextAlign.center,
-          //             ),
-          //           ),
-          //         )
-          //       ],
-          //     ),
-          //   ],
-          //   backgroundColor: Colors.white,
-          //   elevation: 0,
-          //   leading: IconButton(
-          //     icon: const Icon(
-          //       Icons.menu,
-          //       color: Colors.black,
-          //     ),
-          //     onPressed: () {
-          //       z.toggle!();
-          //     },
-          //   ),
-          // ),
-          // backgroundColor: Colors.white,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(60.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffFFD680),
-                      spreadRadius: 0,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                      blurStyle: BlurStyle.normal),
-                ],
-              ),
-              child: AppBar(
-                // title: const Text(
-                //   "Profile",
-                //   style: TextStyle(
-                //       color: const Color(0xffFDBA2F),
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold),
-                // ),
-                // leading: const BackButtonCustom(),
-                leading: IconButton(
-                  icon: Container(
-                    padding: const EdgeInsets.all(5),
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                    ),
+      child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3 / 3.8,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: provider.topMentorList.length > 6
+              ? 6
+              : provider.topMentorList.length,
+          shrinkWrap: true,
+          physics:
+              const ScrollPhysics(), //only five topmentors need to be displayed
+          // shrinkWrap: true,
+          // physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext ctx, index) {
+            return InkWell(
+              onTap: (() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MentorDetails(
+                            topmentor: provider.topMentorList[index])));
+              }),
+              child: Stack(
+                // alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    constraints: const BoxConstraints(maxHeight: 200),
+                    padding: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffFDBA2F)),
-                  ),
-                  onPressed: () {
-                    z.toggle!();
-                  },
-                ),
-
-                actions: [
-                  // Using Stack to show Notification Badge
-                  Stack(
-                    children: <Widget>[
-                      IconButton(
-                          icon: const Icon(
-                            Icons.notifications,
-                            size: 30,
-                            color: Color(0xffFDBA2F),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              // counter = 0;
-                            });
-                          }),
-                      Positioned(
-                        right: 11,
-                        top: 11,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              color: const Color(0xff682FFD),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                  color: const Color(0xffA0A2B3)
-                                      .withOpacity(0.5))),
-                          constraints: const BoxConstraints(
-                            minWidth: 14,
-                            minHeight: 14,
-                          ),
-                          child: Text(
-                            '$counter',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                        color: Colors.white,
+                        border: Border.all(
+                            color: const Color(0xff979797).withOpacity(0.1)),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            offset: Offset(0, 2),
+                            blurStyle: BlurStyle.inner,
+                            blurRadius: 6,
+                            spreadRadius: 1.5,
+                            color: Color(0xffFFD680),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ProfileImage(provider.topMentorList[index].profilePic),
+                        Text(
+                          "${provider.topMentorList[index].fName.toString()} ${provider.topMentorList[index].lName.toString()}",
+                          textAlign: TextAlign.center,
                         ),
-                      )
-                    ],
+                        Text(provider.topMentorList[index].designationName
+                            .toString()),
+                        Text(
+                          provider.topMentorList[index].rating == null ||
+                                  provider.topMentorList[index].reviews == null
+                              ? "No Reviews"
+                              : "⭐️ ${provider.topMentorList[index].rating.toString()}(${provider.topMentorList[index].reviews.toString()} reviews)",
+                          style: const TextStyle(color: Color(0xffFD2FE2)),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -1,
+                    right: 40,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xff6EBFC3),
+                      ),
+                      child: const Text(
+                        "View More",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                 ],
-
-                backgroundColor: Colors.white,
-                elevation: 0,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
-                )),
               ),
-            ),
-          ),
-          body: CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    _header(),
-                    _searchField(),
-                    _category(),
-                    _upcommingMeetings(),
-                    _questionAnswer()
-                  ],
-                ),
-              ),
-              _topmentorsList()
-            ],
-          ),
-        )));
+            );
+          }),
+    );
   }
 
   @override

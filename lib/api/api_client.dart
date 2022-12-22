@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:futurensemobileapp/api/mentee_service.dart';
 import 'package:futurensemobileapp/api/mentor_service.dart';
 import './auth_services.dart';
 import '/api/api_config.dart';
@@ -20,15 +21,16 @@ class ApiClient {
 
   late AuthRepo authRepo;
   late MentorRepo mentorRepo;
+  late MenteeRepo menteeRepo;
   ApiClient() {
-    _dio.interceptors.add(
-      PrettyDioLogger(
-        responseHeader: true,
-        requestHeader: true,
-        requestBody: true,
-        request: true,
-      ),
-    );
+    // _dio.interceptors.add(
+    //   PrettyDioLogger(
+    //     responseHeader: true,
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     request: true,
+    //   ),
+    // );
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options,
@@ -36,6 +38,7 @@ class ApiClient {
           return requestInterceptorHandler.next(options);
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
+         
           if (response.data is String) {
             final jsonResponse = jsonDecode(response.data);
             response.data = jsonResponse;
@@ -53,5 +56,6 @@ class ApiClient {
     );
     authRepo = AuthRepo(_dio);
     mentorRepo = MentorRepo(_dio);
+    menteeRepo = MenteeRepo(_dio);
   }
 }

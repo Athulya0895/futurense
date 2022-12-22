@@ -3,6 +3,7 @@ import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
 import 'package:futurensemobileapp/screens/auth/forget_password/forget_pswd_vm.dart';
+import 'package:futurensemobileapp/screens/auth/login/login.dart';
 import 'package:futurensemobileapp/utils/validators.dart';
 import 'package:pinput/pinput.dart';
 
@@ -33,9 +34,9 @@ class _ForgetPasswordState extends State<ForgetPassword>
     return builder(() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+            preferredSize:const Size.fromHeight(60.0),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(
                       color: Color(0xffFFD680),
@@ -49,7 +50,7 @@ class _ForgetPasswordState extends State<ForgetPassword>
                 title: const Text(
                   "Forgot Password",
                   style: TextStyle(
-                      color: const Color(0xffFDBA2F),
+                      color:  Color(0xffFDBA2F),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -72,124 +73,124 @@ class _ForgetPasswordState extends State<ForgetPassword>
                   children: [
                     const SizedBox(width: double.infinity, height: 40),
                     const Text(
-                      "forget Password ?",
+                      "Forgot Password ?",
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(width: double.infinity, height: 10),
                     const Text(
-                      "Please enter your email id below to recive your OTP number.",
+                      "Please enter your email id below to receive the Password reset link",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
                           color: Color(0xff6B779A)),
                     ),
                     const SizedBox(height: 40),
-                    Text(
-                      !provider.enterOtpScreen
-                          ? "Email address "
-                          : "please enter verification",
-                      style: const TextStyle(
+                    const Text(
+                      "Email ID",
+                      style: TextStyle(
                         color: Color(0xff9295A3),
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Visibility(
-                      visible: !provider.enterOtpScreen,
-                      replacement: Form(
-                        key: provider.formKeyOTP,
-                        child: Pinput(
-                          defaultPinTheme: defaultPinTheme.copyDecorationWith(
-                              color: Colors.white),
-                          focusedPinTheme: defaultPinTheme
-                              .copyDecorationWith(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.orange),
-                                borderRadius: BorderRadius.circular(8),
-                              )
-                              .copyWith(
-                                textStyle: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w600),
+                    provider.setresend != true
+                        ? Form(
+                            key: provider.formKey,
+                            child: InputField(
+                              validation: Validators.email,
+                              controller: provider.emailController,
+                              hintText: "Enter email address",
+                              prefixIcon: const Icon(Icons.email),
+                            ),
+                          )
+                        : IgnorePointer(
+                            child: Form(
+                              key: provider.formKey,
+                              child: InputField(
+                                enabletextfield: false,
+                                validation: Validators.email,
+                                controller: provider.emailController,
+                                hintText: "Enter email address",
+                                prefixIcon: const Icon(Icons.email),
                               ),
-                          submittedPinTheme: defaultPinTheme.copyWith(
-                            decoration: defaultPinTheme.decoration!.copyWith(
-                              color: const Color.fromARGB(255, 218, 226, 233),
                             ),
                           ),
-                          controller: provider.otpController,
-                          length: 6,
-                          // validator: provider.verfyOTP,
-                          pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
-                          showCursor: true,
-                          onChanged: (val) {
-                            provider.pin = val;
-                          },
-                        ),
-                      ),
-                      child: Form(
-                        key: provider.formKey,
-                        child: InputField(
-                          validation: Validators.email,
-                          controller: provider.emailController,
-                          hintText: "Enter email address",
-                          prefixIcon: const Icon(Icons.email),
-                        ),
-                      ),
-                    ),
                     const SizedBox(height: 15),
                     Container(
                         height: 56,
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                         width: double.infinity,
-                        child: Visibility(
-                          visible: !provider.enterOtpScreen,
-                          child: MaterialButton(
-                            child: const Text("Send the Reset Link"),
-                            onPressed: () {
-                              provider.sendEmail(context);
-                             
-                            },
-                            color: const Color(0xffFDBA2F),
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                        child: MaterialButton(
+                          onPressed: () {
+                            provider.setresend != true
+                                ? provider.sendEmail(context)
+                                : provider.showError(
+                                    "Click Resend Link to send Email again");
+                            setState(() {
+                              provider.setresend = true;
+                            });
+                          },
+                          color: provider.setresend != true
+                              ? const Color(0xffFDBA2F)
+                              : const Color(0xffF1F4F7),
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                          replacement: MaterialButton(
-                            child: const Text("Verify"),
-                            onPressed: () {
-                              // provider.validateOtp(context);
-                            },
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
+                          child: provider.setresend != true
+                              ? const Text("Send the Reset Link")
+                              : const Text(
+                                  "Send the Reset Link",
+                                  style: TextStyle(color: Color(0xffD8D8D8)),
+                                ),
                         )),
-                    Visibility(
-                      // visible: provider.enterOtpScreen,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Did not receive reset link ?",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          TextButton(
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            const Center(
+                              child: Text(
+                                "Did not receive the link?",
+                                style: TextStyle(
+                                    fontSize: 16, color: Color(0xffFF7901)),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                //  provider.resendOtp();
+                                provider.sendEmail(context);
+                              },
+                              child: const Text(
+                                "Resend",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    color: Color(0xffFD2FE2)),
+                              ),
+                            )
+                          ],
+                        ),
+                        TextButton(
                             onPressed: () {
-                              // provider.resendOtp();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>const Login()));
                             },
                             child: const Text(
-                              "Resend",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          )
-                        ],
-                      ),
+                              "Back to Login",
+                              style: TextStyle(
+                                  color: Color(0xff6EBFC3), fontSize: 16),
+                            ))
+                      ],
                     )
                   ],
                 ),

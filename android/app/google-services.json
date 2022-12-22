@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "598264774993",
+    "project_id": "futurense-tech",
+    "storage_bucket": "futurense-tech.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598264774993:android:a05f62479205a09c4f5370",
+        "android_client_info": {
+          "package_name": "com.example.futurensemobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598264774993-og6rfe0bcs3dph31kod97j1iucpkkps1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLAHgC4i0dylvBKwNCnlRe4MyUlIVRAsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598264774993-og6rfe0bcs3dph31kod97j1iucpkkps1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "598264774993-mi0tb08khi27v9m222540ejq8i0ubroa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.futurensemobileapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

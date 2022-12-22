@@ -7,6 +7,9 @@ class SharedPrefs {
   static const String tokenKey = 'tokenkey';
   static const String userIdKey = 'userID';
   static const String userKey = 'userKey';
+  static const String userTypeKey = 'userTypeKey';
+  static const String firsttimeLoginKey = 'firsttimeLoginKey';
+  static const String isMentorKey = 'isMentorKey';
 
   SharedPreferences? _prefs;
 
@@ -38,6 +41,26 @@ class SharedPrefs {
     _prefs?.remove(userIdKey);
   }
 
+//usertype
+
+  String? get userType => _prefs!.getString(userTypeKey);
+
+  set userType(String? type) {
+    _prefs!.setString(userTypeKey, type!);
+  }
+
+  //check first time login
+  bool get firsttimeLogin => _prefs!.getBool(firsttimeLoginKey) ?? false;
+  set firsttimeLogin(bool value) {
+    _prefs!.setBool(firsttimeLoginKey, value);
+  }
+
+  //check the Role is mentor or mentee
+  bool get role => _prefs!.getBool(isMentorKey) ?? false;
+  set role(bool value) {
+    _prefs!.setBool(isMentorKey, value);
+  }
+
   UserModel? get user {
     try {
       if (_prefs!.containsKey(userKey)) {
@@ -60,6 +83,7 @@ class SharedPrefs {
 
   //Remove all
   void removeAll() {
+    _prefs!.remove(userKey);
     removeToken();
   }
 }

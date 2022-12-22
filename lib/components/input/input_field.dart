@@ -4,6 +4,7 @@ class InputField extends StatelessWidget {
   final Icon? prefixIcon;
   final Widget? suffixIcon;
   final bool obscureText;
+  final bool enabletextfield;
   final TextEditingController? controller;
   final String hintText;
   final dynamic validation;
@@ -11,6 +12,8 @@ class InputField extends StatelessWidget {
   final int? maxline;
   final int? minline;
   // final String initialval;
+  final bool autofocus;
+
   const InputField({
     Key? key,
     this.prefixIcon,
@@ -18,27 +21,34 @@ class InputField extends StatelessWidget {
     this.validation,
     this.textInputType,
     this.obscureText = false,
+    this.enabletextfield = true,
     this.controller,
     this.hintText = '',
     this.maxline,
     this.minline,
     // this.initialval = '',
+    this.autofocus = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabletextfield,
       keyboardType: textInputType,
       // initialValue: initialval,
+
+      scrollPadding: const EdgeInsets.all(20.0),
+      autofocus: autofocus,
       maxLines: maxline,
       minLines: minline,
       validator: validation,
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(15),
         hintText: hintText,
         filled: true,
-        fillColor: Color(0xffEBF6F7),
+        fillColor: const Color(0xffEBF6F7),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
@@ -47,11 +57,16 @@ class InputField extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(10)),
         border: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color(0xff6EBFC3),
             ),
             borderRadius: BorderRadius.circular(10)),
-        hintStyle: TextStyle(color: Color(0xff6EBFC3)),
+        // errorBorder: OutlineInputBorder(
+        //   //<-- SEE HERE
+        //   borderSide: BorderSide(width: 1, color: Color(0xffFD2FE2)),
+        // ),
+
+        hintStyle: const TextStyle(color: Color(0xff6EBFC3), fontSize: 14),
       ),
     );
   }

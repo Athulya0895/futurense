@@ -67,7 +67,7 @@ class _SignupState extends State<Signup> with BasePage<SignupVM> {
                           value: 1,
                           groupValue: id,
                           fillColor: MaterialStateColor.resolveWith(
-                              (states) => Color(0xffFDBA2F)),
+                              (states) => const Color(0xffFDBA2F)),
                           onChanged: (val) {
                             setState(() {
                               radioButtonItem = 'ONE';
@@ -75,19 +75,19 @@ class _SignupState extends State<Signup> with BasePage<SignupVM> {
                             });
                           },
                         ),
-                        Text(
+                       const Text(
                           'Data',
                           style: TextStyle(
                             fontSize: 17.0,
                           ),
                         ),
-                        SizedBox(
+                      const  SizedBox(
                           width: 20,
                         ),
                         Radio(
                           value: 2,
                           fillColor: MaterialStateColor.resolveWith(
-                              (states) => Color(0xffFDBA2F)),
+                              (states) =>const Color(0xffFDBA2F)),
                           groupValue: id,
                           onChanged: (val) {
                             setState(() {
@@ -212,7 +212,7 @@ class _SignupState extends State<Signup> with BasePage<SignupVM> {
                       ),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Login()));
+                            MaterialPageRoute(builder: (context) =>const Login()));
                       },
                       child: const Text(
                         'Register',

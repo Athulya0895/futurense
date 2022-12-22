@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
-import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/cancelled_appointments_mentee/cancelled_appointments_mentee.dart';
@@ -11,7 +10,8 @@ import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/previous
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/upcoming_appointments_mentee/upcoming_appointments_mentee.dart';
 
 class MyappointmentsMentee extends StatefulWidget {
-  const MyappointmentsMentee({super.key});
+  final jumbToIndex;
+  const MyappointmentsMentee({super.key, this.jumbToIndex});
 
   @override
   State<MyappointmentsMentee> createState() => _MyappointmentsMenteeState();
@@ -24,7 +24,7 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
     return builder((() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+            preferredSize: const Size.fromHeight(60.0),
             child: Container(
               decoration: const BoxDecoration(
                 boxShadow: [
@@ -37,14 +37,15 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
                 ],
               ),
               child: AppBar(
+                centerTitle: true,
                 title: const Text(
                   "My Meeting Room",
                   style: TextStyle(
-                      color: const Color(0xffFDBA2F),
+                      color: Color(0xffFDBA2F),
                       fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w700),
                 ),
-                leading: const BackButtonCustom(),
+                // leading: const BackButtonCustom(),
                 backgroundColor: Colors.white,
                 elevation: 0,
                 shape: const RoundedRectangleBorder(
@@ -63,7 +64,8 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UpcomingAppointmentsMentee()));
+                        builder: (context) =>
+                            const UpcomingAppointmentsMentee()));
               },
                   color: const Color(0xffFDBA2F),
                   lightColor: const Color(0xffFFC958)),
@@ -71,25 +73,20 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PreviousAppointmentsMentee()));
+                        builder: (context) =>
+                            const PreviousAppointmentsMentee()));
               },
                   color: const Color(0xff90D8DC),
                   lightColor: const Color(0xff95E1E4)),
-              _meetingsCardWidget("Cancelled Appointments", onpressed: () {
+              _meetingsCardWidget("Cancelled Meetings", onpressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CancelledAppointmentsMentee()));
+                        builder: (context) =>
+                            const CancelledAppointmentsMentee()));
               },
                   color: const Color(0xffFFAA5F),
                   lightColor: const Color(0xffFFBC80)),
-              SizedBox(
-                height: 160,
-                child: Image.asset(
-                  "assets/meeting.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
             ],
           ),
         )));
@@ -125,7 +122,7 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
                   topLeft: Radius.circular(10)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  offset: Offset(4, 4),
+                  offset: const Offset(4, 4),
                   blurRadius: 10,
                   color: lightColor.withOpacity(.8),
                 )
