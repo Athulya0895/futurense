@@ -14,6 +14,7 @@ class Filter extends StatefulWidget {
   final ExperienceModel? selectedExperience;
   final List<JobttileModel> jobtitleList;
   final JobttileModel? selectedJobtitle;
+  final FilterModel? filterData;
   // final Function(dynamic val, dynamic val1) filter;
   final Function(FilterModel? filtermodel) filter;
 
@@ -21,6 +22,7 @@ class Filter extends StatefulWidget {
       {super.key,
       required this.skillset,
       required this.filter,
+      required this.filterData,
       required this.selectedSkillset,
       required this.domainExpertise,
       required this.selectedDomain,
@@ -37,10 +39,10 @@ class _FilterState extends State<Filter> {
   @override
   void initState() {
     setState(() {
-      selectedSkillset = widget.selectedSkillset;
-      selectedDomain = widget.selectedDomain;
-      selectedExperience = widget.selectedExperience;
-      selectedJobtitle = widget.selectedJobtitle;
+      selectedSkillset = widget.filterData?.selectedSkillset;
+      selectedDomain = widget.filterData?.selectedDomain;
+      selectedExperience = widget.filterData?.selectedExperience;
+      selectedJobtitle = widget.filterData?.selectedJobtitle;
     });
 
     super.initState();
@@ -208,14 +210,10 @@ class _FilterState extends State<Filter> {
                           ),
                           color: const Color(0xffFDBA2F),
                           onPressed: () {
-                            filter.selectedJobtitle =
-                                selectedJobtitle?.jobtitlename;
-                            filter.selectedSkillset =
-                                selectedSkillset?.skillName;
-                            filter.selectedDomain =
-                                selectedDomain?.expertiseName;
-                            filter.selectedExperience =
-                                selectedExperience?.experienceName;
+                            filter.selectedJobtitle = selectedJobtitle;
+                            filter.selectedSkillset = selectedSkillset;
+                            filter.selectedDomain = selectedDomain;
+                            filter.selectedExperience = selectedExperience;
 
                             // widget.filter(selectedSkillset, selectedJobtitle);
                             widget.filter(filter);
@@ -234,6 +232,10 @@ class _FilterState extends State<Filter> {
                               selectedDomain = null;
                               selectedExperience = null;
                               selectedJobtitle = null;
+                              filter.selectedSkillset = null;
+                              filter.selectedDomain = null;
+                              filter.selectedExperience = null;
+                              filter.selectedJobtitle = null;
                             });
                           },
                           child: const Text(

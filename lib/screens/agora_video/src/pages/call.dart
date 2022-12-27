@@ -20,9 +20,16 @@ class CallPage extends StatefulWidget {
   bool? callIscut = false;
 
   final MeetingModel? mentor;
+  final String? meetingMode;
 
   /// Creates a call page with given channel name.
-  CallPage({Key? key, this.channelName, this.role, this.callIscut, this.mentor})
+  CallPage(
+      {Key? key,
+      this.channelName,
+      this.role,
+      this.callIscut,
+      this.mentor,
+      this.meetingMode})
       : super(key: key);
 
   @override
@@ -78,7 +85,10 @@ class _CallPageState extends State<CallPage> {
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
     _engine = await RtcEngine.create(appId);
-    await _engine.enableVideo();
+    widget.meetingMode == 'Video Call'
+        ? await _engine.enableVideo()
+        : await _engine.disableVideo();
+    // await _engine.disableVideo(); //
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(widget.role!);
   }
@@ -215,7 +225,7 @@ class _CallPageState extends State<CallPage> {
               // });
               print("Click on call end");
               // Navigator.pop(context);
-               Navigator.pop(context);
+              Navigator.pop(context);
               // showDialog(
               //     context: context,
               //     builder: (BuildContext context) {

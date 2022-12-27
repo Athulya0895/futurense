@@ -6,6 +6,7 @@ import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_list/widgets/filter.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/data_notfound.dart';
 import 'package:futurensemobileapp/screens/mentor/home/widgets/search.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee_detail/mentee_detail.dart';
@@ -66,6 +67,7 @@ class _MenteeListState extends State<MenteeList> with BasePage<MenteeListVM> {
                           barrierColor: Colors.black.withOpacity(0.5),
                           pageBuilder: (context, _, __) {
                             return Filter(
+                              filterData: provider.selectedFilter,
                               skillset: provider.skillsetList,
                               filter: provider.filter,
                               selectedSkillset: provider.selectedskillset,
@@ -179,91 +181,95 @@ class _MenteeListState extends State<MenteeList> with BasePage<MenteeListVM> {
             // physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext ctx, index) {
               return InkWell(
-                onTap: (() {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MenteeDetail(
-                              topmentor: provider.topMenteeList[index])));
-                }),
-                child: Stack(
-                  // alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      constraints: const BoxConstraints(maxHeight: 200),
-                      padding: const EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: const Color(0xff979797).withOpacity(0.1)),
-                          boxShadow: const <BoxShadow>[
-                            BoxShadow(
-                              offset: Offset(0, 2),
-                              blurStyle: BlurStyle.inner,
-                              blurRadius: 6,
-                              spreadRadius: 1.5,
-                              color: Color(0xffFFD680),
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ProfileImage(
-                              provider.topMenteeList[index].profilePic),
-                          //                   const SizedBox(
-                          //                     height: 20,
-                          //                   ),
-                          provider.isSelectedfilter == false
-                              ? Text(
-                                  "${provider.topMenteeList[index].fName.toString()} ${provider.topMenteeList[index].lName.toString()}",
-                                  textAlign: TextAlign.center,
-                                )
-                              : Text(
-                                  "${provider.filterList[index].fName.toString()} ${provider.filterList[index].lName.toString()}"),
-                          provider.isSelectedfilter == false
-                              ? Text(provider
-                                  .topMenteeList[index].designationName
-                                  .toString())
-                              : Text(provider.filterList[index].designationName
-                                  .toString()),
-                          provider.isSelectedfilter == false
-                              ? Text(
-                                  "⭐️ ${provider.topMenteeList[index].rating.toString()}(${provider.topMenteeList[index].reviews.toString()} reviews)",
-                                  style:
-                                      const TextStyle(color: Color(0xffFD2FE2)),
-                                )
-                              : Text(
-                                  "⭐️ ${provider.filterList[index].rating.toString()}(${provider.filterList[index].reviews.toString()} reviews)",
-                                  style:
-                                      const TextStyle(color: Color(0xffFD2FE2)),
-                                ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -1,
-                      right: 40,
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
+                  onTap: (() {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MenteeDetail(
+                                topmentor: provider.topMenteeList[index])));
+                  }),
+                  child: Stack(
+                    // alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        constraints: const BoxConstraints(maxHeight: 200),
+                        padding: const EdgeInsets.only(top: 10),
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xff6EBFC3),
-                        ),
-                        child: const Text(
-                          "View More",
-                          style: TextStyle(color: Colors.white),
+                            color: Colors.white,
+                            border: Border.all(
+                                color:
+                                    const Color(0xff979797).withOpacity(0.1)),
+                            boxShadow: const <BoxShadow>[
+                              BoxShadow(
+                                offset: Offset(0, 2),
+                                blurStyle: BlurStyle.inner,
+                                blurRadius: 6,
+                                spreadRadius: 1.5,
+                                color: Color(0xffFFD680),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ProfileImage(
+                                provider.topMenteeList[index].profilePic),
+                            //                   const SizedBox(
+                            //                     height: 20,
+                            //                   ),
+                            provider.filterList.isEmpty &&
+                                    provider.isSelectedfilter == false
+                                ? Text(
+                                    "${provider.topMenteeList[index].fName.toString()} ${provider.topMenteeList[index].lName.toString()}",
+                                    textAlign: TextAlign.center,
+                                  )
+                                : Text(
+                                    "${provider.filterList[index].fName.toString()} ${provider.filterList[index].lName.toString()}"),
+                            provider.filterList.isEmpty &&
+                                    provider.isSelectedfilter == false
+                                ? Text(provider
+                                    .topMenteeList[index].designationName
+                                    .toString())
+                                : Text(provider
+                                    .filterList[index].designationName
+                                    .toString()),
+                            provider.filterList.isEmpty &&
+                                    provider.isSelectedfilter == false
+                                ? Text(
+                                    "⭐️ ${provider.topMenteeList[index].rating.toString()}(${provider.topMenteeList[index].reviews.toString()} reviews)",
+                                    style: const TextStyle(
+                                        color: Color(0xffFD2FE2)),
+                                  )
+                                : Text(
+                                    "⭐️ ${provider.filterList[index].rating.toString()}(${provider.filterList[index].reviews.toString()} reviews)",
+                                    style: const TextStyle(
+                                        color: Color(0xffFD2FE2)),
+                                  ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
+                      Positioned(
+                        bottom: -1,
+                        right: 40,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xff6EBFC3),
+                          ),
+                          child: const Text(
+                            "View More",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ));
             }),
       ),
     );

@@ -72,7 +72,7 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
                                     radius: 60, // Image radius
                                     backgroundImage: FileImage(provider.image!),
                                   )
-                                : provider.user!.profilePic != null
+                                : provider.user?.profilePic != null
                                     ? CircleAvatar(
                                         backgroundColor: Colors.grey,
                                         radius: 60, // Image radius

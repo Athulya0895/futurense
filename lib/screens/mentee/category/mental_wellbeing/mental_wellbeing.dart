@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
-
 
 import 'package:futurensemobileapp/screens/mentee/category/mental_wellbeing/mental_wellbeing_vm.dart';
 import 'package:futurensemobileapp/screens/mentee/home/widget/search_mentee.dart';
@@ -26,7 +24,7 @@ class _MentalWellBeingState extends State<MentalWellBeing>
     return builder((() => Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize:const Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: Container(
             decoration: const BoxDecoration(
               boxShadow: [
@@ -44,7 +42,7 @@ class _MentalWellBeingState extends State<MentalWellBeing>
                   child: Text(
                     "Mental Well Being",
                     style: TextStyle(
-                        color:  Color(0xffFDBA2F),
+                        color: Color(0xffFDBA2F),
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -69,6 +67,7 @@ class _MentalWellBeingState extends State<MentalWellBeing>
                           barrierColor: Colors.black.withOpacity(0.5),
                           pageBuilder: (context, _, __) {
                             return Filter(
+                              filterData: provider.filterData,
                               skillset: provider.skillsetList,
                               filter: provider.filter,
                               selectedSkillset: provider.selectedskillset,
@@ -120,7 +119,6 @@ class _MentalWellBeingState extends State<MentalWellBeing>
 
 //search all mentors
 
-
   Widget _allmentorWidgetList() {
     return Padding(
       padding: const EdgeInsets.only(left: 15, bottom: 40),
@@ -135,16 +133,16 @@ class _MentalWellBeingState extends State<MentalWellBeing>
                 mainAxisSpacing: 20),
             itemCount: provider.topMentalWellbeing.length,
             shrinkWrap: true,
-            physics:const ScrollPhysics(),
+            physics: const ScrollPhysics(),
             itemBuilder: (BuildContext ctx, index) {
               return InkWell(
                   child: Container(
-                    padding:const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 15),
                     // alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                            color:const Color(0xff979797).withOpacity(0.1)),
+                            color: const Color(0xff979797).withOpacity(0.1)),
                         boxShadow: const <BoxShadow>[
                           BoxShadow(
                             offset: Offset(0, 1),
@@ -173,7 +171,7 @@ class _MentalWellBeingState extends State<MentalWellBeing>
                         Text(
                           "⭐️ ${provider.topMentalWellbeing[index].rating.toString()}(${provider.topMentalWellbeing[index].reviews.toString()} reviews)",
                           textAlign: TextAlign.center,
-                          style:const TextStyle(color: Color(0xffFD2FE2)),
+                          style: const TextStyle(color: Color(0xffFD2FE2)),
                         ),
                       ],
                     ),

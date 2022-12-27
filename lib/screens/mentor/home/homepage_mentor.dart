@@ -1,3 +1,4 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_zoom_drawer/config.dart';
@@ -9,8 +10,10 @@ import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/components/theme/theme.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
+import 'package:futurensemobileapp/screens/agora_video/src/pages/call.dart';
 import 'package:futurensemobileapp/screens/auth/login/login.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/view_detail.dart';
+import 'package:futurensemobileapp/screens/mentee/review_feedback/feedback.dart';
 import 'package:futurensemobileapp/screens/mentor/book_appointment/book_appointment.dart';
 import 'package:futurensemobileapp/screens/mentor/home/homepage_mentor_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/home/widgets/advertisment.dart';
@@ -23,6 +26,7 @@ import 'package:futurensemobileapp/screens/mentor/notification/notification_ment
 import 'package:futurensemobileapp/screens/mentor/setPreference/setpreference.dart';
 import 'package:futurensemobileapp/utils/validators.dart';
 import 'package:laravel_echo/laravel_echo.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../utils/locator.dart';
 import '../../../utils/share_prefs.dart';
@@ -54,7 +58,6 @@ class _ZoomMentorState extends State<ZoomMentor>
       // }, client: null);
       IO.Socket socket = IO.io(
         'http://13.127.192.123:6001',
-
       );
       Echo echo = Echo(
         client: socket,
@@ -527,6 +530,15 @@ class _HomepageMentorState extends State<HomepageMentor>
                                                       return Dialog(
                                                         backgroundColor:
                                                             Colors.white,
+                                                        insetPadding:
+                                                            EdgeInsets.only(
+                                                                left: 10,
+                                                                right: 10),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        10.0))),
                                                         elevation: 3,
                                                         child: Padding(
                                                           padding:
@@ -742,6 +754,29 @@ class _HomepageMentorState extends State<HomepageMentor>
                                                       );
                                                     });
                                                   });
+                                            },
+                                            //video call icon
+                                            icon: provider
+                                                        .confirmedupcomingmeetings[
+                                                            index]
+                                                        .communicationMode ==
+                                                    "Audio Call"
+                                                ? "assets/call.svg"
+                                                : "assets/videocall.svg",
+                                            iconbuttonPressed: () {
+                                              print(
+                                                  "pressed videocall by mentor");
+                                              //video call agora
+                                              print("channel Name mentor");
+                                              print(provider
+                                                  .confirmedupcomingmeetings[
+                                                      index]
+                                                  .channelName);
+                                              print("channel Name mentor");
+                                              onJoin(provider
+                                                      .confirmedupcomingmeetings[
+                                                  index]);
+                                              Navigator.pop(context);
                                             },
                                           );
                                         },
@@ -1131,6 +1166,79 @@ class _HomepageMentorState extends State<HomepageMentor>
             }),
       ),
     );
+  }
+
+//join call
+  Future<void> onJoin(MeetingModel? mentor) async {
+    // await for camera and mic permissions before pushing video page
+    await _handleCameraAndMic(Permission.camera);
+    await _handleCameraAndMic(Permission.microphone);
+    // push video page with given channel name
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CallPage(
+          channelName: mentor?.channelName,
+          role: ClientRole.Broadcaster,
+          mentor: mentor,
+        ),
+      ),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Hey ,'), // To display the title it is optional
+            content: const Text(
+                'Did you want to continue the call Click on Resume.or else click on Sharefeedback'), // Message which will be pop up on the screen
+            // Action widget which will provide the user to acknowledge the choice
+            actions: [
+              MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                color: Color(0xffFDBA2F),
+                // FlatButton widget is used to make a text to work like a button
+                textColor: Colors.white,
+                onPressed: () {
+                  print(" Resume call");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CallPage(
+                        channelName: mentor?.channelName,
+                        role: ClientRole.Broadcaster,
+                        mentor: mentor,
+                      ),
+                    ),
+                  );
+                }, // function used to perform after pressing the button
+                child: Text('Resume call'),
+              ),
+              MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                color: Colors.redAccent,
+                textColor: Colors.white,
+                onPressed: () {
+                  //Go to feedback page make it must type
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (Context) => FeedbackPage(mentor: mentor)));
+                },
+                child: Text('End Call'),
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<void> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    print(status);
   }
 
   @override

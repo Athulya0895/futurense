@@ -150,7 +150,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                         .confirmedupcomingmeetings[
                                                             index]
                                                         .communicationMode ==
-                                                    "audio Call"
+                                                    "Audio Call"
                                                 ? "assets/call.svg"
                                                 : "assets/videocall.svg",
                                             buttonText1: "Reschedule",
@@ -616,7 +616,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                                   .confirmedupcomingmeetings[
                                                                       index]
                                                                   .communicationMode ==
-                                                              "audio Call"
+                                                              "Audio Call"
                                                           ? "assets/call.svg"
                                                           : "assets/videocall.svg",
                                                       buttonText2: "Cancel",
@@ -1016,66 +1016,66 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                         //     .channelName);
                                                         // print(
                                                         //     "channel Name mentee");
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    'Hey ,'), // To display the title it is optional
-                                                                content: Text(
-                                                                    'Did you want to continue the call Click on Resume.or else click on Sharefeedback'), // Message which will be pop up on the screen
-                                                                // Action widget which will provide the user to acknowledge the choice
-                                                                actions: [
-                                                                  MaterialButton(
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              25),
-                                                                    ),
-                                                                    color: Color(
-                                                                        0xffFDBA2F),
-                                                                    // FlatButton widget is used to make a text to work like a button
-                                                                    textColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    onPressed:
-                                                                        () {
-                                                                      print(
-                                                                          " Resume call");
-                                                                      CallPage();
-                                                                    }, // function used to perform after pressing the button
-                                                                    child: Text(
-                                                                        'Resume call'),
-                                                                  ),
-                                                                  MaterialButton(
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              25),
-                                                                    ),
-                                                                    color: Colors
-                                                                        .redAccent,
-                                                                    textColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    onPressed:
-                                                                        () {
-                                                                      //Go to feedback page make it must type
-                                                                      Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder: (Context) => FeedbackPage(mentor: provider.confirmedupcomingmeetings[index])));
-                                                                    },
-                                                                    child: Text(
-                                                                        'End Call'),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            });
+                                                        // showDialog(
+                                                        //     context: context,
+                                                        //     builder:
+                                                        //         (BuildContext
+                                                        //             context) {
+                                                        //       return AlertDialog(
+                                                        //         title: Text(
+                                                        //             'Hey ,'), // To display the title it is optional
+                                                        //         content: Text(
+                                                        //             'Did you want to continue the call Click on Resume.or else click on Sharefeedback'), // Message which will be pop up on the screen
+                                                        //         // Action widget which will provide the user to acknowledge the choice
+                                                        //         actions: [
+                                                        //           MaterialButton(
+                                                        //             shape:
+                                                        //                 RoundedRectangleBorder(
+                                                        //               borderRadius:
+                                                        //                   BorderRadius.circular(
+                                                        //                       25),
+                                                        //             ),
+                                                        //             color: Color(
+                                                        //                 0xffFDBA2F),
+                                                        //             // FlatButton widget is used to make a text to work like a button
+                                                        //             textColor:
+                                                        //                 Colors
+                                                        //                     .white,
+                                                        //             onPressed:
+                                                        //                 () {
+                                                        //               print(
+                                                        //                   " Resume call");
+                                                        //               CallPage();
+                                                        //             }, // function used to perform after pressing the button
+                                                        //             child: Text(
+                                                        //                 'Resume call'),
+                                                        //           ),
+                                                        //           MaterialButton(
+                                                        //             shape:
+                                                        //                 RoundedRectangleBorder(
+                                                        //               borderRadius:
+                                                        //                   BorderRadius.circular(
+                                                        //                       25),
+                                                        //             ),
+                                                        //             color: Colors
+                                                        //                 .redAccent,
+                                                        //             textColor:
+                                                        //                 Colors
+                                                        //                     .white,
+                                                        //             onPressed:
+                                                        //                 () {
+                                                        //               //Go to feedback page make it must type
+                                                        //               Navigator.push(
+                                                        //                   context,
+                                                        //                   MaterialPageRoute(
+                                                        //                       builder: (Context) => FeedbackPage(mentor: provider.confirmedupcomingmeetings[index])));
+                                                        //             },
+                                                        //             child: Text(
+                                                        //                 'End Call'),
+                                                        //           ),
+                                                        //         ],
+                                                        //       );
+                                                        //     });
 
                                                         await onJoin(provider
                                                                 .confirmedupcomingmeetings[
@@ -1174,7 +1174,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                         .sentUpcomingMeeting[
                                                             index]
                                                         .communicationMode ==
-                                                    "audio Call"
+                                                    "Audio Call"
                                                 ? "assets/calldisabled.svg"
                                                 : "assets/videocalldisabled.svg",
                                             // buttonText1: "Remind",
@@ -1204,7 +1204,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                                 .sentUpcomingMeeting[
                                                                     index]
                                                                 .communicationMode ==
-                                                            "audio Call"
+                                                            "Audio Call"
                                                         ? "assets/calldisabled.svg"
                                                         : "assets/videocalldisabled.svg",
                                                   );
@@ -1270,7 +1270,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                         .receivedUpcomingMeeting[
                                                             index]
                                                         .communicationMode ==
-                                                    "audio Call"
+                                                    "Audio Call"
                                                 ? "assets/calldisabled.svg"
                                                 : "assets/videocalldisabled.svg",
                                             buttonText1: "Accept",
@@ -1720,7 +1720,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                                 .receivedUpcomingMeeting[
                                                                     index]
                                                                 .communicationMode ==
-                                                            "audio Call"
+                                                            "Audio Call"
                                                         ? "assets/calldisabled.svg"
                                                         : "assets/videocalldisabled.svg",
                                                   );
@@ -1762,6 +1762,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
 
   Future<void> onJoin(MeetingModel? mentee) async {
     // await for camera and mic permissions before pushing video page
+
     await _handleCameraAndMic(Permission.camera);
     await _handleCameraAndMic(Permission.microphone);
     // push video page with given channel name
@@ -1773,6 +1774,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
           channelName: mentee?.channelName,
           role: ClientRole.Broadcaster,
           mentor: mentee,
+          meetingMode: mentee?.communicationMode,
         ),
       ),
     );
@@ -1795,7 +1797,17 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                 textColor: Colors.white,
                 onPressed: () {
                   print(" Resume call");
-                  CallPage();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CallPage(
+                        channelName: mentee?.channelName,
+                        role: ClientRole.Broadcaster,
+                        mentor: mentee,
+                        meetingMode: mentee?.communicationMode,
+                      ),
+                    ),
+                  );
                 }, // function used to perform after pressing the button
                 child: Text('Resume call'),
               ),

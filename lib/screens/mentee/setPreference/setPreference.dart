@@ -198,7 +198,10 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                           //       MaterialPageRoute(
                           //           builder: (context) => MyAccount()));
                           // }
-                        })
+                        }),
+                    const SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               ),

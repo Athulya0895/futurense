@@ -147,7 +147,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                         .confirmedupcomingmeetings[
                                                             index]
                                                         .communicationMode ==
-                                                    "audio Call"
+                                                    "Audio Call"
                                                 ? "assets/call.svg"
                                                 : "assets/videocall.svg",
                                             buttonText1: "Reschedule",
@@ -378,6 +378,30 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                               );
                                                             });
                                                           });
+                                                    },
+                                                    icon: provider
+                                                                .confirmedupcomingmeetings[
+                                                                    index]
+                                                                .communicationMode ==
+                                                            "Audio Call"
+                                                        ? "assets/call.svg"
+                                                        : "assets/videocall.svg",
+                                                    iconbuttonPressed: () {
+                                                      print(
+                                                          "pressed videocall by mentor");
+                                                      //video call agora
+                                                      print(
+                                                          "channel Name mentor");
+                                                      print(provider
+                                                          .confirmedupcomingmeetings[
+                                                              index]
+                                                          .channelName);
+                                                      print(
+                                                          "channel Name mentor");
+                                                      onJoin(provider
+                                                              .confirmedupcomingmeetings[
+                                                          index]);
+                                                      Navigator.pop(context);
                                                     },
                                                   );
                                                 },
@@ -685,7 +709,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                         .sentUpcomingMeeting[
                                                             index]
                                                         .communicationMode ==
-                                                    "audio Call"
+                                                    "Audio Call"
                                                 ? "assets/calldisabled.svg"
                                                 : "assets/videocalldisabled.svg",
                                             // buttonText1: "Remind",
@@ -714,6 +738,13 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     // },
 
                                                     iconbuttonPressed: () {},
+                                                    icon: provider
+                                                                .sentUpcomingMeeting[
+                                                                    index]
+                                                                .communicationMode ==
+                                                            "Audio Call"
+                                                        ? "assets/calldisabled.svg"
+                                                        : "assets/videocalldisabled.svg",
                                                   );
                                                 },
                                               );
@@ -779,7 +810,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                         .receivedUpcomingMeeting[
                                                             index]
                                                         .communicationMode ==
-                                                    "audio Call"
+                                                    "Audio Call"
                                                 ? "assets/calldisabled.svg"
                                                 : "assets/videocalldisabled.svg",
                                             buttonText1: "Accept",
@@ -934,7 +965,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                           height:
                                                                               10),
                                                                       Padding(
-                                                                        padding: EdgeInsets.only(
+                                                                        padding: const EdgeInsets.only(
                                                                             left:
                                                                                 15,
                                                                             right:
@@ -958,7 +989,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                             30,
                                                                       ),
                                                                       MaterialButton(
-                                                                          color: Color(
+                                                                          color: const Color(
                                                                               0xffFDBA2F),
                                                                           materialTapTargetSize: MaterialTapTargetSize
                                                                               .shrinkWrap,
@@ -1029,7 +1060,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                 .receivedUpcomingMeeting[
                                                                     index]
                                                                 .communicationMode ==
-                                                            "audio Call"
+                                                            "Audio Call"
                                                         ? "assets/calldisabled.svg"
                                                         : "assets/videocalldisabled.svg",
                                                   );
@@ -1276,6 +1307,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                             },
                                             iconButtonpressed: () {
                                               //agora video call / audio call
+
                                               print("channel Name mentor");
                                               print(provider
                                                   .confirmedupcomingmeetings[
@@ -1331,6 +1363,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
           channelName: mentor?.channelName,
           role: ClientRole.Broadcaster,
           mentor: mentor,
+          meetingMode: mentor?.communicationMode,
         ),
       ),
     );
@@ -1353,7 +1386,16 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                 textColor: Colors.white,
                 onPressed: () {
                   print(" Resume call");
-                  CallPage();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CallPage(
+                        channelName: mentor?.channelName,
+                        role: ClientRole.Broadcaster,
+                        mentor: mentor,
+                      ),
+                    ),
+                  );
                 }, // function used to perform after pressing the button
                 child: Text('Resume call'),
               ),

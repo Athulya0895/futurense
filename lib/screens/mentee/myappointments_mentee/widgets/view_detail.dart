@@ -31,6 +31,9 @@ class ViewDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.white,
+      insetPadding: EdgeInsets.only(left: 10, right: 10),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       elevation: 3,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -58,46 +61,41 @@ class ViewDetail extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          Column(
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(color: Color(0xffF5F5F5), width: 1)),
-                margin: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-                child: Column(
-                  children: [
-                    ListTile(
-                      contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                      leading: ProfileImage(url),
-                      trailing: IconButton(
-                          onPressed: () {
-                            iconbuttonPressed!();
-                          },
-                          icon: SvgPicture.asset(icon ?? "")),
-                      //  Container(
-                      //   padding: const EdgeInsets.all(10),
-                      //   decoration: BoxDecoration(
-                      //       color: const Color(0xffFFC02D),
-                      //       borderRadius: BorderRadius.circular(10)),
-                      //   child: SvgPicture.asset(
-                      //     meetingDetails?.communicationMode == "audio Call"
-                      //         ? "assets/call.svg"
-                      //         : "assets/videocall.svg",
-                      //     color: Colors.white,
-                      //   ),
-                      // )
-
-                      title: Padding(
-                        padding: const EdgeInsets.only(top: 10),
+          Container(
+            //delete expanded
+            margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xffF5F5F5), width: 1),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ProfileImage(url),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               meetingDetails?.userName ?? "",
                               style: const TextStyle(
-                                  fontSize: 16, color: Color(0xff202020)),
+                                  fontSize: 16,
+                                  color: Color(0xff202020),
+                                  fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
                               height: 5,
@@ -118,37 +116,67 @@ class ViewDetail extends StatelessWidget {
                             Text(
                               "Meeting Duration : ${meetingDetails?.duration ?? ""}",
                               style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w700),
+                                  fontSize: 12, fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              "Meeting Agenda: : ${meetingDetails?.meetingAgenda}",
+                              "Meeting Agenda : ${meetingDetails?.meetingAgenda}",
                               style: const TextStyle(
-                                fontSize: 12,
-                              ),
+                                  fontSize: 12, fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      // height:
-                      //     MediaQuery.of(context).size.height *
-                      //         0.06,
-                      padding: const EdgeInsets.only(top: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                          color: const Color(0xffEBF6F7),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            // buttonText2pressed != null
-                            buttonText2 != null
-                                ? MaterialButton(
-                                    // color: Colors.transparent,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                iconbuttonPressed!();
+                                print("meeting");
+                              },
+                              icon: SvgPicture.asset(icon ?? "")),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                // Text("data")
+                Container(
+                    width: double.infinity,
+                    // height: 67,
+                    height: MediaQuery.of(context).size.height * 0.067,
+                    padding: const EdgeInsets.only(right: 10),
+                    decoration: const BoxDecoration(
+                        color: Color(0xffEBF6F7),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        buttonText2 != null
+                            ? Align(
+                                alignment: Alignment.centerRight,
+                                child: MaterialButton(
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    // minWidth: 30,
+                                    // height: 30,
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                    ),
                                     textColor: const Color(0xffFFAA5F),
+
+                                    // color: const Color(0xff6EBFC3),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(10.0),
@@ -156,40 +184,188 @@ class ViewDetail extends StatelessWidget {
                                         side: BorderSide(
                                             color: Color(0xffFFAA5F),
                                             width: 1)),
-                                    child: Text(buttonText2.toString()),
+                                    child: Text(
+                                      buttonText2 ?? "",
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     onPressed: () {
                                       buttonText2pressed!();
-                                    })
-                                : const SizedBox(),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            buttonText1 != null
-                                ? MaterialButton(
-                                    color: const Color(0xff6EBFC3),
+                                    }),
+                              )
+                            : const SizedBox(),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        buttonText1 != null
+                            ? Align(
+                                alignment: Alignment.centerRight,
+                                child: MaterialButton(
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    // minWidth: 30,
+                                    // height: 30,
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                    ),
                                     textColor: Colors.white,
+                                    color: const Color(0xff6EBFC3),
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(10.0),
                                       ),
                                     ),
                                     child: Text(
-                                      buttonText1.toString(),
-                                      style: const TextStyle(fontSize: 12),
+                                      buttonText1 ?? "",
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     onPressed: () {
+                                      // print("pressed");
                                       buttonText1pressed!();
-                                    })
-                                : SizedBox(),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          )
+                                    }),
+                              )
+                            : const SizedBox()
+                      ],
+                    )),
+              ],
+            ),
+          ),
+          // Column(
+          //   children: [
+          //     Card(
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(10),
+          //           side: const BorderSide(color: Color(0xffF5F5F5), width: 1)),
+          //       margin: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+          //       child: Column(
+          //         children: [
+          //           ListTile(
+          //             contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+          //             leading: ProfileImage(url),
+          //             trailing: IconButton(
+          //                 onPressed: () {
+          //                   iconbuttonPressed!();
+          //                 },
+          //                 icon: SvgPicture.asset(icon ?? "")),
+          //             //  Container(
+          //             //   padding: const EdgeInsets.all(10),
+          //             //   decoration: BoxDecoration(
+          //             //       color: const Color(0xffFFC02D),
+          //             //       borderRadius: BorderRadius.circular(10)),
+          //             //   child: SvgPicture.asset(
+          //             //     meetingDetails?.communicationMode == "audio Call"
+          //             //         ? "assets/call.svg"
+          //             //         : "assets/videocall.svg",
+          //             //     color: Colors.white,
+          //             //   ),
+          //             // )
+
+          //             title: Padding(
+          //               padding: const EdgeInsets.only(top: 10),
+          //               child: Column(
+          //                 mainAxisAlignment: MainAxisAlignment.start,
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 children: [
+          //                   Text(
+          //                     meetingDetails?.userName ?? "",
+          //                     style: const TextStyle(
+          //                         fontSize: 16, color: Color(0xff202020)),
+          //                   ),
+          //                   const SizedBox(
+          //                     height: 5,
+          //                   ),
+          //                   Text(
+          //                     meetingDetails?.communicationMode ?? "",
+          //                     style: const TextStyle(fontSize: 12),
+          //                   ),
+          //                   const SizedBox(
+          //                     height: 5,
+          //                   ),
+          //                   Text(
+          //                       "${meetingDetails?.fromDate ?? ""}  -  ${meetingDetails?.startTime ?? ""}",
+          //                       style: const TextStyle(fontSize: 12)),
+          //                   const SizedBox(
+          //                     height: 5,
+          //                   ),
+          //                   Text(
+          //                     "Meeting Duration : ${meetingDetails?.duration ?? ""}",
+          //                     style: const TextStyle(
+          //                         fontSize: 12, fontWeight: FontWeight.w700),
+          //                   ),
+          //                   Text(
+          //                     "Meeting Agenda: : ${meetingDetails?.meetingAgenda}",
+          //                     style: const TextStyle(
+          //                       fontSize: 12,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //           Container(
+          //             width: double.infinity,
+          //             // height:
+          //             //     MediaQuery.of(context).size.height *
+          //             //         0.06,
+          //             padding: const EdgeInsets.only(top: 10, bottom: 10),
+          //             decoration: BoxDecoration(
+          //                 color: const Color(0xffEBF6F7),
+          //                 borderRadius: BorderRadius.circular(10)),
+          //             child: Padding(
+          //               padding: const EdgeInsets.only(right: 10),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.end,
+          //                 children: [
+          //                   // buttonText2pressed != null
+          //                   buttonText2 != null
+          //                       ? MaterialButton(
+          //                           // color: Colors.transparent,
+          //                           textColor: const Color(0xffFFAA5F),
+          //                           shape: const RoundedRectangleBorder(
+          //                               borderRadius: BorderRadius.all(
+          //                                 Radius.circular(10.0),
+          //                               ),
+          //                               side: BorderSide(
+          //                                   color: Color(0xffFFAA5F),
+          //                                   width: 1)),
+          //                           child: Text(buttonText2.toString()),
+          //                           onPressed: () {
+          //                             buttonText2pressed!();
+          //                           })
+          //                       : const SizedBox(),
+          //                   const SizedBox(
+          //                     width: 20,
+          //                   ),
+          //                   buttonText1 != null
+          //                       ? MaterialButton(
+          //                           color: const Color(0xff6EBFC3),
+          //                           textColor: Colors.white,
+          //                           shape: const RoundedRectangleBorder(
+          //                             borderRadius: BorderRadius.all(
+          //                               Radius.circular(10.0),
+          //                             ),
+          //                           ),
+          //                           child: Text(
+          //                             buttonText1.toString(),
+          //                             style: const TextStyle(fontSize: 12),
+          //                           ),
+          //                           onPressed: () {
+          //                             buttonText1pressed!();
+          //                           })
+          //                       : SizedBox(),
+          //                 ],
+          //               ),
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     )
+          //   ],
+          // )
         ],
       ),
     );

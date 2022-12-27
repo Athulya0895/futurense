@@ -154,16 +154,18 @@ class MentorListVM extends BaseViewModel {
   // List filterList = [];
   bool isSelectedfilter = false;
   List<MentorModel> filterList = [];
+  FilterModel? filterData;
   filter(FilterModel? filter) async {
+    filterData = filter;
     // selectedskillset = selectedSkill;
     // selectedJob = selectedjob;
     //TODO add parameters like this in function and Filter Widget
     FormData formData = FormData();
     formData.fields.addAll([
-      MapEntry("skill", filter?.selectedSkillset ?? ""),
-      MapEntry("domain_expertise", filter?.selectedDomain?.trim() ?? ""),
-      MapEntry("experience", filter?.selectedDomain?.trim() ?? ""),
-      MapEntry("job_title", filter?.selectedJobtitle?.trim() ?? ""),
+      MapEntry("skill", filter?.selectedSkillset?.skillName ?? ""),
+      MapEntry("domain_expertise", filter?.selectedDomain?.expertiseName ?? ""),
+      MapEntry("experience", filter?.selectedExperience?.experienceName ?? ""),
+      MapEntry("job_title", filter?.selectedJobtitle?.jobtitlename ?? ""),
     ]);
     showLoading();
     final res = await api.menteeRepo.filterMentee(formData, "mentorFilter");

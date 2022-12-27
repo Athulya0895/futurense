@@ -25,7 +25,7 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
     return builder((() => Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize:const Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: Container(
             decoration: const BoxDecoration(
               boxShadow: [
@@ -43,7 +43,7 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
                   child: Text(
                     "Technical Assistance",
                     style: TextStyle(
-                        color:  Color(0xffFDBA2F),
+                        color: Color(0xffFDBA2F),
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -68,6 +68,7 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
                           barrierColor: Colors.black.withOpacity(0.5),
                           pageBuilder: (context, _, __) {
                             return Filter(
+                              filterData: provider.selectedFilter,
                               skillset: provider.skillsetList,
                               filter: provider.filter,
                               selectedSkillset: provider.selectedskillset,
@@ -86,7 +87,7 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
                                 parent: animation,
                                 curve: Curves.easeOut,
                               ).drive(Tween<Offset>(
-                                begin:const Offset(0, -1.0),
+                                begin: const Offset(0, -1.0),
                                 end: Offset.zero,
                               )),
                               child: child,
@@ -191,12 +192,12 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
             itemBuilder: (BuildContext ctx, index) {
               return InkWell(
                   child: Container(
-                    padding:const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 15),
                     // alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                            color:const Color(0xff979797).withOpacity(0.1)),
+                            color: const Color(0xff979797).withOpacity(0.1)),
                         boxShadow: const <BoxShadow>[
                           BoxShadow(
                             offset: Offset(0, 1),
@@ -227,7 +228,7 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
                         Text(
                           "⭐️ ${provider.topTechmentorList[index].rating.toString()}(${provider.topTechmentorList[index].reviews.toString()} reviews)",
                           textAlign: TextAlign.center,
-                          style:const TextStyle(color: Color(0xffFD2FE2)),
+                          style: const TextStyle(color: Color(0xffFD2FE2)),
                         ),
                       ],
                     ),

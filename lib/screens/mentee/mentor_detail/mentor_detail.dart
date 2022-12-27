@@ -68,9 +68,10 @@ class _MentorDetailsState extends State<MentorDetails>
                 ],
               ),
               child: AppBar(
+                centerTitle: true,
                 title: Text(
                   "${widget.topmentor!.fName.toString()} ${widget.topmentor!.lName.toString()}",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: const Color(0xffFDBA2F),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
@@ -101,56 +102,60 @@ class _MentorDetailsState extends State<MentorDetails>
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 18)),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(8, 8, 8, 40),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          // border: Border.all(color: Color(0xffDCF1F4)),
-                          boxShadow: const <BoxShadow>[
-                            BoxShadow(
-                              offset: Offset(0, 6),
-                              blurStyle: BlurStyle.outer,
-                              blurRadius: 10,
-                              spreadRadius: 2,
-                              color: Color(0xffDCF1F4),
-                            )
-                          ],
-                        ),
-                        child: ViewMore(
-                          text: widget.topmentor!.aboutYou.toString(),
-                        ),
-                      ),
+                      // Container(
+                      //   padding: EdgeInsets.fromLTRB(8, 8, 8, 40),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     // border: Border.all(color: Color(0xffDCF1F4)),
+                      //     boxShadow: const <BoxShadow>[
+                      //       BoxShadow(
+                      //         offset: Offset(0, 6),
+                      //         blurStyle: BlurStyle.outer,
+                      //         blurRadius: 10,
+                      //         spreadRadius: 2,
+                      //         color: Color(0xffDCF1F4),
+                      //       )
+                      //     ],
+                      //   ),
+                      //   child: ViewMore(
+                      //     text: widget.topmentor!.aboutYou.toString(),
+                      //   ),
+                      // ),
+                      containerWidget(widget.topmentor!.aboutYou.toString()),
                       // const Text(
                       //     "Bellamy Nicholas is a top mentor at London Bridge Univercity at London. He has achieved several awards and recognition for is contri... "),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       const Text("Experience",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 18)),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
-                      Text(
-                          "${widget.topmentor?.workExperience.toString() ?? ""}  years",
-                          style: const TextStyle(
-                              color: Color(0xff6B779A), fontSize: 14)),
+                      // Text(
+                      //     "${widget.topmentor?.workExperience.toString() ?? ""}  years",
+                      //     style: const TextStyle(
+                      //         color: Color(0xff6B779A), fontSize: 14)),
+                      containerWidget(
+                          "${widget.topmentor?.workExperience.toString() ?? ""}  years"),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       const Text("Can help you with",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 18)),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
-                      Text(widget.topmentor!.canHelpYou.toString(),
-                          style: const TextStyle(
-                              color: Color(0xff6B779A), fontSize: 14)),
+                      // Text(widget.topmentor!.canHelpYou.toString(),
+                      //     style: const TextStyle(
+                      //         color: Color(0xff6B779A), fontSize: 14)),
+                      containerWidget(widget.topmentor!.canHelpYou.toString()),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       const Text(
                         "Target Skills",
@@ -160,15 +165,16 @@ class _MentorDetailsState extends State<MentorDetails>
                             color: Color(0xff222B45)),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
-                      Text(
-                        widget.topmentor?.skills ?? "",
-                        style: const TextStyle(
-                            color: Color(0xff6B779A), fontSize: 14),
-                      ),
+                      // Text(
+                      //   widget.topmentor?.skills ?? "",
+                      //   style: const TextStyle(
+                      //       color: Color(0xff6B779A), fontSize: 14),
+                      // ),
+                      containerWidget(widget.topmentor?.skills ?? ""),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
 
                       const Text("Prefered Communication",
@@ -408,6 +414,28 @@ class _MentorDetailsState extends State<MentorDetails>
         ),
         Text(name)
       ],
+    );
+  }
+
+//details about mentee
+  Widget containerWidget(String text) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          // border: Border.all(color: Color(0xffDCF1F4)),
+
+          boxShadow: const [
+            BoxShadow(
+                color: Color(0xffDCF1F4),
+                spreadRadius: 0,
+                blurRadius: 4,
+                offset: const Offset(0, 3))
+          ]),
+      child: ViewMore(
+        text: text,
+      ),
     );
   }
 

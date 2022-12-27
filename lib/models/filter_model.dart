@@ -1,8 +1,10 @@
+import 'package:futurensemobileapp/models/user_model.dart';
+
 class FilterModel {
-  String? selectedSkillset;
-  String? selectedJobtitle;
-  String? selectedDomain;
-  String? selectedExperience;
+  SkillsetModel? selectedSkillset;
+  JobttileModel? selectedJobtitle;
+  DomainExpertiseModel? selectedDomain;
+  ExperienceModel? selectedExperience;
   FilterModel(
       {this.selectedSkillset,
       this.selectedJobtitle,

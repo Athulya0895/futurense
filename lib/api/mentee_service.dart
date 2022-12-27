@@ -29,6 +29,7 @@ abstract class MenteeRepo {
   Future<dynamic> acceptMeeting(FormData body);
   Future<dynamic> cancelMeeting(FormData body);
   Future<dynamic> rescheduleMeeting(FormData body);
+  Future<dynamic> getNotification();
 }
 
 class _MenteeServices implements MenteeRepo {
@@ -38,7 +39,6 @@ class _MenteeServices implements MenteeRepo {
 
   @override
   Future getMenteePreference() async {
-    
     try {
       var res = await _dio.get(ApiConfig.getMentorPreference, queryParameters: {
         'fn': "MenteeSkillSet",
@@ -324,6 +324,20 @@ class _MenteeServices implements MenteeRepo {
       return res;
     } catch (e) {
       log("Error while calling reschedule Meeting");
+      return false;
+    }
+  }
+
+  @override
+  Future getNotification() async {
+    try {
+      final res = await _dio.get(ApiConfig.baseapi, queryParameters: {
+        'fn': "getNotifications",
+        'user_id': prefs.userId.toString(),
+      });
+      return res;
+    } catch (e) {
+      log("Error while calling getNotification");
       return false;
     }
   }

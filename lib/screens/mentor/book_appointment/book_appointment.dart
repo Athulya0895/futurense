@@ -55,7 +55,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
             ),
             child: AppBar(
               centerTitle: true,
-              title: Text(
+              title:const Text(
                 "Schedule Meeting",
                 style: TextStyle(
                     color: const Color(0xffFDBA2F),

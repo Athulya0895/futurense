@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:futurensemobileapp/firebase_options.dart';
 import 'package:futurensemobileapp/screens/splas_screen/splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laravel_echo/laravel_echo.dart';
 import 'package:provider/provider.dart';
 import 'utils/locator.dart';
 import 'utils/share_prefs.dart';
@@ -20,17 +21,69 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  // @override
-  // void initState() {
-  //   print("entering----");
-  //   FirebaseMessaging.instance.getToken().then((newToken) {
-  //     print("FCM token:");
-  //     print(newToken);
+  // const String BEARER_TOKEN = 'YOUR_BEARER_TOKEN_HERE';
 
-  //     //save device token to server
-  //   });
-  // }
-  
+// // Create socket.io client
+//   IO.Socket socket = IO.io(
+//     'http://13.127.192.123',
+//     IO.OptionBuilder()
+//         .disableAutoConnect()
+//         .setTransports(['websocket']).build(),
+//   );
+
+// // Create echo instance
+//   Echo echo = new Echo(
+//     broadcaster: EchoBroadcasterType.SocketIO,
+//     client: socket,
+//   );
+
+// // Listening public channel
+//   echo.channel('messages').listen('MessageCreated', (e) {
+//     print(e);
+//   });
+
+// // Listening private channel
+// // Needs auth. See details how to authorize channel below in guides
+//   echo.private('messages').listen('MessageCreated', (e) {
+//     print(e);
+//   });
+
+// // Listening presence channel
+// // Needs auth. See details how to authorize channel below in guides
+//   echo.join('presence-channel').here((users) {
+//     print(users);
+//   }).joining((user) {
+//     print(user);
+//   }).leaving((user) {
+//     print(user);
+//   }).listen('PresenceEvent', (e) {
+//     print(e);
+//   });
+
+// Accessing socket instance
+  // echo.connector.socket.onConnect((_) => print('connected'));
+  // echo.connector.socket.onDisconnect((_) => print('disconnected'));
+  //socket Nodejs
+  String url = 'http://13.127.192.123';
+  String url1 = 'http://192.168.69.106:6001';
+  String url2 = 'http://192.168.70.102:6001';
+  IO.Socket socket = IO.io(
+      url2,
+      IO.OptionBuilder().setTransports(['websocket']) // for Flutter or Dart VM
+          .setExtraHeaders({'foo': 'bar'}) // optional
+          .build());
+  socket.onConnect((_) {
+    print('connect');
+    socket.emit('msg', 'test');
+  });
+  socket.on('', (data) {
+    
+  });
+  socket.onDisconnect((_) => print('disconnect'));
+  socket.onerror((e) => print(e));
+  // socket.on('fromServer', () => print());
+  //socket nodejs
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

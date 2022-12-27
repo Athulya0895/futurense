@@ -171,15 +171,17 @@ class MenteeListVM extends BaseViewModel {
   // List filterList = [];
   bool isSelectedfilter = false;
   List<MentorModel> filterList = [];
+  FilterModel? selectedFilter;
   filter(FilterModel? filter) async {
+    selectedFilter = filter;
     // selectedskillset = selectedSkill;
     //TODO add parameters like this in function and Filter Widget
     FormData formData = FormData();
     formData.fields.addAll([
-      MapEntry("skill", filter?.selectedSkillset ?? ""),
-      MapEntry("domain_expertise", filter?.selectedDomain?.trim() ?? ""),
-      MapEntry("experience", filter?.selectedDomain?.trim() ?? ""),
-      MapEntry("job_title", filter?.selectedJobtitle?.trim() ?? ""),
+      MapEntry("skill", filter?.selectedSkillset?.skillName ?? ""),
+      MapEntry("domain_expertise", filter?.selectedDomain?.expertiseName ?? ""),
+      MapEntry("experience", filter?.selectedExperience?.experienceName ?? ""),
+      MapEntry("job_title", filter?.selectedJobtitle?.jobtitlename ?? ""),
     ]);
     showLoading();
     final res = await api.mentorRepo.filterMentor(formData, "menteeFilter");
@@ -189,11 +191,13 @@ class MenteeListVM extends BaseViewModel {
       if (res.data['status'] == true) {
         isSelectedfilter = true;
         print("true");
-        List tempfilterList = res.data['data'];
+        List tempfilterList = res.data['data'] ?? [];
+        tempfilterList.isEmpty ? print("emptyfilterList") : print("filterList");
         print(filterList);
         filterList =
             tempfilterList.map((e) => MentorModel.fromjson(e)).toList();
-        showNotification(res.data["message"]);
+        // showNotification(res.data["message"]);
+
         // print("filterList");
         // print(filterList);
         // print("filterList");

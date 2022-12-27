@@ -68,6 +68,7 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
                           barrierColor: Colors.black.withOpacity(0.5),
                           pageBuilder: (context, _, __) {
                             return Filter(
+                              filterData: provider.filterData,
                               skillset: provider.skillsetList,
                               filter: provider.filter,
                               selectedSkillset: provider.selectedskillset,
@@ -169,7 +170,7 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
                 childAspectRatio: 3 / 3.8,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
-            itemCount: provider.filterList.isEmpty ||
+            itemCount: provider.filterList.isEmpty &&
                     provider.isSelectedfilter == false
                 ? provider.topMentorList.length
                 : provider.filterList.length,
