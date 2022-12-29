@@ -72,7 +72,7 @@ class _PreviousMeetingMentorState extends State<PreviousMeetingMentor>
                               .previousMeetings[index].communicationMode,
                           fromDate: provider.previousMeetings[index].fromDate,
                           startTime: provider.previousMeetings[index].startTime,
-                          status: "Pending",
+                          status: "Completed",
                           icon: "assets/done.svg",
                           buttonText1: "Schedule Another",
                           buttonText2: "Leave a Review",

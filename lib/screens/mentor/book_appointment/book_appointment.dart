@@ -55,7 +55,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
             ),
             child: AppBar(
               centerTitle: true,
-              title:const Text(
+              title: const Text(
                 "Schedule Meeting",
                 style: TextStyle(
                     color: const Color(0xffFDBA2F),
@@ -111,13 +111,15 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
                         borderRadius: BorderRadius.circular(25)),
                     color: const Color(0xffFDBA2F),
                     child: const Text(
-                      "Request Appointment",
+                      "Sent Request",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
                     onPressed: () {
+                      //to remove keyboard in popup
+                      FocusManager.instance.primaryFocus?.unfocus();
                       widget.resheduleStatus != true
                           ? provider.postSheduleMeeting(
                               provider.focusedDay, context)

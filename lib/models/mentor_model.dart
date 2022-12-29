@@ -90,6 +90,7 @@ class MeetingModel {
   String? duration;
   String? meetingAgenda;
   String? channelName;
+  String? agoraToken;
   String? profilepic;
   String? userId;
   String? cancelReason;
@@ -102,50 +103,53 @@ class MeetingModel {
   String? ratings;
   String? reviews;
   String? status;
+  bool? canJoin;
 
-  MeetingModel({
-    this.userName,
-    this.communicationMode,
-    this.fromDate,
-    this.startTime,
-    this.duration,
-    this.meetingAgenda,
-    this.channelName,
-    this.profilepic,
-    this.userId,
-    this.cancelReason,
-    this.email,
-    this.designtionName,
-    this.canhelp,
-    this.about,
-    this.workExperience,
-    this.ratings,
-    this.reviews,
-    this.skills,
-    this.status,
-  });
+  MeetingModel(
+      {this.userName,
+      this.communicationMode,
+      this.fromDate,
+      this.startTime,
+      this.duration,
+      this.meetingAgenda,
+      this.channelName,
+      this.agoraToken,
+      this.profilepic,
+      this.userId,
+      this.cancelReason,
+      this.email,
+      this.designtionName,
+      this.canhelp,
+      this.about,
+      this.workExperience,
+      this.ratings,
+      this.reviews,
+      this.skills,
+      this.status,
+      this.canJoin});
   factory MeetingModel.fromjson(Map<String, dynamic> json) {
     return MeetingModel(
-      userName: json['user_name'] ?? "",
-      communicationMode: json['communication_mode'],
-      fromDate: json['from_date'],
-      startTime: json['start_time'],
-      duration: json['duration'],
-      meetingAgenda: json['meeting_agenda'] ?? "_",
-      channelName: json['channel_name'],
-      profilepic: json['profile_pic'],
-      userId: json['user_id'] ?? "",
-      cancelReason: json['cancel_reason'] ?? "",
-      about: json['about_you'] ?? "-",
-      canhelp: json['can_help_you'] ?? "-",
-      designtionName: json['designation_name'] ?? "-",
-      email: json['email'] ?? "-",
-      ratings: json['rating'] ?? "-",
-      reviews: json['review'] ?? "-",
-      skills: json['skills'] ?? "-",
-      workExperience: json['work_experience'] ?? "-",
-      status: json['meeting_status'],
-    );
+        userName: json['user_name'] ?? "",
+        communicationMode: json['communication_mode'],
+        fromDate: json['from_date'],
+        startTime: json['start_time'],
+        duration: json['duration'],
+        meetingAgenda: json['meeting_agenda'] ?? "_",
+        channelName: json['channel_name'],
+        agoraToken: json['agora_token'],
+        profilepic: json['profile_pic'],
+        userId: json['user_id'] ?? "",
+        cancelReason: json['cancel_reason'] ?? "",
+        about: json['about_you'] ?? "-",
+        canhelp: json['can_help_you'] ?? "-",
+        designtionName: json['designation_name'] ?? "-",
+        email: json['email'] ?? "-",
+        ratings: json['rating'] ?? "-",
+        reviews: json['review'] ?? "-",
+        skills: json['skills'] ?? "-",
+        workExperience: json['work_experience'] ?? "-",
+        status: json['meeting_status'],
+        canJoin: json['can_join']);
   }
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -168,6 +172,7 @@ class MeetingModel {
       'skills': skills,
       'work_experience': workExperience,
       'meeting_status': status,
+      'can_join': canJoin,
     };
   }
 }

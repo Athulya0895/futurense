@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
@@ -56,17 +57,17 @@ class _ZoomMentorState extends State<ZoomMentor>
       //   'client': IO.io,
       //   'host': "http://13.127.192.123:6001"
       // }, client: null);
-      IO.Socket socket = IO.io(
-        'http://13.127.192.123:6001',
-      );
-      Echo echo = Echo(
-        client: socket,
-        broadcaster: EchoBroadcasterType.SocketIO,
-      );
-// Listening public channel
-      echo.channel('messages').listen('PublicEvent', (e) {
-        print(e);
-      });
+//       IO.Socket socket = IO.io(
+//         'http://13.127.192.123:6001',
+//       );
+//       Echo echo = Echo(
+//         client: socket,
+//         broadcaster: EchoBroadcasterType.SocketIO,
+//       );
+// // Listening public channel
+//       echo.channel('messages').listen('PublicEvent', (e) {
+//         print(e);
+//       });
 
 // Listening private channel
 // Needs auth. See details how to authorize channel below in guides
@@ -767,15 +768,32 @@ class _HomepageMentorState extends State<HomepageMentor>
                                               print(
                                                   "pressed videocall by mentor");
                                               //video call agora
-                                              print("channel Name mentor");
-                                              print(provider
-                                                  .confirmedupcomingmeetings[
-                                                      index]
-                                                  .channelName);
-                                              print("channel Name mentor");
-                                              onJoin(provider
+                                              // print("channel Name mentor");
+                                              // print(provider
+                                              //     .confirmedupcomingmeetings[
+                                              //         index]
+                                              //     .channelName);
+                                              // print("channel Name mentor");
+                                                provider
+                                                                    .confirmedupcomingmeetings[
+                                                                        index]
+                                                                    .canJoin ==
+                                                                true? onJoin(provider
                                                       .confirmedupcomingmeetings[
-                                                  index]);
+                                                  index]):Fluttertoast.showToast(
+                                                                msg:
+                                                                    "Your Meeting is not yet started.wait for your sheduled time",
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                gravity:
+                                                                    ToastGravity
+                                                                        .CENTER,
+                                                                timeInSecForIosWeb:
+                                                                    1,
+                                                                textColor:
+                                                                    Colors
+                                                                        .white,
+                                                                fontSize: 16.0);
                                               Navigator.pop(context);
                                             },
                                           );
@@ -1174,11 +1192,14 @@ class _HomepageMentorState extends State<HomepageMentor>
     await _handleCameraAndMic(Permission.camera);
     await _handleCameraAndMic(Permission.microphone);
     // push video page with given channel name
+    print("agora token");
+    print(mentor?.agoraToken);
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => CallPage(
           channelName: mentor?.channelName,
+          tokenAgora: mentor?.agoraToken,
           role: ClientRole.Broadcaster,
           mentor: mentor,
         ),
@@ -1203,11 +1224,14 @@ class _HomepageMentorState extends State<HomepageMentor>
                 textColor: Colors.white,
                 onPressed: () {
                   print(" Resume call");
+                  print(mentor?.agoraToken);
+                  print("________");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => CallPage(
                         channelName: mentor?.channelName,
+                        tokenAgora: mentor?.agoraToken,
                         role: ClientRole.Broadcaster,
                         mentor: mentor,
                       ),

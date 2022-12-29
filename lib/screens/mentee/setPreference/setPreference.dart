@@ -184,20 +184,7 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                                   content: Text("select atleast one checkbox"));
                             }
                           }
-                          // if (provider.formKey.currentState!.validate()) {
-                          //   // if (provider.areaslooking.any(
-                          //   //     (element) => element.values.contains(true))) {
-                          //   //   print("yes");
-                          //   //   provider.UpdateMenteePreference(context);
-                          //   // } else {
-                          //   //   SnackBar(
-                          //   //       content: Text("select atleast one checkbox"));
-                          //   // }
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => MyAccount()));
-                          // }
+                        
                         }),
                     const SizedBox(
                       height: 30,

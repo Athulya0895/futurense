@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
@@ -387,20 +388,40 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                         ? "assets/call.svg"
                                                         : "assets/videocall.svg",
                                                     iconbuttonPressed: () {
-                                                      print(
-                                                          "pressed videocall by mentor");
-                                                      //video call agora
-                                                      print(
-                                                          "channel Name mentor");
-                                                      print(provider
-                                                          .confirmedupcomingmeetings[
-                                                              index]
-                                                          .channelName);
-                                                      print(
-                                                          "channel Name mentor");
-                                                      onJoin(provider
-                                                              .confirmedupcomingmeetings[
-                                                          index]);
+                                                      // print(
+                                                      //     "pressed videocall by mentor");
+                                                      // //video call agora
+                                                      // print(
+                                                      //     "channel Name mentor");
+                                                      // print(provider
+                                                      //     .confirmedupcomingmeetings[
+                                                      //         index]
+                                                      //     .channelName);
+                                                      // print(
+                                                      //     "channel Name mentor");
+                                                      provider
+                                                                  .confirmedupcomingmeetings[
+                                                                      index]
+                                                                  .canJoin ==
+                                                              true
+                                                          ? onJoin(
+                                                              provider
+                                                                      .confirmedupcomingmeetings[
+                                                                  index])
+                                                          : Fluttertoast.showToast(
+                                                              msg:
+                                                                  "Your Meeting is not yet started.wait for your sheduled time",
+                                                              toastLength:
+                                                                  Toast
+                                                                      .LENGTH_SHORT,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .CENTER,
+                                                              timeInSecForIosWeb:
+                                                                  1,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0);
                                                       Navigator.pop(context);
                                                     },
                                                   );
@@ -638,18 +659,33 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                             //   //send message
                                             // },
                                             iconButtonpressed: () {
-                                              print(
-                                                  "pressed videocall by mentor");
-                                              //video call agora
-                                              print("channel Name mentor");
-                                              print(provider
-                                                  .confirmedupcomingmeetings[
-                                                      index]
-                                                  .channelName);
-                                              print("channel Name mentor");
-                                              onJoin(provider
-                                                      .confirmedupcomingmeetings[
-                                                  index]);
+                                              // print(
+                                              //     "pressed videocall by mentor");
+                                              // //video call agora
+                                              // print("channel Name mentor");
+                                              // print(provider
+                                              //     .confirmedupcomingmeetings[
+                                              //         index]
+                                              //     .channelName);
+                                              // print("channel Name mentor");
+                                              provider
+                                                          .confirmedupcomingmeetings[
+                                                              index]
+                                                          .canJoin ==
+                                                      true
+                                                  ? onJoin(provider
+                                                          .confirmedupcomingmeetings[
+                                                      index])
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "Your Meeting is not yet started.wait for your sheduled time",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      gravity:
+                                                          ToastGravity.CENTER,
+                                                      timeInSecForIosWeb: 1,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
                                             },
                                           );
                                         }))
@@ -1308,15 +1344,30 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                             iconButtonpressed: () {
                                               //agora video call / audio call
 
-                                              print("channel Name mentor");
-                                              print(provider
-                                                  .confirmedupcomingmeetings[
-                                                      index]
-                                                  .channelName);
-                                              print("channel Name mentor");
-                                              onJoin(provider
-                                                      .confirmedupcomingmeetings[
-                                                  index]);
+                                              // print("channel Name mentor");
+                                              // print(provider
+                                              //     .confirmedupcomingmeetings[
+                                              //         index]
+                                              //     .channelName);
+                                              // print("channel Name mentor");
+                                              provider
+                                                          .confirmedupcomingmeetings[
+                                                              index]
+                                                          .canJoin ==
+                                                      true
+                                                  ? onJoin(provider
+                                                          .confirmedupcomingmeetings[
+                                                      index])
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "Your Meeting is not yet started.wait for your sheduled time",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      gravity:
+                                                          ToastGravity.CENTER,
+                                                      timeInSecForIosWeb: 1,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
                                             },
                                           );
                                         }))
@@ -1361,6 +1412,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
       MaterialPageRoute(
         builder: (context) => CallPage(
           channelName: mentor?.channelName,
+          tokenAgora: mentor?.agoraToken,
           role: ClientRole.Broadcaster,
           mentor: mentor,
           meetingMode: mentor?.communicationMode,
@@ -1391,6 +1443,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                     MaterialPageRoute(
                       builder: (context) => CallPage(
                         channelName: mentor?.channelName,
+                        tokenAgora: mentor?.agoraToken,
                         role: ClientRole.Broadcaster,
                         mentor: mentor,
                       ),

@@ -18,11 +18,15 @@ import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/meetingcard_widget.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/view_detail.dart';
 import 'package:futurensemobileapp/screens/mentee/review_feedback/feedback.dart';
+import 'package:futurensemobileapp/utils/locator.dart';
+import 'package:futurensemobileapp/utils/share_prefs.dart';
 import 'package:futurensemobileapp/utils/validators.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../agora_video/src/pages/call.dart';
+// import 'package:futurensemobileapp/utils/share_prefs.dart';
 
 class UpcomingAppointmentsMentee extends StatefulWidget {
   const UpcomingAppointmentsMentee({super.key});
@@ -34,6 +38,35 @@ class UpcomingAppointmentsMentee extends StatefulWidget {
 
 class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
     with BasePage<UpcomingAppointmentsMenteeVM> {
+  //socket connection
+  @override
+  void initState() {
+    final prefs = locator<SharedPrefs>();
+    print("useId_____");
+    print(prefs.userId);
+    //socket Nodejs
+    String url = 'http://13.127.192.123';
+    String url1 = 'http://192.168.69.106:6001';
+    String url2 = 'http://192.168.70.102:6001';
+    String url3 = 'https://a469-2a09-bac1-3680-58-00-ca-5f.in.ngrok.io';
+    IO.Socket socket = IO.io(
+        url2,
+        IO.OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .setExtraHeaders({'foo': 'bar'}) // optional
+            .build());
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('msg', 'test');
+    });
+    //socket on userId
+    socket.on(prefs.userId.toString(), (data) {});
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.onerror((e) => print(e));
+    // socket.on('fromServer', () => print());
+    //socket nodejs
+  }
+
   @override
   Widget build(BuildContext context) {
     return builder((() => Scaffold(
@@ -1076,10 +1109,27 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                         //         ],
                                                         //       );
                                                         //     });
-
-                                                        await onJoin(provider
-                                                                .confirmedupcomingmeetings[
-                                                            index]);
+                                                        provider
+                                                                    .confirmedupcomingmeetings[
+                                                                        index]
+                                                                    .canJoin ==
+                                                                true
+                                                            ? await onJoin(provider.confirmedupcomingmeetings[
+                                                                index])
+                                                            : Fluttertoast.showToast(
+                                                                msg:
+                                                                    "Your Meeting is not yet started.wait for your sheduled time",
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                gravity:
+                                                                    ToastGravity
+                                                                        .CENTER,
+                                                                timeInSecForIosWeb:
+                                                                    1,
+                                                                textColor:
+                                                                    Colors
+                                                                        .white,
+                                                                fontSize: 16.0);
                                                       });
                                                 },
                                               );
@@ -1104,16 +1154,31 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                               //                     index]
                                               //                 .fromDate
                                               //     ?
-
-                                              print("channel Name mentee");
-                                              print(provider
-                                                  .confirmedupcomingmeetings[
-                                                      index]
-                                                  .channelName);
-                                              print("channel Name mentee");
-                                              onJoin(provider
-                                                      .confirmedupcomingmeetings[
-                                                  index]);
+                                              provider
+                                                          .confirmedupcomingmeetings[
+                                                              index]
+                                                          .canJoin ==
+                                                      true
+                                                  ?
+                                                  // print("channel Name mentee");
+                                                  // print(provider
+                                                  //     .confirmedupcomingmeetings[
+                                                  //         index]
+                                                  //     .channelName);
+                                                  // print("channel Name mentee");
+                                                  onJoin(provider
+                                                          .confirmedupcomingmeetings[
+                                                      index])
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "Your Meeting is not yet started.wait for your sheduled time",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      gravity:
+                                                          ToastGravity.CENTER,
+                                                      timeInSecForIosWeb: 1,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
                                             },
                                           );
                                         }),
@@ -1772,6 +1837,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
       MaterialPageRoute(
         builder: (context) => CallPage(
           channelName: mentee?.channelName,
+          tokenAgora: mentee?.agoraToken,
           role: ClientRole.Broadcaster,
           mentor: mentee,
           meetingMode: mentee?.communicationMode,
@@ -1802,6 +1868,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                     MaterialPageRoute(
                       builder: (context) => CallPage(
                         channelName: mentee?.channelName,
+                        tokenAgora: mentee?.agoraToken,
                         role: ClientRole.Broadcaster,
                         mentor: mentee,
                         meetingMode: mentee?.communicationMode,

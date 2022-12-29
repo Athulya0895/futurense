@@ -76,9 +76,8 @@ void main() async {
     print('connect');
     socket.emit('msg', 'test');
   });
-  socket.on('', (data) {
-    
-  });
+  //socket on userId
+  socket.on('', (data) {});
   socket.onDisconnect((_) => print('disconnect'));
   socket.onerror((e) => print(e));
   // socket.on('fromServer', () => print());

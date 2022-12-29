@@ -41,7 +41,7 @@ class _BookAppointmentState extends State<BookAppointment>
     return builder((() => Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize:const Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: Container(
             decoration: const BoxDecoration(
               boxShadow: [
@@ -58,7 +58,7 @@ class _BookAppointmentState extends State<BookAppointment>
               title: const Text(
                 "Schedule Meeting",
                 style: TextStyle(
-                    color:  Color(0xffFDBA2F),
+                    color: Color(0xffFDBA2F),
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
@@ -90,7 +90,7 @@ class _BookAppointmentState extends State<BookAppointment>
                         color: Colors.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            offset:const Offset(4, 2),
+                            offset: const Offset(4, 2),
                             blurRadius: 3,
                             color: const Color(0xffA0A2B3).withOpacity(0.5),
                           )
@@ -111,7 +111,7 @@ class _BookAppointmentState extends State<BookAppointment>
                             provider.selectedDay = selectDay;
                             provider.focusedDay = focusDay;
                           });
-                        
+
                           // after selecting date cll the api for getting timeslot
                           provider.getTimeSlots(provider.focusedDay);
                         },
@@ -121,7 +121,7 @@ class _BookAppointmentState extends State<BookAppointment>
                         calendarStyle: CalendarStyle(
                           isTodayHighlighted: true,
                           selectedDecoration: BoxDecoration(
-                              color:const Color(0xff6EBFC3),
+                              color: const Color(0xff6EBFC3),
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(10)),
                           selectedTextStyle:
@@ -209,7 +209,7 @@ class _BookAppointmentState extends State<BookAppointment>
                                         ? const Color(0xffFDBA2F)
                                         : slotcolor,
                                     border: Border.all(
-                                        color:const Color(0xff6B779A)
+                                        color: const Color(0xff6B779A)
                                             .withOpacity(0.10)),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -220,7 +220,8 @@ class _BookAppointmentState extends State<BookAppointment>
                                         color: provider.availableTimeSlots[
                                                     index]['isAvailable'] ==
                                                 false
-                                            ?const Color(0xff6B779A).withOpacity(0.5)
+                                            ? const Color(0xff6B779A)
+                                                .withOpacity(0.5)
                                             : provider.availableTimeSlots[index]
                                                             ["time"] ==
                                                         provider
@@ -230,7 +231,7 @@ class _BookAppointmentState extends State<BookAppointment>
                                                             ["isAvailable"] ==
                                                         true
                                                 ? Colors.white
-                                                :const Color(0xff202020)),
+                                                : const Color(0xff202020)),
                                   )),
                                 ),
                                 onTap:
@@ -240,7 +241,6 @@ class _BookAppointmentState extends State<BookAppointment>
                                     onclick = true;
                                     provider.selectedTimeslot = provider
                                         .availableTimeSlots[index]["time"];
-                                   
                                   });
                                 },
                               );
@@ -251,7 +251,7 @@ class _BookAppointmentState extends State<BookAppointment>
                 ),
                 // _meetingdetails(),
                 Padding(
-                  padding:const EdgeInsets.only(left: 15, right: 15, top: 20),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -283,7 +283,6 @@ class _BookAppointmentState extends State<BookAppointment>
                         ],
                         setdata: (val) {
                           provider.selectedMeetingMode = val;
-
                         },
                       ),
                       const SizedBox(
@@ -307,7 +306,6 @@ class _BookAppointmentState extends State<BookAppointment>
                         items: const ["15 min", "30 min", "45 min"],
                         setdata: (val) {
                           provider.meetingDuration = val;
-                          
                         },
                       ),
                       const SizedBox(
@@ -338,7 +336,7 @@ class _BookAppointmentState extends State<BookAppointment>
                     height: 50,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
-                    color:const Color(0xffFDBA2F),
+                    color: const Color(0xffFDBA2F),
                     child: const Text(
                       "Send Request",
                       style: TextStyle(
@@ -347,6 +345,8 @@ class _BookAppointmentState extends State<BookAppointment>
                           fontSize: 16),
                     ),
                     onPressed: () {
+                      //to remove keyboard in popup
+                      FocusManager.instance.primaryFocus?.unfocus();
                       // provider.postSheduleMeeting(provider.focusedDay, context);
                       widget.resheduleStatus != true
                           ? provider.postSheduleMeeting(
@@ -382,7 +382,7 @@ class _BookAppointmentState extends State<BookAppointment>
             color: Colors.white,
             boxShadow: <BoxShadow>[
               BoxShadow(
-                offset:const Offset(4, 2),
+                offset: const Offset(4, 2),
                 blurRadius: 3,
                 color: const Color(0xffA0A2B3).withOpacity(0.5),
               )
@@ -403,7 +403,7 @@ class _BookAppointmentState extends State<BookAppointment>
                 provider.selectedDay = selectDay;
                 provider.focusedDay = focusDay;
               });
-           
+
               // after selecting date cll the api for getting timeslot
               provider.getTimeSlots(provider.focusedDay);
             },
@@ -413,7 +413,7 @@ class _BookAppointmentState extends State<BookAppointment>
             calendarStyle: CalendarStyle(
               isTodayHighlighted: true,
               selectedDecoration: BoxDecoration(
-                  color:const Color(0xff6EBFC3),
+                  color: const Color(0xff6EBFC3),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(10)),
               selectedTextStyle: const TextStyle(color: Colors.white),
@@ -500,7 +500,7 @@ class _BookAppointmentState extends State<BookAppointment>
                             ? Color(0xffFDBA2F)
                             : slotcolor,
                         border: Border.all(
-                            color:const Color(0xff6B779A).withOpacity(0.10)),
+                            color: const Color(0xff6B779A).withOpacity(0.10)),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -510,14 +510,14 @@ class _BookAppointmentState extends State<BookAppointment>
                             color: provider.availableTimeSlots[index]
                                         ['isAvailable'] ==
                                     false
-                                ?const Color(0xff6B779A).withOpacity(0.5)
+                                ? const Color(0xff6B779A).withOpacity(0.5)
                                 : provider.availableTimeSlots[index]["time"] ==
                                             provider.selectedTimeslot &&
                                         provider.availableTimeSlots[index]
                                                 ["isAvailable"] ==
                                             true
                                     ? Colors.white
-                                    :const Color(0xff202020)),
+                                    : const Color(0xff202020)),
                       )),
                     ),
                     onTap:
@@ -527,7 +527,6 @@ class _BookAppointmentState extends State<BookAppointment>
                         onclick = true;
                         provider.selectedTimeslot =
                             provider.availableTimeSlots[index]["time"];
-                       
                       });
                     },
                   );
@@ -541,7 +540,7 @@ class _BookAppointmentState extends State<BookAppointment>
 //Meeting details
   Widget _meetingdetails() {
     return Padding(
-      padding:const EdgeInsets.only(left: 15, right: 15, top: 20),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -632,7 +631,5 @@ class _BookAppointmentState extends State<BookAppointment>
   @override
   void initialise(BuildContext context) {
     provider.topmentor = widget.topmentor;
-  
- 
   }
 }

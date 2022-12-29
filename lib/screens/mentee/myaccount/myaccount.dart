@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
+import 'package:futurensemobileapp/components/button/button.dart';
 
 import 'package:futurensemobileapp/components/dropdown/dropdown_menu_mode.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
@@ -24,7 +25,7 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
     return builder(() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize:const Size.fromHeight(60.0),
+            preferredSize: const Size.fromHeight(60.0),
             child: Container(
               decoration: const BoxDecoration(
                 boxShadow: [
@@ -41,7 +42,7 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
                   child: Text(
                     "Profile",
                     style: TextStyle(
-                        color:  Color(0xffFDBA2F),
+                        color: Color(0xffFDBA2F),
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -97,14 +98,13 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
                         )),
                       ],
                     ),
-                   const SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Center(
                       child: TextButton(
                           onPressed: (() {
                             setState(() {
                               provider.edit = true;
                             });
-                           
                           }),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -245,7 +245,7 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
                             items: provider.companyList,
                             setdata: (val) {
                               provider.selectedCompany = val;
-                           
+
                               setState(() {
                                 provider.currentCompany.text = val.name;
                               });
@@ -416,46 +416,57 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
                     Visibility(
                         visible: widget.fromLogin == true,
                         replacement: provider.edit == true
-                            ? MaterialButton(
-                                minWidth: double.infinity,
-                                padding:
-                                    const EdgeInsets.only(top: 23, bottom: 23),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                color: const Color(0xffFDBA2F),
+                            ? CustomMaterialButtton(
+                                text: "Save",
                                 onPressed: () {
-                                  // setState(() {
-                                  //   provider.edit == false;
-                                  // });
                                   provider.updateProfile(context, home: true);
-                                },
-                                child:const Text(
-                                  "Save",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            :const SizedBox(),
+                                })
+                            // MaterialButton(
+                            //     minWidth: double.infinity,
+                            //     padding:
+                            //         const EdgeInsets.only(top: 23, bottom: 23),
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(25),
+                            //     ),
+                            //     color: const Color(0xffFDBA2F),
+                            //     onPressed: () {
+                            //       // setState(() {
+                            //       //   provider.edit == false;
+                            //       // });
+                            //       provider.updateProfile(context, home: true);
+                            //     },
+                            //     child:const Text(
+                            //       "Save",
+                            //       style: TextStyle(color: Colors.white),
+                            //     ),
+                            //   )
+                            : const SizedBox(),
                         child: Center(
-                          child: MaterialButton(
-                              padding:
-                                  const EdgeInsets.only(top: 23, bottom: 23),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              minWidth: MediaQuery.of(context).size.width * 0.7,
-                              color: const Color(0xffFDBA2F),
-                              child: Text(
-                                provider.edit == true ? "Save" : "Next",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              onPressed: () {
-                                provider.updateProfile(context);
-                              }),
-                        )),
+                            child: CustomMaterialButtton(
+                          text: provider.edit == true ? "Save" : "Next",
+                          onPressed: () {
+                            provider.updateProfile(context);
+                          },
+                        )
+                            //  MaterialButton(
+                            //     padding:
+                            //         const EdgeInsets.only(top: 23, bottom: 23),
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(25),
+                            //     ),
+                            //     minWidth: MediaQuery.of(context).size.width * 0.7,
+                            //     color: const Color(0xffFDBA2F),
+                            //     child: Text(
+                            //       provider.edit == true ? "Save" : "Next",
+                            //       style: const TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 18),
+                            //     ),
+                            //     onPressed: () {
+                            //       provider.updateProfile(context);
+                            //     }),
+                            )),
                     const SizedBox(
                       height: 30,
                     ),

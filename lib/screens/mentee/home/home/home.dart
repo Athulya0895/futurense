@@ -27,7 +27,6 @@ class _HomeMenteeState extends State<HomeMentee> with BasePage<HomeMenteeVM> {
   List<Widget> _buildScreens() {
     return [
       Zoom(jumbToIndex: jumbToIndex),
-      // HomePageMentee(jumbToIndex: jumbToIndex),
       ForumMentee(jumbToIndex: jumbToIndex),
       MyappointmentsMentee(
         jumbToIndex: jumbToIndex,
@@ -98,7 +97,7 @@ class _HomeMenteeState extends State<HomeMentee> with BasePage<HomeMenteeVM> {
   @override
   Widget build(BuildContext context) {
     return builder((() => Scaffold(
-          drawer: Zoom(),
+          // drawer: ,
           body: PersistentTabView(
             MyApp.context,
             controller: controller,

@@ -12,6 +12,7 @@ import '../utils/settings.dart';
 class CallPage extends StatefulWidget {
   /// non-modifiable channel name of the page
   final String? channelName;
+  final String? tokenAgora;
 
   /// non-modifiable client role of the page
   final ClientRole? role;
@@ -26,6 +27,7 @@ class CallPage extends StatefulWidget {
   CallPage(
       {Key? key,
       this.channelName,
+      required this.tokenAgora,
       this.role,
       this.callIscut,
       this.mentor,
@@ -75,11 +77,11 @@ class _CallPageState extends State<CallPage> {
     }
 
     await _initAgoraRtcEngine();
-    _addAgoraEventHandlers();
+    // _addAgoraEventHandlers();
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = const VideoDimensions(width: 1920, height: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(token, widget.channelName!, null, 0);
+    await _engine.joinChannel(widget.tokenAgora, widget.channelName!, null, 0);
   }
 
   /// Create agora sdk instance and initialize
@@ -94,41 +96,41 @@ class _CallPageState extends State<CallPage> {
   }
 
   /// Add agora event handlers
-  void _addAgoraEventHandlers() {
-    _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
-      setState(() {
-        final info = 'onError: $code';
-        _infoStrings.add(info);
-      });
-    }, joinChannelSuccess: (channel, uid, elapsed) {
-      setState(() {
-        final info = 'onJoinChannel: $channel, uid: $uid';
-        _infoStrings.add(info);
-      });
-    }, leaveChannel: (stats) {
-      setState(() {
-        _infoStrings.add('onLeaveChannel');
-        _users.clear();
-      });
-    }, userJoined: (uid, elapsed) {
-      setState(() {
-        final info = 'userJoined: $uid';
-        _infoStrings.add(info);
-        _users.add(uid);
-      });
-    }, userOffline: (uid, elapsed) {
-      setState(() {
-        final info = 'userOffline: $uid';
-        _infoStrings.add(info);
-        _users.remove(uid);
-      });
-    }, firstRemoteVideoFrame: (uid, width, height, elapsed) {
-      setState(() {
-        final info = 'firstRemoteVideo: $uid ${width}x $height';
-        _infoStrings.add(info);
-      });
-    }));
-  }
+  // void _addAgoraEventHandlers() {
+  //   _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
+  //     setState(() {
+  //       final info = 'onError: $code';
+  //       _infoStrings.add(info);
+  //     });
+  //   }, joinChannelSuccess: (channel, uid, elapsed) {
+  //     setState(() {
+  //       final info = 'onJoinChannel: $channel, uid: ${widget.mentor?.userName}';
+  //       _infoStrings.add(info);
+  //     });
+  //   }, leaveChannel: (stats) {
+  //     setState(() {
+  //       _infoStrings.add('onLeaveChannel');
+  //       _users.clear();
+  //     });
+  //   }, userJoined: (uid, elapsed) {
+  //     setState(() {
+  //       final info = 'userJoined: $uid';
+  //       _infoStrings.add(info);
+  //       _users.add(uid);
+  //     });
+  //   }, userOffline: (uid, elapsed) {
+  //     setState(() {
+  //       final info = 'userOffline: $uid';
+  //       _infoStrings.add(info);
+  //       _users.remove(uid);
+  //     });
+  //   }, firstRemoteVideoFrame: (uid, width, height, elapsed) {
+  //     setState(() {
+  //       final info = 'firstRemoteVideo: $uid ${width}x $height';
+  //       _infoStrings.add(info);
+  //     });
+  //   }));
+  // }
 
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
