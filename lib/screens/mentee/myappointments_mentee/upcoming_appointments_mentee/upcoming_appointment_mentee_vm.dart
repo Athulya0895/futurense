@@ -1,14 +1,58 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class UpcomingAppointmentsMenteeVM extends BaseViewModel {
+  List tempconfirmed = [];
+  List<MeetingModel> confirmedupcomingmeetings = [];
   @override
   void onInit() {
+   
     getConfirmedUpcomingMeeting();
     getSentUpcomingMeeting();
     getreceivedUpcomingMeeting();
+    //  final prefs = locator<SharedPrefs>();
+    print("useId_____");
+    print(prefs.userId);
+    //socket Nodejs
+    // String url = 'http://13.127.192.123';
+    // String url1 = 'http://192.168.69.106:6001';
+    // String url2 = 'http://192.168.70.102:6001';
+    String url3 = "http://13.127.192.123:6001";
+
+    IO.Socket socket = IO.io(
+        url3,
+        IO.OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .setExtraHeaders({'foo': 'bar'}) // optional
+            .build());
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('msg', 'test');
+    });
+    //socket on userId
+    socket.on(prefs.userId.toString(), (data) {
+      // print(data);
+      // print("received");
+      // print(data['received']);
+      tempconfirmed = data['confirmed'] ?? [];
+      confirmedupcomingmeetings =
+          tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
+
+      tempsent = data['sent'] ?? [];
+      sentUpcomingMeeting =
+          tempsent.map((e) => MeetingModel.fromjson(e)).toList();
+      tempreceived = data['received'] ?? [];
+      receivedUpcomingMeeting =
+          tempreceived.map((e) => MeetingModel.fromjson(e)).toList();
+      notifyListeners();
+    });
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.onerror((e) => print(e));
   }
 
   List<Map> cancelCheckbox = [
@@ -31,10 +75,9 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
     },
   ];
 
-//get UpcomingConfirmed meeting
-  List tempconfirmed = [];
-  List<MeetingModel> confirmedupcomingmeetings = [];
-   getConfirmedUpcomingMeeting() async {
+// get UpcomingConfirmed meeting
+
+  getConfirmedUpcomingMeeting() async {
     showLoading();
     final res = await api.menteeRepo.getConfirmedUpcomingMeeting();
     hideLoading();
@@ -46,6 +89,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
         print("confirmedupcomingmeetings");
         print(confirmedupcomingmeetings);
         print("confirmedupcomingmeetings");
+        notifyListeners();
       } else {
         showError(res.data['message']);
       }
@@ -53,11 +97,19 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
       showError("Servere Error");
     }
   }
+// //test server getconfirmed meeting
+//   getConfirmedUpcomingMeeting() async {
+//     confirmedupcomingmeetings =
+//         tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
+//     print("confirmedupcomingmeetings");
+//     print(confirmedupcomingmeetings);
+//     print("confirmedupcomingmeetings");
+//   }
 
 //get sent upcoming meeting
   List tempsent = [];
   List<MeetingModel> sentUpcomingMeeting = [];
-   getSentUpcomingMeeting() async {
+  getSentUpcomingMeeting() async {
     showLoading();
     final res = await api.menteeRepo.getSentUpcomingMeeting();
     hideLoading();
@@ -69,6 +121,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
         print("sentUpcomingMeeting");
         print(sentUpcomingMeeting);
         print("sentUpcomingMeeting");
+        notifyListeners();
       } else {
         showError(res.data['message']);
       }
@@ -80,7 +133,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
 //get Received upcoming meeting
   List tempreceived = [];
   List<MeetingModel> receivedUpcomingMeeting = [];
-   getreceivedUpcomingMeeting() async {
+  getreceivedUpcomingMeeting() async {
     showLoading();
     final res = await api.menteeRepo.getReceivedUpcomingMeeting();
     hideLoading();
@@ -92,6 +145,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
         print("receivedUpcomingMeeting");
         print(receivedUpcomingMeeting);
         print("receivedUpcomingMeeting");
+        notifyListeners();
       } else {
         showError(res.data['message']);
       }

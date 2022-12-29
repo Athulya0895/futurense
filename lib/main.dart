@@ -64,22 +64,23 @@ void main() async {
   // echo.connector.socket.onConnect((_) => print('connected'));
   // echo.connector.socket.onDisconnect((_) => print('disconnected'));
   //socket Nodejs
-  String url = 'http://13.127.192.123';
-  String url1 = 'http://192.168.69.106:6001';
-  String url2 = 'http://192.168.70.102:6001';
-  IO.Socket socket = IO.io(
-      url2,
-      IO.OptionBuilder().setTransports(['websocket']) // for Flutter or Dart VM
-          .setExtraHeaders({'foo': 'bar'}) // optional
-          .build());
-  socket.onConnect((_) {
-    print('connect');
-    socket.emit('msg', 'test');
-  });
-  //socket on userId
-  socket.on('', (data) {});
-  socket.onDisconnect((_) => print('disconnect'));
-  socket.onerror((e) => print(e));
+  // String url = 'http://13.127.192.123';
+  // String url1 = 'http://192.168.69.106:6001';
+  // String url2 = 'http://192.168.70.102:6001';
+  // String url3 = 'http://13.127.192.123:6001';
+  // IO.Socket socket = IO.io(
+  //     url2,
+  //     IO.OptionBuilder().setTransports(['websocket']) // for Flutter or Dart VM
+  //         .setExtraHeaders({'foo': 'bar'}) // optional
+  //         .build());
+  // socket.onConnect((_) {
+  //   print('connect');
+  //   socket.emit('msg', 'test');
+  // });
+  // //socket on userId
+  // socket.on('', (data) {});
+  // socket.onDisconnect((_) => print('disconnect'));
+  // socket.onerror((e) => print(e));
   // socket.on('fromServer', () => print());
   //socket nodejs
 

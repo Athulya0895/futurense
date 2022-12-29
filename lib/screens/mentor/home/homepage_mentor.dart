@@ -333,7 +333,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
 
 //Homepage Design
 class HomepageMentor extends StatefulWidget {
-  const HomepageMentor({super.key});
+  final jumbToIndex;
+  const HomepageMentor({super.key,this.jumbToIndex});
 
   @override
   State<HomepageMentor> createState() => _HomepageMentorState();

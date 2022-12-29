@@ -876,7 +876,8 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                               .receivedUpcomingMeeting[
                                                                   index]
                                                               .channelName
-                                                              .toString());
+                                                              .toString(),
+                                                          context);
                                                     },
                                                     buttonText2: "Reschedule",
                                                     buttonText2pressed: () {
@@ -1106,11 +1107,13 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                             buttonText1pressed: () {
                                               //accept button
 
-                                              provider.acceptMeeting(provider
-                                                  .receivedUpcomingMeeting[
-                                                      index]
-                                                  .channelName
-                                                  .toString());
+                                              provider.acceptMeeting(
+                                                  provider
+                                                      .receivedUpcomingMeeting[
+                                                          index]
+                                                      .channelName
+                                                      .toString(),
+                                                  context);
                                             },
                                             buttonText2pressed: () {
                                               //Reschedule in Received

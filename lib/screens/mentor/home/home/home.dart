@@ -28,6 +28,7 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
   List<Widget> _buildScreens() {
     return [
       ZoomMentor(jumbToIndex: jumbToIndex),
+      // HomepageMentor(jumbToIndex: jumbToIndex),
       ForumMentor(
         jumbToIndex: jumbToIndex,
       ),

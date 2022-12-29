@@ -206,7 +206,7 @@ class MentorMyaccountVM extends BaseViewModel {
         jobtitleList =
             tempjobtitleList.map((e) => JobttileModel.fromJson(e)).toList();
         selectedJob = jobtitleList
-            .firstWhere((element) => element.name == prefs.user!.jobTitle);
+            .firstWhere((element) => element.name == prefs.user?.jobTitle);
       } else {
         showError(res.data['message'] ?? "No data from backend");
       }
