@@ -238,12 +238,12 @@ class _HomeState extends State<Home> with BasePage<HomeVM> {
             },
             screens: _buildScreens(),
             items: _navBarsItems(),
-            // confineInSafeArea: true,
-            // backgroundColor: Colors.white,
-            // handleAndroidBackButtonPress: true,
-            // resizeToAvoidBottomInset: true,
-            // stateManagement: true,
-            // hideNavigationBarWhenKeyboardShows: true,
+            confineInSafeArea: true,
+            backgroundColor: Colors.white,
+            handleAndroidBackButtonPress: true,
+            resizeToAvoidBottomInset: true,
+            stateManagement: controller.index == 0 ? false : true,
+            hideNavigationBarWhenKeyboardShows: true,
             // navBarHeight: 90,
             decoration: const NavBarDecoration(
               borderRadius: BorderRadius.only(

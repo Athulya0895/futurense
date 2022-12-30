@@ -42,7 +42,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
   @override
   void initState() {
     super.initState();
-   
+
     // socket.on('fromServer', () => print());
     //socket nodejs
   }
@@ -1328,6 +1328,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                       index]
                                                   .channelName
                                                   .toString());
+                                            
                                             },
                                             buttonText2: "Cancel",
                                             buttonText2pressed: () {

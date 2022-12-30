@@ -119,16 +119,30 @@ class _ZoomMentorState extends State<ZoomMentor>
   Widget build(BuildContext context) {
     return builder(() => ZoomDrawer(
           controller: z,
-          borderRadius: 24,
           style: DrawerStyle.defaultStyle,
-          // showShadow: true,
+          // style: DrawerStyle.style1,
+
+          // menuScreenTapClose: false,
+          // androidCloseOnBackTap: true,
+          // isRtl: ,
+          mainScreenTapClose: true,
+
           openCurve: Curves.fastOutSlowIn,
-          slideWidth: MediaQuery.of(context).size.width * 0.65,
+          closeCurve: Curves.bounceIn,
+          slideWidth: MediaQuery.of(context).size.width * 0.68,
           duration: const Duration(milliseconds: 500),
-          // angle: 0.0,
+
+          borderRadius: 24.0,
+          showShadow: true,
+
+          angle: -5.0,
+
+          // slideWidth: MediaQuery.of(context).size.width *
+          //     (ZoomDrawer.isRTL() ? .45 : 0.65),
           menuBackgroundColor: const Color(0xffFDBA2F),
-          mainScreen: const Body(),
-          menuScreen: Theme(
+          mainScreen: const HomepageMentor(),
+          menuScreen:
+           Theme(
             data: ThemeData.dark(),
             child: Scaffold(
               backgroundColor: const Color(0xffFDBA2F),
@@ -297,44 +311,44 @@ class _ZoomMentorState extends State<ZoomMentor>
 }
 
 // body
-class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+// class Body extends StatefulWidget {
+//   const Body({Key? key}) : super(key: key);
 
-  @override
-  State<Body> createState() => _BodyState();
-}
+//   @override
+//   State<Body> createState() => _BodyState();
+// }
 
-class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
-  late AnimationController controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 100),
-    value: -1.0,
-  );
+// class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
+//   late AnimationController controller = AnimationController(
+//     vsync: this,
+//     duration: const Duration(milliseconds: 100),
+//     value: -1.0,
+//   );
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     controller.dispose();
+//     super.dispose();
+//   }
 
-  bool get isPanelVisible {
-    final AnimationStatus status = controller.status;
-    return status == AnimationStatus.completed ||
-        status == AnimationStatus.forward;
-  }
+//   bool get isPanelVisible {
+//     final AnimationStatus status = controller.status;
+//     return status == AnimationStatus.completed ||
+//         status == AnimationStatus.forward;
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: HomepageMentor(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       body: HomepageMentor(),
+//     );
+//   }
+// }
 
 //Homepage Design
 class HomepageMentor extends StatefulWidget {
   final jumbToIndex;
-  const HomepageMentor({super.key,this.jumbToIndex});
+  const HomepageMentor({super.key, this.jumbToIndex});
 
   @override
   State<HomepageMentor> createState() => _HomepageMentorState();
@@ -775,26 +789,24 @@ class _HomepageMentorState extends State<HomepageMentor>
                                               //         index]
                                               //     .channelName);
                                               // print("channel Name mentor");
-                                                provider
-                                                                    .confirmedupcomingmeetings[
-                                                                        index]
-                                                                    .canJoin ==
-                                                                true? onJoin(provider
-                                                      .confirmedupcomingmeetings[
-                                                  index]):Fluttertoast.showToast(
-                                                                msg:
-                                                                    "Your Meeting is not yet started.wait for your sheduled time",
-                                                                toastLength: Toast
-                                                                    .LENGTH_SHORT,
-                                                                gravity:
-                                                                    ToastGravity
-                                                                        .CENTER,
-                                                                timeInSecForIosWeb:
-                                                                    1,
-                                                                textColor:
-                                                                    Colors
-                                                                        .white,
-                                                                fontSize: 16.0);
+                                              provider
+                                                          .confirmedupcomingmeetings[
+                                                              index]
+                                                          .canJoin ==
+                                                      true
+                                                  ? onJoin(provider
+                                                          .confirmedupcomingmeetings[
+                                                      index])
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "Your Meeting is not yet started.wait for your sheduled time",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      gravity:
+                                                          ToastGravity.CENTER,
+                                                      timeInSecForIosWeb: 1,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
                                               Navigator.pop(context);
                                             },
                                           );

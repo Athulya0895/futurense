@@ -71,7 +71,7 @@ class _PreviousAppointmentsMenteeState extends State<PreviousAppointmentsMentee>
                               .previousMeetings[index].communicationMode,
                           fromDate: provider.previousMeetings[index].fromDate,
                           startTime: provider.previousMeetings[index].startTime,
-                          status: "Completed",
+                          status: provider.previousMeetings[index].status,
                           icon: "assets/done.svg",
                           buttonText1: "Schedule Another",
                           buttonText2: "Leave a Review",

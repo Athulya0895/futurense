@@ -50,15 +50,26 @@ class _ZoomState extends State<Zoom> {
   Widget build(BuildContext context) {
     return ZoomDrawer(
       controller: z,
-      borderRadius: 24,
+
       style: DrawerStyle.defaultStyle,
+      // style: DrawerStyle.style1,
       // showShadow: true,
+      // menuScreenTapClose: false,
+      mainScreenTapClose: true,
+
       openCurve: Curves.fastOutSlowIn,
-      slideWidth: MediaQuery.of(context).size.width * 0.65,
+      slideWidth: MediaQuery.of(context).size.width * 0.70,
       duration: const Duration(milliseconds: 500),
       // angle: 0.0,
+      borderRadius: 24.0,
+      showShadow: true,
+
+      angle: -5.0,
+
+      // slideWidth: MediaQuery.of(context).size.width *
+      //     (ZoomDrawer.isRTL() ? .45 : 0.65),
       menuBackgroundColor: const Color(0xffFDBA2F),
-      mainScreen: const Body(),
+      mainScreen: const HomePageMentee(),
       menuScreen: Theme(
         data: ThemeData.dark(),
         child: Scaffold(
@@ -223,39 +234,39 @@ class _ZoomState extends State<Zoom> {
 }
 
 //body
-class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+// class Body extends StatefulWidget {
+//   const Body({Key? key}) : super(key: key);
 
-  @override
-  State<Body> createState() => _BodyState();
-}
+//   @override
+//   State<Body> createState() => _BodyState();
+// }
 
-class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
-  late AnimationController controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 100),
-    value: -1.0,
-  );
+// class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
+//   late AnimationController controller = AnimationController(
+//     vsync: this,
+//     duration: const Duration(milliseconds: 100),
+//     value: -1.0,
+//   );
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     controller.dispose();
+//     super.dispose();
+//   }
 
-  bool get isPanelVisible {
-    final AnimationStatus status = controller.status;
-    return status == AnimationStatus.completed ||
-        status == AnimationStatus.forward;
-  }
+//   bool get isPanelVisible {
+//     final AnimationStatus status = controller.status;
+//     return status == AnimationStatus.completed ||
+//         status == AnimationStatus.forward;
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: HomePageMentee(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       body: HomePageMentee(),
+//     );
+//   }
+// }
 
 //Home Page design
 
@@ -268,6 +279,7 @@ class HomePageMentee extends StatefulWidget {
 
 class _HomePageMenteeState extends State<HomePageMentee>
     with BasePage<HomePageMenteeVM> {
+  // zoomController
   int counter = 0;
 
   @override
@@ -299,6 +311,7 @@ class _HomePageMenteeState extends State<HomePageMentee>
                     ),
                   ),
                   onPressed: () {
+                    // z.toggle!();
                     z.toggle!();
                   },
                 ),

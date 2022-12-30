@@ -11,7 +11,6 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
   List<MeetingModel> confirmedupcomingmeetings = [];
   @override
   void onInit() {
-   
     getConfirmedUpcomingMeeting();
     getSentUpcomingMeeting();
     getreceivedUpcomingMeeting();
@@ -163,6 +162,9 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         showNotification(res.data['message']);
+        getreceivedUpcomingMeeting();
+        getConfirmedUpcomingMeeting();
+        getSentUpcomingMeeting();
       } else {
         showNotification(res.data['message']);
       }

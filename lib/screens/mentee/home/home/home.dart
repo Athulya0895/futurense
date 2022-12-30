@@ -106,12 +106,12 @@ class _HomeMenteeState extends State<HomeMentee> with BasePage<HomeMenteeVM> {
             },
             screens: _buildScreens(),
             items: _navBarsItems(),
-            // confineInSafeArea: true,
-            // backgroundColor: Colors.white,
-            // handleAndroidBackButtonPress: true,
-            // resizeToAvoidBottomInset: true,
-            // stateManagement: true,
-            // hideNavigationBarWhenKeyboardShows: true,
+            confineInSafeArea: true,
+            backgroundColor: Colors.white,
+            handleAndroidBackButtonPress: true,
+            resizeToAvoidBottomInset: true,
+            stateManagement: controller.index == 0 ? false : true,
+            hideNavigationBarWhenKeyboardShows: true,
             // navBarHeight: 90,
             decoration: const NavBarDecoration(
               borderRadius: BorderRadius.only(
@@ -127,8 +127,8 @@ class _HomeMenteeState extends State<HomeMentee> with BasePage<HomeMenteeVM> {
                     blurStyle: BlurStyle.normal),
               ],
             ),
-            // popAllScreensOnTapOfSelectedTab: true,
-            // popActionScreens: PopActionScreensType.all,
+            popAllScreensOnTapOfSelectedTab: true,
+            popActionScreens: PopActionScreensType.all,
             itemAnimationProperties: const ItemAnimationProperties(
               // Navigation Bar's items animation properties.
               duration: Duration(milliseconds: 200),
