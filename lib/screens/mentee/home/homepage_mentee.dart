@@ -39,7 +39,8 @@ final ZoomDrawerController z = ZoomDrawerController();
 
 class Zoom extends StatefulWidget {
   final jumbToIndex; //for changing the bottom navigation index
-  const Zoom({Key? key, this.jumbToIndex}) : super(key: key);
+  final bool? reload;
+  const Zoom({Key? key, this.jumbToIndex, this.reload}) : super(key: key);
 
   @override
   _ZoomState createState() => _ZoomState();
@@ -47,10 +48,15 @@ class Zoom extends StatefulWidget {
 
 class _ZoomState extends State<Zoom> {
   @override
+  void initState() {
+    print(widget.reload);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
       controller: z,
-
       style: DrawerStyle.defaultStyle,
       // style: DrawerStyle.style1,
       // showShadow: true,
@@ -69,7 +75,7 @@ class _ZoomState extends State<Zoom> {
       // slideWidth: MediaQuery.of(context).size.width *
       //     (ZoomDrawer.isRTL() ? .45 : 0.65),
       menuBackgroundColor: const Color(0xffFDBA2F),
-      mainScreen: const HomePageMentee(),
+      mainScreen: HomePageMentee(reload: widget.reload),
       menuScreen: Theme(
         data: ThemeData.dark(),
         child: Scaffold(
@@ -271,7 +277,8 @@ class _ZoomState extends State<Zoom> {
 //Home Page design
 
 class HomePageMentee extends StatefulWidget {
-  const HomePageMentee({super.key});
+  bool? reload;
+  HomePageMentee({super.key, this.reload});
 
   @override
   State<HomePageMentee> createState() => _HomePageMenteeState();
@@ -281,6 +288,12 @@ class _HomePageMenteeState extends State<HomePageMentee>
     with BasePage<HomePageMenteeVM> {
   // zoomController
   int counter = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("changed");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1129,30 +1142,38 @@ class _HomePageMenteeState extends State<HomePageMentee>
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
       // implement GridView.builder
       child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 3 / 3.8,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
-          itemCount: provider.topMentorList.length > 6
-              ? 6
-              : provider.topMentorList.length,
-          shrinkWrap: true,
-          physics:
-              const ScrollPhysics(), //only five topmentors need to be displayed
-          // shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext ctx, index) {
-            return InkWell(
-              onTap: (() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MentorDetails(
-                            topmentor: provider.topMentorList[index])));
-              }),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 210,
+          childAspectRatio:
+              ((MediaQuery.of(context).size.width / 2) - 30) / 210,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+        ),
+        itemCount: provider.topMentorList.length > 6
+            ? 6
+            : provider.topMentorList.length,
+        shrinkWrap: true,
+        physics:
+            const ScrollPhysics(), //only five topmentors need to be displayed
+        // shrinkWrap: true,
+        // physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext ctx, index) {
+          return InkWell(
+            onTap: (() {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MentorDetails(
+                          topmentor: provider.topMentorList[index])));
+            }),
+            child: Container(
+              height: 210,
               child: Stack(
                 // alignment: Alignment.bottomCenter,
+                // overflow: Overflow.clip,
+                alignment: AlignmentDirectional.topCenter,
+                fit: StackFit.loose,
+                // clipBehavior: Clip.antiAlias,
                 children: [
                   Container(
                     constraints: const BoxConstraints(maxHeight: 200),
@@ -1190,15 +1211,12 @@ class _HomePageMenteeState extends State<HomePageMentee>
                               : "⭐️ ${provider.topMentorList[index].rating.toString()}(${provider.topMentorList[index].reviews.toString()} reviews)",
                           style: const TextStyle(color: Color(0xffFD2FE2)),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                        const SizedBox(height: 15),
                       ],
                     ),
                   ),
                   Positioned(
-                    bottom: -1,
-                    right: 40,
+                    bottom: 0,
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -1213,8 +1231,10 @@ class _HomePageMenteeState extends State<HomePageMentee>
                   ),
                 ],
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -1223,6 +1243,6 @@ class _HomePageMenteeState extends State<HomePageMentee>
 
   @override
   void initialise(BuildContext context) {
-    // TODO: implement initialise
+    print(widget.reload);
   }
 }

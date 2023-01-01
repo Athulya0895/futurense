@@ -23,14 +23,14 @@ class ApiClient {
   late MentorRepo mentorRepo;
   late MenteeRepo menteeRepo;
   ApiClient() {
-    // _dio.interceptors.add(
-    //   PrettyDioLogger(
-    //     responseHeader: true,
-    //     requestHeader: true,
-    //     requestBody: true,
-    //     request: true,
-    //   ),
-    // );
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        responseHeader: true,
+        requestHeader: true,
+        requestBody: true,
+        request: true,
+      ),
+    );
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options,
@@ -38,7 +38,6 @@ class ApiClient {
           return requestInterceptorHandler.next(options);
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
-         
           if (response.data is String) {
             final jsonResponse = jsonDecode(response.data);
             response.data = jsonResponse;
