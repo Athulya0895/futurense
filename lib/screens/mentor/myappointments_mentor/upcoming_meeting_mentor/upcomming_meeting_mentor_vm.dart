@@ -167,6 +167,15 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     meetingDetails: provider
                                                             .confirmedupcomingmeetings[
                                                         index],
+                                                    viewStatus: provider
+                                                                .confirmedupcomingmeetings[
+                                                                    index]
+                                                                .status ==
+                                                            "Confirmed"
+                                                        ? "Scheduled on time"
+                                                        : "Meeting Rescheduled to ${provider.receivedUpcomingMeeting[index].fromDate} - ${provider.receivedUpcomingMeeting[index].startTime}",
+                                                    viewStatusColor:
+                                                        Color(0xff32CD32),
                                                     buttonText1: "Reschedule",
                                                     buttonText1pressed: () {
                                                       //reschedule meeting
@@ -387,33 +396,24 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                             "Audio Call"
                                                         ? "assets/call.svg"
                                                         : "assets/videocall.svg",
-                                                    iconbuttonPressed: () {
-                                                      // print(
-                                                      //     "pressed videocall by mentor");
-                                                      // //video call agora
-                                                      // print(
-                                                      //     "channel Name mentor");
-                                                      // print(provider
-                                                      //     .confirmedupcomingmeetings[
-                                                      //         index]
-                                                      //     .channelName);
-                                                      // print(
-                                                      //     "channel Name mentor");
-                                                      provider
+                                                    iconbuttonPressed:
+                                                        () async {
+                                                      print("pressed call");
+                                                      await provider
+                                                          .checkMeetingTime(provider
+                                                              .confirmedupcomingmeetings[
+                                                                  index]
+                                                              .channelName
+                                                              .toString());
+                                                      provider.canJoin == "true"
+                                                          ? onJoin(provider
                                                                   .confirmedupcomingmeetings[
-                                                                      index]
-                                                                  .canJoin ==
-                                                              true
-                                                          ? onJoin(
-                                                              provider
-                                                                      .confirmedupcomingmeetings[
-                                                                  index])
+                                                              index])
                                                           : Fluttertoast.showToast(
                                                               msg:
-                                                                  "Your Meeting is not yet started.wait for your sheduled time",
-                                                              toastLength:
-                                                                  Toast
-                                                                      .LENGTH_SHORT,
+                                                                  "Your Meeting is not yet started. Wait for your scheduled time",
+                                                              toastLength: Toast
+                                                                  .LENGTH_SHORT,
                                                               gravity:
                                                                   ToastGravity
                                                                       .CENTER,
@@ -422,7 +422,6 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                               textColor:
                                                                   Colors.white,
                                                               fontSize: 16.0);
-                                                      Navigator.pop(context);
                                                     },
                                                   );
                                                 },
@@ -658,27 +657,21 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                             // buttonText2pressed: (){
                                             //   //send message
                                             // },
-                                            iconButtonpressed: () {
-                                              // print(
-                                              //     "pressed videocall by mentor");
-                                              // //video call agora
-                                              // print("channel Name mentor");
-                                              // print(provider
-                                              //     .confirmedupcomingmeetings[
-                                              //         index]
-                                              //     .channelName);
-                                              // print("channel Name mentor");
-                                              provider
-                                                          .confirmedupcomingmeetings[
-                                                              index]
-                                                          .canJoin ==
-                                                      true
+                                            iconButtonpressed: () async {
+                                              print("pressed call");
+                                              await provider.checkMeetingTime(
+                                                  provider
+                                                      .confirmedupcomingmeetings[
+                                                          index]
+                                                      .channelName
+                                                      .toString());
+                                              provider.canJoin == "true"
                                                   ? onJoin(provider
                                                           .confirmedupcomingmeetings[
                                                       index])
                                                   : Fluttertoast.showToast(
                                                       msg:
-                                                          "Your Meeting is not yet started.wait for your sheduled time",
+                                                          "Your Meeting is not yet started. Wait for your scheduled time",
                                                       toastLength:
                                                           Toast.LENGTH_SHORT,
                                                       gravity:
@@ -764,6 +757,10 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     meetingDetails: provider
                                                             .sentUpcomingMeeting[
                                                         index],
+                                                    viewStatus:
+                                                        "Request has not been accepted yet!",
+                                                    viewStatusColor:
+                                                        Color(0xffFF5458),
                                                     // buttonText1: "Remind",
                                                     // buttonText1pressed: () {
                                                     //   //remind send notification to mentee
@@ -865,6 +862,20 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     meetingDetails: provider
                                                             .receivedUpcomingMeeting[
                                                         index],
+                                                    viewStatus: provider
+                                                                .receivedUpcomingMeeting[
+                                                                    index]
+                                                                .status ==
+                                                            "Rescheduled"
+                                                        ? "Meeting Rescheduled to ${provider.receivedUpcomingMeeting[index].fromDate} - ${provider.receivedUpcomingMeeting[index].startTime}"
+                                                        : "",
+                                                    viewStatusColor: provider
+                                                                .receivedUpcomingMeeting[
+                                                                    index]
+                                                                .status ==
+                                                            "Rescheduled"
+                                                        ? Color(0xffFF7901)
+                                                        : Colors.white,
                                                     buttonText1: "Accept",
                                                     buttonText1pressed: () {
                                                       //Accept
@@ -1344,26 +1355,21 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     });
                                                   });
                                             },
-                                            iconButtonpressed: () {
-                                              //agora video call / audio call
-
-                                              // print("channel Name mentor");
-                                              // print(provider
-                                              //     .confirmedupcomingmeetings[
-                                              //         index]
-                                              //     .channelName);
-                                              // print("channel Name mentor");
-                                              provider
-                                                          .confirmedupcomingmeetings[
-                                                              index]
-                                                          .canJoin ==
-                                                      true
+                                            iconButtonpressed: () async {
+                                              print("pressed call");
+                                              await provider.checkMeetingTime(
+                                                  provider
+                                                      .confirmedupcomingmeetings[
+                                                          index]
+                                                      .channelName
+                                                      .toString());
+                                              provider.canJoin == "true"
                                                   ? onJoin(provider
                                                           .confirmedupcomingmeetings[
                                                       index])
                                                   : Fluttertoast.showToast(
                                                       msg:
-                                                          "Your Meeting is not yet started.wait for your sheduled time",
+                                                          "Your Meeting is not yet started. Wait for your scheduled time",
                                                       toastLength:
                                                           Toast.LENGTH_SHORT,
                                                       gravity:
@@ -1380,9 +1386,9 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                       child: DataNotFound(
                                         nodataimg: "assets/nodatafound.svg",
                                         cancelledText1:
-                                            "No Meeting Request Received",
+                                            "No Meeting Requests Received",
                                         cancelledText2:
-                                            "You have not recieved any meeting\n requests",
+                                            "You have not received any meeting\n requests",
                                         buttonText: "Schedule Meeting ->",
                                         buttonpress: () {
                                           Navigator.push(
@@ -1449,6 +1455,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                         tokenAgora: mentor?.agoraToken,
                         role: ClientRole.Broadcaster,
                         mentor: mentor,
+                        meetingMode: mentor?.communicationMode,
                       ),
                     ),
                   );
@@ -1466,7 +1473,10 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (Context) => FeedbackPage(mentor: mentor)));
+                          builder: (Context) => FeedbackPage(
+                                mentor: mentor,
+                                role: "mentor",
+                              )));
                 },
                 child: Text('End Call'),
               ),

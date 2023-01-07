@@ -34,13 +34,13 @@ class Advertisment extends StatelessWidget {
           padding: EdgeInsets.only(left: 50, bottom: 20, top: 20),
           child: RichText(
             text: TextSpan(
-              text: totalMentees != null ? "${totalMentees} +" : "",
-              style:const TextStyle(
+              text: totalMentees != null ? "${totalMentees}+ " : "",
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
-              children:const [
+              children: const [
                 TextSpan(
                   text: 'Alumni has joined the mentorship community.',
                   style: TextStyle(

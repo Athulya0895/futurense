@@ -6,6 +6,13 @@ class Validators {
     return null;
   }
 
+  static String? meetingagenda(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Add Your Meeting Agenda';
+    }
+    return null;
+  }
+
   static String? password(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter Password';

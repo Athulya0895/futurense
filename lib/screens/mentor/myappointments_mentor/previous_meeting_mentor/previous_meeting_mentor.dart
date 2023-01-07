@@ -73,8 +73,15 @@ class _PreviousMeetingMentorState extends State<PreviousMeetingMentor>
                           fromDate: provider.previousMeetings[index].fromDate,
                           startTime: provider.previousMeetings[index].startTime,
                           status: provider.previousMeetings[index].status,
-                          icon: "assets/done.svg",
-                          buttonText1: "Schedule Another",
+                          icon: provider.previousMeetings[index].status !=
+                                  "Expired"
+                              ? "assets/done.svg"
+                              : "assets/expired.svg",
+                          buttonText1:
+                              provider.previousMeetings[index].status !=
+                                      "Expired"
+                                  ? "Schedule Another"
+                                  : "Reschedule",
                           buttonText2: "Leave a Review",
                           buttonText1pressed: () {
                             //schedule another in previous meeting mentor
@@ -300,6 +307,7 @@ class _PreviousMeetingMentorState extends State<PreviousMeetingMentor>
                                     builder: (Context) => FeedbackPage(
                                           mentor:
                                               provider.previousMeetings[index],
+                                          role: "mentor",
                                         )));
                           },
                           onPressedViewDetail: () {
@@ -313,6 +321,16 @@ class _PreviousMeetingMentorState extends State<PreviousMeetingMentor>
                                       .previousMeetings[index].profilepic,
                                   meetingDetails:
                                       provider.previousMeetings[index],
+                                  viewStatus:
+                                      provider.previousMeetings[index].status ==
+                                              "Completed"
+                                          ? "“This meeting is over”"
+                                          : "“This meeting is expired”",
+                                  viewStatusColor:
+                                      provider.previousMeetings[index].status ==
+                                              "Completed"
+                                          ? Color(0xff36C936)
+                                          : Color(0xffFF7901),
                                   buttonText1: "Reschedule",
                                   buttonText1pressed: () {
                                     //reschedule meeting

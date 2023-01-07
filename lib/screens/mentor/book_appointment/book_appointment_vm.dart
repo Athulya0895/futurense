@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/main.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/mentor/home/home/home.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list.dart';
@@ -119,7 +120,7 @@ class BookAppointmentMentorVM extends BaseViewModel {
                           height: 5,
                         ),
                         const Text(
-                          " Sent Sucessfully",
+                          " Sent Successfully",
                           style:
                               TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
                           textAlign: TextAlign.center,
@@ -128,7 +129,7 @@ class BookAppointmentMentorVM extends BaseViewModel {
                           height: 10,
                         ),
                         Text(
-                          "Mentee : ${mentor?.fName} ${mentor?.lName}\n \n Date & Time :${DateFormat('dd-MM-yyyy').format(focusedDay)} at ${selectedTimeslot}",
+                          "Mentee : ${mentor?.fName} ${mentor?.lName}\nDate:${DateFormat('dd-MM-yyyy').format(focusedDay)}\nTime: ${selectedTimeslot}",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               color: Color(0xffA0A2B3),
@@ -173,7 +174,13 @@ class BookAppointmentMentorVM extends BaseViewModel {
                         ),
                         TextButton(
                             onPressed: () {
-                              // Navigator.pop(context);
+                              Navigator.pop(context);
+                              PersistentNavBarNavigator.pushNewScreen(
+                                  MyApp.context,
+                                  screen: const MenteeList(),
+                                  withNavBar: true,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino);
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
@@ -286,7 +293,7 @@ class BookAppointmentMentorVM extends BaseViewModel {
       MapEntry("time", selectedTimeslot.toString()),
       MapEntry("mode", selectedMeetingMode),
       MapEntry("duration", meetingDuration),
-      MapEntry("mode", problemDetail.text),
+      MapEntry("agenda", problemDetail.text),
     ]);
     showLoading();
     var res = await api.mentorRepo.rescheduleMeeting(formData);
@@ -355,14 +362,19 @@ class BookAppointmentMentorVM extends BaseViewModel {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
                           // PersistentNavBarNavigator.pushNewScreen(context,
                           //     screen: Home(),
                           //     withNavBar: false,
                           //     pageTransitionAnimation:
                           //         PageTransitionAnimation.cupertino);
+                          PersistentNavBarNavigator.pushNewScreen(context,
+                              screen: UpcomingMeetingMentor(),
+                              withNavBar: true,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(

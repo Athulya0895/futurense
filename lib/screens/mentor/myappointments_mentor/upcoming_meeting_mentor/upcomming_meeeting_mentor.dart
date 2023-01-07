@@ -37,10 +37,12 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
       tempconfirmed = data['confirmed'] ?? [];
       confirmedupcomingmeetings =
           tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
 
       tempsent = data['sent'] ?? [];
       sentUpcomingMeeting =
           tempsent.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
       tempreceived = data['received'] ?? [];
       receivedUpcomingMeeting =
           tempreceived.map((e) => MeetingModel.fromjson(e)).toList();
@@ -143,6 +145,9 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         showNotification(res.data['message']);
+        getreceivedUpcomingMeeting();
+        getConfirmedUpcomingMeeting();
+        getSentUpcomingMeeting();
         // showDialog<void>(
         //   context: context,
         //   builder: (BuildContext context) {
@@ -204,25 +209,30 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
     {"name": "Others", "isChecked": false},
   ];
 
-  // void cancelMeeting(String channelName, context) async {
-  //   FormData formData = FormData();
-  //   formData.fields.addAll([
-  //     MapEntry("channel_name", channelName),
-  //     MapEntry("cancel_reason", currText),
-  //     MapEntry("cancel_detail", about.text),
-  //   ]);
-  //   showLoading();
-  //   final res = await api.menteeRepo.cancelMeeting(formData);
-  //   if (res.runtimeType == Response) {
-  //     if (res.data['status'] == true) {
-  //       showNotification(res.data['message']);
-  //       Navigator.pop(context);
-  //     } else {
-  //       showError(res.data['message']);
-  //     }
-  //   } else {
-  //     showError("something went Wrong");
-  //   }
-  // }
+  String? canJoin;
+   checkMeetingTime(String channelName) async {
+    print("channel name");
+    print(channelName);
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+    print(formData);
+    final res = await api.mentorRepo.checkMeetingTime(formData);
+    print("result from backend");
+    print(res);
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        canJoin = res.data['Data']['can_join'];
 
+        notifyListeners();
+      } else {
+        print("can't join");
+      }
+    } else {
+      showError("Something Went Wrong");
+    }
+  }
 }

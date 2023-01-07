@@ -371,8 +371,14 @@ class _MenteeDetailState extends State<MenteeDetail>
                       width: 10,
                     ),
                     _headercontainer(
-                        "Reviews",
-                        " ${widget.topmentor!.rating.toString()}, ${widget.topmentor!.reviews.toString()}+",
+                        widget.topmentor?.rating == "0" ||
+                                widget.topmentor?.reviews == "0"
+                            ? ""
+                            : "Reviews",
+                        widget.topmentor?.rating == "0" ||
+                                widget.topmentor?.reviews == "0"
+                            ? "No Reviews"
+                            : " ${widget.topmentor?.rating.toString()}, ${widget.topmentor?.reviews.toString()}+",
                         const Color(0xffF7C480).withOpacity(.15),
                         SvgPicture.asset("assets/reviews.svg")),
                   ],

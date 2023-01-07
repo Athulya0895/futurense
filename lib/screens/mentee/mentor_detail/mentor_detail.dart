@@ -382,8 +382,14 @@ class _MentorDetailsState extends State<MentorDetails>
                         const Color(0xffe80010).withOpacity(.15),
                         SvgPicture.asset("assets/experience.svg")),
                     _headercontainer(
-                        "Reviews",
-                        "${widget.topmentor!.rating.toString()}, ${widget.topmentor!.reviews.toString()}+",
+                        widget.topmentor?.rating == "0" ||
+                                widget.topmentor?.reviews == "0"
+                            ? ""
+                            : "Reviews",
+                        widget.topmentor?.rating == "0" ||
+                                widget.topmentor?.reviews == "0"
+                            ? "No Reviews"
+                            : "${widget.topmentor?.rating.toString()}, ${widget.topmentor!.reviews.toString()}+",
                         const Color(0xffF7C480).withOpacity(.15),
                         SvgPicture.asset("assets/reviews.svg")),
                   ],
@@ -471,7 +477,7 @@ class _MentorDetailsState extends State<MentorDetails>
                 count,
                 textAlign: TextAlign.center,
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
               ),
               const SizedBox(
                 height: 1,

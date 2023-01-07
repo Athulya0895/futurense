@@ -35,7 +35,7 @@ class _ChatMentorState extends State<ChatMentor> with BasePage<ChatMentorVM> {
               child: AppBar(
                 title: const Center(
                   child: Text(
-                    "Chat",
+                    "Messages",
                     style: TextStyle(
                         color: const Color(0xffFDBA2F),
                         fontSize: 20,
@@ -55,7 +55,7 @@ class _ChatMentorState extends State<ChatMentor> with BasePage<ChatMentorVM> {
           body: const ComingSoon(
               text1: "Messaging Feature Coming\n Soon!",
               text2:
-                  "You will be able to start\n messaging your mentors\n directly!"),
+                  "You will be able to start\n messaging your mentees\n directly!"),
         )));
   }
 

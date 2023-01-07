@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/main.dart';
@@ -9,6 +10,7 @@ import 'package:futurensemobileapp/screens/mentee/home/home/home_vm.dart';
 import 'package:futurensemobileapp/screens/mentee/home/homepage_mentee.dart';
 import 'package:futurensemobileapp/screens/mentee/myaccount/myaccount.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/myappointments_mentee.dart';
+
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomeMentee extends StatefulWidget {
@@ -94,56 +96,53 @@ class _HomeMenteeState extends State<HomeMentee> with BasePage<HomeMenteeVM> {
 
   @override
   Widget build(BuildContext context) {
-    return builder(
-      (() => Scaffold(
-            // drawer: ,
-            body: PersistentTabView(
-              MyApp.context,
-              controller: controller,
-              onItemSelected: (index) {
-                setState(() {});
-              },
-              screens: _buildScreens(),
-              items: _navBarsItems(),
-              confineInSafeArea: true,
-              backgroundColor: Colors.white,
-              handleAndroidBackButtonPress: true,
-              resizeToAvoidBottomInset: true,
-              stateManagement: controller.index == 0 ? false : true,
-              hideNavigationBarWhenKeyboardShows: true,
-              // navBarHeight: 90,
-              decoration: const NavBarDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25)),
-                colorBehindNavBar: Colors.white,
-                // border: Border.all(color: Color(0xffFDBA2F))
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffFFD680),
-                      spreadRadius: 0.5,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                      blurStyle: BlurStyle.normal),
-                ],
-              ),
-              popAllScreensOnTapOfSelectedTab: true,
-              popActionScreens: PopActionScreensType.all,
-              itemAnimationProperties: const ItemAnimationProperties(
-                // Navigation Bar's items animation properties.
-                duration: Duration(milliseconds: 200),
-                curve: Curves.ease,
-              ),
-              screenTransitionAnimation: const ScreenTransitionAnimation(
-                // Screen transition animation on change of selected tab.
-                animateTabTransition: true,
-                curve: Curves.ease,
-                duration: Duration(milliseconds: 200),
-              ),
-              navBarStyle: NavBarStyle.style1,
+    return builder((() => Scaffold(
+          // drawer: ,
+          body: PersistentTabView(
+            context,
+            controller: controller,
+            onItemSelected: (index) {
+              setState(() {});
+            },
+            screens: _buildScreens(),
+            items: _navBarsItems(),
+            confineInSafeArea: true,
+            backgroundColor: Colors.white,
+            handleAndroidBackButtonPress: true,
+            resizeToAvoidBottomInset: true,
+            stateManagement: controller.index == 0 ? false : true,
+            hideNavigationBarWhenKeyboardShows: true,
+            // navBarHeight: 90,
+            decoration: const NavBarDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+              colorBehindNavBar: Colors.white,
+              // border: Border.all(color: Color(0xffFDBA2F))
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xffFFD680),
+                    spreadRadius: 0.5,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                    blurStyle: BlurStyle.normal),
+              ],
             ),
-          )),
-    );
+            popAllScreensOnTapOfSelectedTab: true,
+            popActionScreens: PopActionScreensType.all,
+            itemAnimationProperties: const ItemAnimationProperties(
+              // Navigation Bar's items animation properties.
+              duration: Duration(milliseconds: 200),
+              curve: Curves.ease,
+            ),
+            screenTransitionAnimation: const ScreenTransitionAnimation(
+              // Screen transition animation on change of selected tab.
+              animateTabTransition: true,
+              curve: Curves.ease,
+              duration: Duration(milliseconds: 200),
+            ),
+            navBarStyle: NavBarStyle.style1,
+          ),
+        )));
   }
 
   @override

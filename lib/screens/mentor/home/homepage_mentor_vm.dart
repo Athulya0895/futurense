@@ -13,6 +13,7 @@ class HomePageMentorVM extends BaseViewModel {
     getTopMentees();
   }
 
+
 //reschedule
   List<Map> rescheduleCheckbox = [
     {"name": "Schedule clash", "isChecked": false},
@@ -104,9 +105,9 @@ class HomePageMentorVM extends BaseViewModel {
         tempconfirmed = res.data['DATA'] ?? [];
         confirmedupcomingmeetings =
             tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
-        print("confirmedupcomingmeetings");
-        print(confirmedupcomingmeetings);
-        print("confirmedupcomingmeetings");
+        // print("confirmedupcomingmeetings");
+        // print(confirmedupcomingmeetings);
+        // print("confirmedupcomingmeetings");
       } else {
         showError(res.data['message']);
       }
@@ -114,4 +115,8 @@ class HomePageMentorVM extends BaseViewModel {
       showError("Servere Error");
     }
   }
+
+  checkMeetingTime(String string) {}
+
+  //
 }

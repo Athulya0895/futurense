@@ -305,6 +305,8 @@ class _CancelledAppointmentsMenteeState
                                       provider.cancelMeetings[index].profilepic,
                                   meetingDetails:
                                       provider.cancelMeetings[index],
+                                  viewStatus: "This meeting has been cancelled",
+                                  viewStatusColor: Color(0xffFF7901),
                                   buttonText1: "Reschedule",
                                   buttonText1pressed: () {
                                     //reschedule meeting
@@ -378,7 +380,7 @@ class _CancelledAppointmentsMenteeState
                                                                               child: Row(
                                                                                 children: <Widget>[
                                                                                   Checkbox(
-                                                                                    activeColor:const Color(0xffFDBA2F),
+                                                                                    activeColor: const Color(0xffFDBA2F),
                                                                                     value: area["isChecked"],
                                                                                     onChanged: (value) {
                                                                                       setState(() => area["isChecked"] = value);
@@ -419,8 +421,10 @@ class _CancelledAppointmentsMenteeState
                                                     ),
                                                     const SizedBox(height: 10),
                                                     Padding(
-                                                      padding:const EdgeInsets.only(
-                                                          left: 15, right: 15),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 15,
+                                                              right: 15),
                                                       child: InputField(
                                                         maxline: 3,
                                                         // minline: 1,
@@ -437,8 +441,8 @@ class _CancelledAppointmentsMenteeState
                                                       height: 30,
                                                     ),
                                                     MaterialButton(
-                                                        color:
-                                                          const Color(0xffFDBA2F),
+                                                        color: const Color(
+                                                            0xffFDBA2F),
                                                         materialTapTargetSize:
                                                             MaterialTapTargetSize
                                                                 .shrinkWrap,
@@ -530,7 +534,8 @@ class _CancelledAppointmentsMenteeState
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>const MyappointmentsMentee()));
+                              builder: (context) =>
+                                  const MyappointmentsMentee()));
                     },
                   ),
                 ),

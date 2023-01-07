@@ -10,6 +10,7 @@ class HomePageMenteeVM extends BaseViewModel {
   void onInit() {
     getUserDetails();
     user = prefs.user;
+    checkNewNotification();
     getCategory();
     getConfirmedUpcomingMeeting();
     getTopMentors();
@@ -86,7 +87,7 @@ class HomePageMenteeVM extends BaseViewModel {
       MapEntry("user_id", prefs.userId.toString()),
     ]);
     showLoading();
-    final res = await api.mentorRepo.getMentor(formData);
+    final res = await api.menteeRepo.getMentee(formData);
 
     hideLoading();
     if (res.runtimeType == Response) {
@@ -135,6 +136,27 @@ class HomePageMenteeVM extends BaseViewModel {
       }
     } else {
       showError("Servere Error");
+    }
+  }
+
+  // check Notification
+  String? count;
+  void checkNewNotification() async {
+    print("check new notifications");
+    showLoading();
+    final res = await api.menteeRepo.checkNewNotification();
+    print(res);
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        count = res.data['Data']['count'];
+        print(count);
+        notifyListeners();
+      } else {
+        print("No notification");
+      }
+    } else {
+      print("Something Went Wrong");
     }
   }
 }

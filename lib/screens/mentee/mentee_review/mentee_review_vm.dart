@@ -19,8 +19,7 @@ class MenteeReviewVM extends BaseViewModel {
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         reviewsList = ReviewModel.fromJson(res.data['Data']);
-     
-     
+
         notifyListeners();
       } else {
         showNotification("No reviews Found");

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -41,10 +42,12 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
       tempconfirmed = data['confirmed'] ?? [];
       confirmedupcomingmeetings =
           tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
 
       tempsent = data['sent'] ?? [];
       sentUpcomingMeeting =
           tempsent.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
       tempreceived = data['received'] ?? [];
       receivedUpcomingMeeting =
           tempreceived.map((e) => MeetingModel.fromjson(e)).toList();
@@ -159,6 +162,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
     formData.fields.addAll([MapEntry("channel_name", channelName)]);
     showLoading();
     final res = await api.menteeRepo.acceptMeeting(formData);
+    hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         showNotification(res.data['message']);
@@ -184,6 +188,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
     ]);
     showLoading();
     final res = await api.menteeRepo.cancelMeeting(formData);
+    hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         showNotification(res.data['message']);
@@ -193,6 +198,33 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
       }
     } else {
       showError("something went Wrong");
+    }
+  }
+
+  //checkMeeting time
+  String? canJoin;
+  checkMeetingTime(String channelName) async {
+    print("channel name");
+    print(channelName);
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+    print(formData);
+    final res = await api.menteeRepo.checkMeetingTime(formData);
+
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        canJoin = res.data['Data']['can_join'];
+
+        notifyListeners();
+      } else {
+        print("can't join");
+      }
+    } else {
+      showError("Something Went Wrong");
     }
   }
 }

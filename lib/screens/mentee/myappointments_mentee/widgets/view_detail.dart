@@ -12,6 +12,8 @@ class ViewDetail extends StatelessWidget {
   final String? url;
   final Function? iconbuttonPressed;
   final String? icon;
+  final String? viewStatus;
+  final Color? viewStatusColor;
   // final String? userName;
   // final String? meetingMode;
   // final String? duration;
@@ -25,6 +27,8 @@ class ViewDetail extends StatelessWidget {
       this.buttonText2pressed,
       this.url,
       this.iconbuttonPressed,
+      required this.viewStatus,
+      required this.viewStatusColor,
       this.icon});
 
   @override
@@ -39,16 +43,30 @@ class ViewDetail extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.close)),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10, top: 5),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Color(0xffD8D8D8))),
+                    child: SvgPicture.asset('assets/closing.svg'),
+                    //  const Icon(
+                    //   Icons.close,
+                    //   color: Color(0xffFDBA2F),
+                    // )
+                  )),
+            ),
           ),
           const Text(
             "Meeting Details",
@@ -113,33 +131,26 @@ class ViewDetail extends StatelessWidget {
                             const SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              "Meeting Duration : ${meetingDetails?.duration ?? ""}",
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              "Meeting Agenda : ${meetingDetails?.meetingAgenda}",
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500),
-                            ),
                           ],
                         ),
                       ),
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
+                              // alignment: Alignment.centerRight,
                               onPressed: () {
                                 iconbuttonPressed!();
-                                print("meeting");
+                                // print("meeting");
                               },
                               icon: SvgPicture.asset(icon ?? "")),
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          // const SizedBox(
+                          //   height: 15,
+                          // ),
                         ],
                       ),
                     ],
@@ -148,7 +159,80 @@ class ViewDetail extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                // Text("data")
+                Row(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            viewStatus!,
+                            // "Meeting Rescheduled to Tomorrow 11:00 AM",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: viewStatusColor),
+                          ),
+                          // Text(
+                          //   "Meeting Duration : ${meetingDetails?.duration ?? ""}",
+                          //   style: const TextStyle(
+                          //       fontSize: 12, fontWeight: FontWeight.w500),
+                          // ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Meeting Duration : ',
+                              style: const TextStyle(
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Color(0xff202020)),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: "${meetingDetails?.duration ?? ""}",
+                                    style: TextStyle(color: Color(0xff777A95))),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Meeting Agenda : ',
+                              style: const TextStyle(
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Color(0xff202020)),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text:
+                                        "${meetingDetails?.meetingAgenda ?? "-"}",
+                                    style: TextStyle(color: Color(0xff777A95))),
+                              ],
+                            ),
+                          ),
+                          // Text(
+                          //   "Meeting Agenda : ${meetingDetails?.meetingAgenda}",
+                          //   style: const TextStyle(
+                          //       fontSize: 12, fontWeight: FontWeight.w500),
+                          // ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
                     width: double.infinity,
                     // height: 67,

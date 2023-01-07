@@ -48,70 +48,6 @@ class _ZoomMentorState extends State<ZoomMentor>
     with BasePage<HomePageMentorVM> {
   @override
   void initState() {
-    print("object+++++++++++++++x");
-    try {
-      // IO.Socket socket = IO.io('http://13.127.192.123:6001');
-// Create echo instance
-      // Echo echo =  Echo({
-      //   'broadcaster': 'socket.io',
-      //   'client': IO.io,
-      //   'host': "http://13.127.192.123:6001"
-      // }, client: null);
-//       IO.Socket socket = IO.io(
-//         'http://13.127.192.123:6001',
-//       );
-//       Echo echo = Echo(
-//         client: socket,
-//         broadcaster: EchoBroadcasterType.SocketIO,
-//       );
-// // Listening public channel
-//       echo.channel('messages').listen('PublicEvent', (e) {
-//         print(e);
-//       });
-
-// Listening private channel
-// Needs auth. See details how to authorize channel below in guides
-      // echo.private('private-channel').listen('PrivateEvent', (e) {
-      //   print(e);
-      // });
-
-// Listening presence channel
-// Needs auth. See details how to authorize channel below in guides
-      // echo.join('messages').here((users) {
-      //   print(users);
-      // }).joining((user) {
-      //   print(user);
-      // }).leaving((user) {
-      //   print(user);
-      // }).listen('PresenceEvent', (e) {
-      //   print(e);
-      // });
-
-// Accessing socket instance
-      // echo.connect();
-      // print("socket id ------");
-      //       echo.connect();
-      // print(echo.socketId());
-
-      // echo.channel('messages').listen('PublicEvent', (e) {
-      //   print(e);
-      // });
-
-      // echo.join('messages').listen("PublicEvent", (e) {
-      //   print(e);
-      // });
-      // echo.listen("messages", "PublicEvent", (e) {
-      //   print(e);
-      // });
-
-      // echo.connector.onConnectionStateChange((state) {
-      //   print(state!.currentState.toString());
-      // });
-    } catch (e) {
-      print("error case");
-      print(e);
-    }
-
     super.initState();
   }
 
@@ -133,7 +69,7 @@ class _ZoomMentorState extends State<ZoomMentor>
           duration: const Duration(milliseconds: 500),
 
           borderRadius: 24.0,
-          showShadow: true,
+          // showShadow: true,
 
           angle: -5.0,
 
@@ -141,8 +77,7 @@ class _ZoomMentorState extends State<ZoomMentor>
           //     (ZoomDrawer.isRTL() ? .45 : 0.65),
           menuBackgroundColor: const Color(0xffFDBA2F),
           mainScreen: const HomepageMentor(),
-          menuScreen:
-           Theme(
+          menuScreen: Theme(
             data: ThemeData.dark(),
             child: Scaffold(
               backgroundColor: const Color(0xffFDBA2F),
@@ -165,7 +100,7 @@ class _ZoomMentorState extends State<ZoomMentor>
                               const SizedBox(height: 10),
                               Text(
                                 "${provider.user?.mentorFirstName.toString()} ${provider.user?.mentorLastName.toString()}",
-                                style: TextStyles.titleM,
+                                style: TextStyle(fontSize: 18),
                               ),
                               const SizedBox(height: 5),
                             ],
@@ -177,8 +112,14 @@ class _ZoomMentorState extends State<ZoomMentor>
                         },
                       ),
                       ListTile(
-                        leading: const Icon(
-                          Icons.home,
+                        leading: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              shape: BoxShape.circle),
+                          child: const Icon(
+                            Icons.home,
+                          ),
                         ),
                         title: const Text('Home'),
                         onTap: () {
@@ -189,12 +130,21 @@ class _ZoomMentorState extends State<ZoomMentor>
                         height: 10,
                       ),
                       ListTile(
-                        leading: SvgPicture.asset("assets/appointment.svg"),
+                        leading: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                shape: BoxShape.circle),
+                            child: SvgPicture.asset("assets/appointment.svg")),
                         title: const Text('My Meetings'),
                         onTap: () {
                           widget.jumbToIndex(2);
                         },
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+
                       // ListTile(
                       //   leading: SvgPicture.asset(
                       //     "assets/forumfilled.svg",
@@ -216,8 +166,14 @@ class _ZoomMentorState extends State<ZoomMentor>
                       //   },
                       // ),
                       ListTile(
-                        leading: const Icon(
-                          Icons.notifications,
+                        leading: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              shape: BoxShape.circle),
+                          child: const Icon(
+                            Icons.notifications,
+                          ),
                         ),
                         title: const Text('Notifications'),
                         onTap: () {
@@ -230,9 +186,18 @@ class _ZoomMentorState extends State<ZoomMentor>
                           );
                         },
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       ListTile(
-                        leading: const Icon(
-                          Icons.note,
+                        leading: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              shape: BoxShape.circle),
+                          child: const Icon(
+                            Icons.note,
+                          ),
                         ),
                         title: const Text('Preferences'),
                         onTap: () {
@@ -256,10 +221,12 @@ class _ZoomMentorState extends State<ZoomMentor>
                         },
                       ),
                       const SizedBox(
-                        height: 90,
+                        height: 150,
                       ),
                       ListTile(
-                        leading: const Icon(Icons.logout),
+                        leading: Container(
+                            padding: EdgeInsets.all(10),
+                            child: const Icon(Icons.logout)),
                         title: const Text(
                           'Log Out',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -310,41 +277,6 @@ class _ZoomMentorState extends State<ZoomMentor>
   }
 }
 
-// body
-// class Body extends StatefulWidget {
-//   const Body({Key? key}) : super(key: key);
-
-//   @override
-//   State<Body> createState() => _BodyState();
-// }
-
-// class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
-//   late AnimationController controller = AnimationController(
-//     vsync: this,
-//     duration: const Duration(milliseconds: 100),
-//     value: -1.0,
-//   );
-
-//   @override
-//   void dispose() {
-//     controller.dispose();
-//     super.dispose();
-//   }
-
-//   bool get isPanelVisible {
-//     final AnimationStatus status = controller.status;
-//     return status == AnimationStatus.completed ||
-//         status == AnimationStatus.forward;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Scaffold(
-//       body: HomepageMentor(),
-//     );
-//   }
-// }
-
 //Homepage Design
 class HomepageMentor extends StatefulWidget {
   final jumbToIndex;
@@ -362,494 +294,515 @@ class _HomepageMentorState extends State<HomepageMentor>
   late bool _hideNavBar;
   @override
   Widget build(BuildContext context) {
-    return builder((() => Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(60.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffFFD680),
-                      spreadRadius: 0,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                      blurStyle: BlurStyle.normal),
-                ],
-              ),
-              child: AppBar(
-                leading: IconButton(
-                  icon: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffFDBA2F)),
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                    ),
-                  ),
-                  onPressed: () {
-                    z.toggle!();
-                  },
+    return builder((() => WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(60.0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xffFFD680),
+                        spreadRadius: 0,
+                        blurRadius: 6,
+                        offset: Offset(0, 2),
+                        blurStyle: BlurStyle.normal),
+                  ],
                 ),
-                actions: [
-                  // Using Stack to show Notification Badge
-                  Stack(
-                    children: <Widget>[
-                      IconButton(
-                          icon: const Icon(
-                            Icons.notifications,
-                            size: 30,
-                            color: Color(0xffFDBA2F),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              // counter = 0;
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const NotificationMentor(),
-                              ),
-                            );
-                          }),
-                      counter != 0
-                          ? Positioned(
-                              right: 11,
-                              top: 11,
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xff682FFD),
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                        color: const Color(0xffA0A2B3)
-                                            .withOpacity(0.5))),
-                                constraints: const BoxConstraints(
-                                  minWidth: 14,
-                                  minHeight: 14,
-                                ),
-                                child: Text(
-                                  '$counter',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                          : SizedBox()
-                    ],
-                  ),
-                ],
-                backgroundColor: Colors.white,
-                elevation: 0,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
-                )),
-              ),
-            ),
-          ),
-          body: CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const SizedBox(height: 10),
-                    Header(user: provider.user),
-                    Search(topmenteelist: provider.topMenteeList),
-                    Advertisment(totalMentees: provider.topMenteeList.length),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20, right: 16, left: 16, bottom: 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          const Text("Upcoming Meetings",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18)),
-                          TextButton(
-                              onPressed: () {
-                                //upcoming Meetings received confirmed list
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            UpcomingMeetingMentor()));
-                              },
-                              child: const Text(
-                                "View All",
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Color(0xff682FFD)),
-                              ))
-                        ],
+                child: AppBar(
+                  leading: IconButton(
+                    icon: Container(
+                      padding: const EdgeInsets.all(5),
+                      // width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xffFDBA2F)),
+                      child: const Icon(
+                        Icons.menu,
+                        color: Colors.black,
                       ),
                     ),
-                    provider.confirmedupcomingmeetings.isNotEmpty
-                        ? SizedBox(
-                            height: AppTheme.fullHeight(context) * .140,
-                            width: AppTheme.fullWidth(context),
-                            child: ListView.builder(
-                                itemCount:
-                                    provider.confirmedupcomingmeetings.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                    onTap: (() {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UpcomingMeetingMentor()));
-                                    }),
-                                    child: _upcommingCardWidget(
-                                        provider
-                                            .confirmedupcomingmeetings[index]
-                                            .userName
-                                            .toString(),
-                                        provider
-                                            .confirmedupcomingmeetings[index]
-                                            .communicationMode
-                                            .toString(),
-                                        "${provider.confirmedupcomingmeetings[index].fromDate} ${provider.confirmedupcomingmeetings[index].startTime}",
-                                        // provider.confirmedupcomingmeetings[index].fromDate
-                                        //     .toString(),
-                                        provider
-                                            .confirmedupcomingmeetings[index]
-                                            .profilepic
-                                            .toString(),
-                                        const Color(0xffFFFFFF), () {
-                                      showDialog<void>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ViewDetail(
-                                            url: provider
-                                                .confirmedupcomingmeetings[
-                                                    index]
-                                                .profilepic,
-                                            meetingDetails: provider
-                                                    .confirmedupcomingmeetings[
-                                                index],
-                                            buttonText1: "Reschedule",
-                                            buttonText1pressed: () {
-                                              //reschedule meeting
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return StatefulBuilder(
-                                                        builder: (context,
-                                                            setState) {
-                                                      return Dialog(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        insetPadding:
-                                                            EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 10),
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        10.0))),
-                                                        elevation: 3,
-                                                        child: Padding(
-                                                          padding:
+                    onPressed: () {
+                      z.toggle!();
+                    },
+                  ),
+                  actions: [
+                    // Using Stack to show Notification Badge
+                    Stack(
+                      children: <Widget>[
+                        IconButton(
+                            // padding: EdgeInsets.all(10),
+                            // color: Colors.red,
+
+                            icon: Container(
+                                padding: const EdgeInsets.all(5),
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color(0xffFDBA2F)),
+                                child: SvgPicture.asset('assets/bell.svg')),
+                            //  const Icon(
+                            //   Icons.notifications,
+                            //   size: 30,
+                            //   color: Color(0xffFDBA2F),
+                            // ),
+                            onPressed: () {
+                              setState(() {
+                                // counter = 0;
+                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const NotificationMentor(),
+                                ),
+                              );
+                            }),
+                        counter != 0
+                            ? Positioned(
+                                right: 11,
+                                top: 11,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff682FFD),
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          color: const Color(0xffA0A2B3)
+                                              .withOpacity(0.5))),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 14,
+                                    minHeight: 14,
+                                  ),
+                                  child: Text(
+                                    '$counter',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
+                  ],
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(25),
+                  )),
+                ),
+              ),
+            ),
+            body: CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      const SizedBox(height: 10),
+                      Header(user: provider.user),
+                      Search(topmenteelist: provider.topMenteeList),
+                      Advertisment(totalMentees: provider.topMenteeList.length),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20, right: 16, left: 16, bottom: 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            const Text("Upcoming Meetings",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 18)),
+                            TextButton(
+                                onPressed: () {
+                                  //upcoming Meetings received confirmed list
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UpcomingMeetingMentor()));
+                                },
+                                child: Text(
+                                  provider.confirmedupcomingmeetings.isNotEmpty
+                                      ? "View All"
+                                      : "Schedule",
+                                  style: const TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Color(0xff682FFD)),
+                                ))
+                          ],
+                        ),
+                      ),
+                      provider.confirmedupcomingmeetings.isNotEmpty
+                          ? SizedBox(
+                              height: AppTheme.fullHeight(context) * .140,
+                              width: AppTheme.fullWidth(context),
+                              child: ListView.builder(
+                                  itemCount:
+                                      provider.confirmedupcomingmeetings.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: (() {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UpcomingMeetingMentor()));
+                                      }),
+                                      child: _upcommingCardWidget(
+                                          provider
+                                              .confirmedupcomingmeetings[index]
+                                              .userName
+                                              .toString(),
+                                          provider
+                                              .confirmedupcomingmeetings[index]
+                                              .communicationMode
+                                              .toString(),
+                                          "${provider.confirmedupcomingmeetings[index].fromDate} ${provider.confirmedupcomingmeetings[index].startTime}",
+                                          // provider.confirmedupcomingmeetings[index].fromDate
+                                          //     .toString(),
+                                          provider
+                                              .confirmedupcomingmeetings[index]
+                                              .profilepic
+                                              .toString(),
+                                          const Color(0xffFFFFFF), () {
+                                        showDialog<void>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ViewDetail(
+                                              url: provider
+                                                  .confirmedupcomingmeetings[
+                                                      index]
+                                                  .profilepic,
+                                              meetingDetails: provider
+                                                      .confirmedupcomingmeetings[
+                                                  index],
+                                              viewStatus: provider
+                                                          .confirmedupcomingmeetings[
+                                                              index]
+                                                          .status ==
+                                                      'Received'
+                                                  ? "Scheduled on time"
+                                                  : "Meeting Rescheduled to ${provider.confirmedupcomingmeetings[index].fromDate} - ${provider.confirmedupcomingmeetings[index].startTime}",
+                                              viewStatusColor:
+                                                  Color(0xff32CD32),
+                                              buttonText1: "Reschedule",
+                                              buttonText1pressed: () {
+                                                //reschedule meeting
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return StatefulBuilder(
+                                                          builder: (context,
+                                                              setState) {
+                                                        return Dialog(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          insetPadding:
                                                               const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              const SizedBox(
-                                                                height: 20,
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .topRight,
-                                                                child:
-                                                                    IconButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        icon: Icon(
-                                                                            Icons.close)),
-                                                              ),
-                                                              const Text(
-                                                                "Reschedule",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xffFDBA2F),
-                                                                    fontSize:
-                                                                        18,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 15,
-                                                              ),
-                                                              ListView(
-                                                                physics:
-                                                                    NeverScrollableScrollPhysics(),
-                                                                shrinkWrap:
-                                                                    true,
-                                                                children: <
-                                                                    Widget>[
-                                                                  provider.rescheduleCheckbox
-                                                                          .isNotEmpty
-                                                                      ? Wrap(
-                                                                          children: provider
-                                                                              .rescheduleCheckbox
-                                                                              .map(
-                                                                                (area) => IntrinsicWidth(
-                                                                                  child: SizedBox(
-                                                                                    width: 180,
-                                                                                    // height: 40,
-                                                                                    child: InkWell(
-                                                                                      child: Center(
-                                                                                        child: Row(
-                                                                                          children: <Widget>[
-                                                                                            Checkbox(
-                                                                                              activeColor: Color(0xffFDBA2F),
-                                                                                              value: area["isChecked"],
-                                                                                              onChanged: (value) {
-                                                                                                setState(() => area["isChecked"] = value);
-                                                                                                provider.currText = area['name'];
-                                                                                                print(provider.currText);
-                                                                                              },
-                                                                                            ),
-                                                                                            Expanded(
-                                                                                                child: Text(
-                                                                                              area["name"],
-                                                                                            )),
-                                                                                          ],
+                                                                      .only(
+                                                                  left: 10,
+                                                                  right: 10),
+                                                          shape: const RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10.0))),
+                                                          elevation: 3,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                const SizedBox(
+                                                                  height: 20,
+                                                                ),
+                                                                Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topRight,
+                                                                  child: IconButton(
+                                                                      onPressed: () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      icon: Icon(Icons.close)),
+                                                                ),
+                                                                const Text(
+                                                                  "Reschedule",
+                                                                  style: TextStyle(
+                                                                      color: Color(
+                                                                          0xffFDBA2F),
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 15,
+                                                                ),
+                                                                ListView(
+                                                                  physics:
+                                                                      NeverScrollableScrollPhysics(),
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    provider.rescheduleCheckbox
+                                                                            .isNotEmpty
+                                                                        ? Wrap(
+                                                                            children: provider.rescheduleCheckbox
+                                                                                .map(
+                                                                                  (area) => IntrinsicWidth(
+                                                                                    child: SizedBox(
+                                                                                      width: 180,
+                                                                                      // height: 40,
+                                                                                      child: InkWell(
+                                                                                        child: Center(
+                                                                                          child: Row(
+                                                                                            children: <Widget>[
+                                                                                              Checkbox(
+                                                                                                activeColor: Color(0xffFDBA2F),
+                                                                                                value: area["isChecked"],
+                                                                                                onChanged: (value) {
+                                                                                                  setState(() => area["isChecked"] = value);
+                                                                                                  provider.currText = area['name'];
+                                                                                                  print(provider.currText);
+                                                                                                },
+                                                                                              ),
+                                                                                              Expanded(
+                                                                                                  child: Text(
+                                                                                                area["name"],
+                                                                                              )),
+                                                                                            ],
+                                                                                          ),
                                                                                         ),
                                                                                       ),
                                                                                     ),
                                                                                   ),
-                                                                                ),
-                                                                              )
-                                                                              .toList(),
-                                                                        )
-                                                                      : Container(),
-                                                                ],
-                                                              ),
-                                                              const Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            15,
-                                                                        top:
-                                                                            15),
-                                                                child: Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .topLeft,
-                                                                  child: Text(
-                                                                    "Share in detail",
-                                                                    style: TextStyle(
-                                                                        color: Color(
-                                                                            0xff202020),
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
+                                                                                )
+                                                                                .toList(),
+                                                                          )
+                                                                        : Container(),
+                                                                  ],
                                                                 ),
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: 10),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            15,
-                                                                        right:
-                                                                            15),
-                                                                child:
-                                                                    InputField(
-                                                                  maxline: 3,
-                                                                  // minline: 1,
-                                                                  hintText:
-                                                                      "write the reason for resheduling",
-                                                                  controller:
-                                                                      provider
-                                                                          .about,
-
-                                                                  validation:
-                                                                      Validators
-                                                                          .basic,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 30,
-                                                              ),
-                                                              MaterialButton(
-                                                                  color: Color(
-                                                                      0xffFDBA2F),
-                                                                  materialTapTargetSize:
-                                                                      MaterialTapTargetSize
-                                                                          .shrinkWrap,
-                                                                  // minWidth: 30,
-                                                                  // height: 30,
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                    left: 35,
-                                                                    right: 35,
-                                                                  ),
-                                                                  textColor:
-                                                                      Colors
-                                                                          .white,
-
-                                                                  // color: const Color(0xff6EBFC3),
-                                                                  shape:
-                                                                      const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .all(
-                                                                      Radius.circular(
-                                                                          25.0),
+                                                                const Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              15,
+                                                                          top:
+                                                                              15),
+                                                                  child: Align(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topLeft,
+                                                                    child: Text(
+                                                                      "Share in detail",
+                                                                      style: TextStyle(
+                                                                          color: Color(
+                                                                              0xff202020),
+                                                                          fontSize:
+                                                                              14),
                                                                     ),
-                                                                    // side: BorderSide(color: Color(0xffFFAA5F), width: 1)
                                                                   ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 15,
+                                                                      right:
+                                                                          15),
                                                                   child:
-                                                                      const Text(
-                                                                    "Reschedule  ->",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
+                                                                      InputField(
+                                                                    maxline: 3,
+                                                                    // minline: 1,
+                                                                    hintText:
+                                                                        "write the reason for resheduling",
+                                                                    controller:
+                                                                        provider
+                                                                            .about,
+
+                                                                    validation:
+                                                                        Validators
+                                                                            .basic,
                                                                   ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    //go to reschedule page of particular mentor
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 30,
+                                                                ),
+                                                                MaterialButton(
+                                                                    color: Color(
+                                                                        0xffFDBA2F),
+                                                                    materialTapTargetSize:
+                                                                        MaterialTapTargetSize
+                                                                            .shrinkWrap,
+                                                                    // minWidth: 30,
+                                                                    // height: 30,
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .only(
+                                                                      left: 35,
+                                                                      right: 35,
+                                                                    ),
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
 
-                                                                    print(
-                                                                        "go to reschedule page of particular mentor");
+                                                                    // color: const Color(0xff6EBFC3),
+                                                                    shape:
+                                                                        const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .all(
+                                                                        Radius.circular(
+                                                                            25.0),
+                                                                      ),
+                                                                      // side: BorderSide(color: Color(0xffFFAA5F), width: 1)
+                                                                    ),
+                                                                    child:
+                                                                        const Text(
+                                                                      "Reschedule  ->",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      //go to reschedule page of particular mentor
 
-                                                                    Navigator.push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                            builder: (context) => BookAppointmentMentor(
-                                                                                  mentor: MentorModel(
-                                                                                    aboutYou: provider.confirmedupcomingmeetings[index].about,
-                                                                                    fName: provider.confirmedupcomingmeetings[index].userName,
-                                                                                    canHelpYou: provider.confirmedupcomingmeetings[index].canhelp,
-                                                                                    designationName: provider.confirmedupcomingmeetings[index].designtionName ?? "-",
-                                                                                    id: provider.confirmedupcomingmeetings[index].userId,
-                                                                                    email: provider.confirmedupcomingmeetings[index].email,
-                                                                                    profilePic: provider.confirmedupcomingmeetings[index].profilepic,
-                                                                                  ),
-                                                                                  resheduleStatus: true,
-                                                                                  cancelReason: provider.currText,
-                                                                                  cancelDetail: provider.about.text,
-                                                                                  channelName: provider.confirmedupcomingmeetings[index].channelName,
-                                                                                )));
-                                                                  }),
-                                                              const SizedBox(
-                                                                height: 30,
-                                                              ),
-                                                            ],
+                                                                      print(
+                                                                          "go to reschedule page of particular mentor");
+
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => BookAppointmentMentor(
+                                                                                    mentor: MentorModel(
+                                                                                      aboutYou: provider.confirmedupcomingmeetings[index].about,
+                                                                                      fName: provider.confirmedupcomingmeetings[index].userName,
+                                                                                      canHelpYou: provider.confirmedupcomingmeetings[index].canhelp,
+                                                                                      designationName: provider.confirmedupcomingmeetings[index].designtionName ?? "-",
+                                                                                      id: provider.confirmedupcomingmeetings[index].userId,
+                                                                                      email: provider.confirmedupcomingmeetings[index].email,
+                                                                                      profilePic: provider.confirmedupcomingmeetings[index].profilepic,
+                                                                                    ),
+                                                                                    resheduleStatus: true,
+                                                                                    cancelReason: provider.currText,
+                                                                                    cancelDetail: provider.about.text,
+                                                                                    channelName: provider.confirmedupcomingmeetings[index].channelName,
+                                                                                  )));
+                                                                    }),
+                                                                const SizedBox(
+                                                                  height: 30,
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
+                                                        );
+                                                      });
                                                     });
-                                                  });
-                                            },
-                                            //video call icon
-                                            icon: provider
-                                                        .confirmedupcomingmeetings[
-                                                            index]
-                                                        .communicationMode ==
-                                                    "Audio Call"
-                                                ? "assets/call.svg"
-                                                : "assets/videocall.svg",
-                                            iconbuttonPressed: () {
-                                              print(
-                                                  "pressed videocall by mentor");
-                                              //video call agora
-                                              // print("channel Name mentor");
-                                              // print(provider
-                                              //     .confirmedupcomingmeetings[
-                                              //         index]
-                                              //     .channelName);
-                                              // print("channel Name mentor");
-                                              provider
+                                              },
+                                              //video call icon
+                                              icon: provider
                                                           .confirmedupcomingmeetings[
                                                               index]
-                                                          .canJoin ==
-                                                      true
-                                                  ? onJoin(provider
-                                                          .confirmedupcomingmeetings[
-                                                      index])
-                                                  : Fluttertoast.showToast(
-                                                      msg:
-                                                          "Your Meeting is not yet started.wait for your sheduled time",
-                                                      toastLength:
-                                                          Toast.LENGTH_SHORT,
-                                                      gravity:
-                                                          ToastGravity.CENTER,
-                                                      timeInSecForIosWeb: 1,
-                                                      textColor: Colors.white,
-                                                      fontSize: 16.0);
-                                              Navigator.pop(context);
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }),
-                                  );
-                                }),
-                          )
-                        : Container(
-                            margin: const EdgeInsets.only(
-                                left: 15, right: 15, top: 10),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Color(0xffFFD551),
-                                ),
-                                borderRadius: BorderRadius.circular(10)),
-                            padding: EdgeInsets.only(top: 15, bottom: 15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "Start scheduling your meetings!",
-                                  style: TextStyle(
-                                      color: Color(0xffFDBA2F),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  "No upcoming meetings to show",
-                                  style: TextStyle(
-                                      color: Color(0xffD8D8D8), fontSize: 12),
-                                )
-                              ],
+                                                          .communicationMode ==
+                                                      "Audio Call"
+                                                  ? "assets/call.svg"
+                                                  : "assets/videocall.svg",
+                                              iconbuttonPressed: () {
+                                                print(
+                                                    "pressed videocall by mentor");
+                                                //video call agora
+                                                // print("channel Name mentor");
+                                                // print(provider
+                                                //     .confirmedupcomingmeetings[
+                                                //         index]
+                                                //     .channelName);
+                                                // print("channel Name mentor");
+                                                provider
+                                                            .confirmedupcomingmeetings[
+                                                                index]
+                                                            .canJoin ==
+                                                        true
+                                                    ? onJoin(provider
+                                                            .confirmedupcomingmeetings[
+                                                        index])
+                                                    : Fluttertoast.showToast(
+                                                        msg:
+                                                            "Your Meeting is not yet started. Wait for your scheduled time",
+                                                        toastLength:
+                                                            Toast.LENGTH_SHORT,
+                                                        gravity:
+                                                            ToastGravity.CENTER,
+                                                        timeInSecForIosWeb: 1,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0);
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                          },
+                                        );
+                                      }),
+                                    );
+                                  }),
+                            )
+                          : Container(
+                              margin: const EdgeInsets.only(
+                                  left: 15, right: 15, top: 10),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xffFFD551),
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: EdgeInsets.only(top: 15, bottom: 15),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    "Start scheduling your meetings!",
+                                    style: TextStyle(
+                                        color: Color(0xffFDBA2F),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    "No upcoming meetings to show",
+                                    style: TextStyle(
+                                        color: Color(0xffD8D8D8), fontSize: 12),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                    // _questionAnswer(),
-                  ],
+                      // _questionAnswer(),
+                    ],
+                  ),
                 ),
-              ),
-              _topmenteelist(),
-            ],
+                _topmenteelist(),
+              ],
+            ),
           ),
         )));
   }
@@ -1062,7 +1015,7 @@ class _HomepageMentorState extends State<HomepageMentor>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text("On boarded mentees",
+                Text("Onboarded Mentees",
                     style:
                         TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
                 TextButton(
@@ -1093,7 +1046,7 @@ class _HomepageMentorState extends State<HomepageMentor>
     print("length________");
     print(provider.topMenteeList.length);
     return Padding(
-      padding: const EdgeInsets.only(left: 15, bottom: 40),
+      padding: const EdgeInsets.only(left: 15, bottom: 40, right: 15),
       // implement GridView.builder
       child: SizedBox(
         // height: 500,
@@ -1101,9 +1054,11 @@ class _HomepageMentorState extends State<HomepageMentor>
             shrinkWrap: true,
             physics: ScrollPhysics(),
             // physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
-              childAspectRatio: 3 / 3.9,
+              // childAspectRatio: 3 / 3.9,
+              childAspectRatio:
+                  ((MediaQuery.of(context).size.width / 2) - 30) / 210,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
             ),
@@ -1165,9 +1120,9 @@ class _HomepageMentorState extends State<HomepageMentor>
                           Text(provider.topMenteeList[index].designationName
                               .toString()),
                           Text(
-                              provider.topMenteeList[index].rating == null ||
+                              provider.topMenteeList[index].rating == "0" ||
                                       provider.topMenteeList[index].reviews ==
-                                          null
+                                          "0"
                                   ? "No Reviews"
                                   : "⭐️ ${provider.topMenteeList[index].rating.toString()}(${provider.topMenteeList[index].reviews.toString()} reviews)",
                               style: const TextStyle(color: Color(0xffFD2FE2))),
@@ -1215,6 +1170,7 @@ class _HomepageMentorState extends State<HomepageMentor>
           tokenAgora: mentor?.agoraToken,
           role: ClientRole.Broadcaster,
           mentor: mentor,
+          meetingMode: mentor?.communicationMode,
         ),
       ),
     );
@@ -1247,6 +1203,7 @@ class _HomepageMentorState extends State<HomepageMentor>
                         tokenAgora: mentor?.agoraToken,
                         role: ClientRole.Broadcaster,
                         mentor: mentor,
+                        meetingMode: mentor?.communicationMode,
                       ),
                     ),
                   );
@@ -1264,7 +1221,10 @@ class _HomepageMentorState extends State<HomepageMentor>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (Context) => FeedbackPage(mentor: mentor)));
+                          builder: (Context) => FeedbackPage(
+                                mentor: mentor,
+                                role: "mentor",
+                              )));
                 },
                 child: Text('End Call'),
               ),

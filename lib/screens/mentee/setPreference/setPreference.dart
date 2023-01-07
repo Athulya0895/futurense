@@ -41,6 +41,7 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                 ],
               ),
               child: AppBar(
+                centerTitle: true,
                 title: const Text(
                   "Mentee Preferences",
                   style: TextStyle(
@@ -70,8 +71,8 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                     const Text(
                       "Set your preferences as Mentee",
                       style: TextStyle(
-                          color: Color(0xff202020),
-                          fontWeight: FontWeight.w500,
+                          color: Color(0xff222B45),
+                          fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),
                     const SizedBox(
@@ -82,12 +83,12 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                       style: TextStyle(
                           color: Color(0xff202020),
                           fontWeight: FontWeight.w500,
-                          fontSize: 14),
+                          fontSize: 16),
                     ),
                     const SizedBox(height: 10),
                     InputField(
                         hintText:
-                            "e.g., Career advice, Interview trainings, Technical discussions, Mental well being, etc.",
+                            "Career advice, Interview trainings, Technical discussions, Mental well being, etc.",
                         controller: provider.preferenceDescription,
                         maxline: 5,
                         // minline: 1,
@@ -102,7 +103,7 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                       style: TextStyle(
                           color: Color(0xff202020),
                           fontWeight: FontWeight.w500,
-                          fontSize: 14),
+                          fontSize: 16),
                     ),
                     const SizedBox(
                       height: 15,
@@ -138,6 +139,9 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                                                   Expanded(
                                                       child: Text(
                                                     area["name"],
+                                                    style: TextStyle(
+                                                        // height: 1.5,
+                                                        fontSize: 14),
                                                   )),
                                                 ],
                                               ),
@@ -154,22 +158,10 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                     // const SizedBox(
                     //   height: 15,
                     // ),
-                    MaterialButton(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0))),
-                        padding: const EdgeInsets.only(bottom: 15, top: 15),
-                        minWidth: double.infinity,
-                        color: const Color(0xffFDBA2F),
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        ),
+                    CustomMaterialButtton(
+                        textColor: Colors.white,
+                        text: "Next",
                         onPressed: () {
-                          print("pressed");
                           if (provider.formKey.currentState!.validate()) {
                             if (provider.areaslooking.any(
                                 (element) => element.values.contains(true))) {
@@ -180,12 +172,43 @@ class _SetPrefrenceMenteeState extends State<SetPrefrenceMentee>
                               //     MaterialPageRoute(
                               //         builder: (context) => MentorMyaccount()));
                             } else {
-                              SnackBar(
+                              const SnackBar(
                                   content: Text("select atleast one checkbox"));
                             }
                           }
-                        
                         }),
+                    // MaterialButton(
+                    //     shape: const RoundedRectangleBorder(
+                    //         borderRadius:
+                    //             BorderRadius.all(Radius.circular(15.0))),
+                    //     padding: const EdgeInsets.only(bottom: 15, top: 15),
+                    //     minWidth: double.infinity,
+                    //     color: const Color(0xffFDBA2F),
+                    //     child: const Text(
+                    //       "Next",
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.w700),
+                    //     ),
+                    //     onPressed: () {
+                    //       print("pressed");
+                    //       if (provider.formKey.currentState!.validate()) {
+                    //         if (provider.areaslooking.any(
+                    //             (element) => element.values.contains(true))) {
+                    //           print("yes");
+                    //           provider.UpdateMenteePreference(context);
+                    //           // Navigator.push(
+                    //           //     context,
+                    //           //     MaterialPageRoute(
+                    //           //         builder: (context) => MentorMyaccount()));
+                    //         } else {
+                    //           SnackBar(
+                    //               content: Text("select atleast one checkbox"));
+                    //         }
+                    //       }
+
+                    //     }),
                     const SizedBox(
                       height: 30,
                     ),

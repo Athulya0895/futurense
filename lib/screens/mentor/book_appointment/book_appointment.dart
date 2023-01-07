@@ -111,7 +111,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
                         borderRadius: BorderRadius.circular(25)),
                     color: const Color(0xffFDBA2F),
                     child: const Text(
-                      "Sent Request",
+                      "Send Request",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -323,7 +323,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
           const Text(
             "Meeting Mode",
             style: TextStyle(
-              color: Color(0xff9295A3),
+              color: Color(0xff202020),
             ),
           ),
           const SizedBox(
@@ -332,7 +332,9 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
           DropDownMenuMode(
             borderRadius: 10,
             selectedItem: provider.selectedMeetingMode,
-            hinttext: "",
+            hinttext: "Audio/Video Call",
+
+            // labeltext: "Meeting Mode",
             validationText: "Please Select your Meeting Mode",
             items: const [
               "Video Call",
@@ -350,7 +352,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
           const Text(
             "Meeting Duration",
             style: TextStyle(
-              color: Color(0xff9295A3),
+              color: Color(0xff202020),
             ),
           ),
           const SizedBox(
@@ -359,7 +361,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
           DropDownMenuMode(
             borderRadius: 10,
             selectedItem: provider.meetingDuration,
-            hinttext: "	",
+            hinttext: "Select Duration",
             validationText: "Please Select Meeting duration",
             items: const [
               "15 min",
@@ -377,7 +379,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
           const Text(
             "Meeting Agenda",
             style: TextStyle(
-              color: Color(0xff9295A3),
+              color: Color(0xff202020),
             ),
           ),
           const SizedBox(
@@ -388,7 +390,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
               maxline: 5,
               controller: provider.problemDetail,
               // prefixIcon: const Icon(Icons.person),
-              validation: Validators.basic),
+              validation: Validators.meetingagenda),
           const SizedBox(height: 20),
         ],
       ),

@@ -55,10 +55,10 @@ class _LoginState extends State<Login> with BasePage<LoginVM> {
                   ],
                 ),
               ),
-              Image.asset(
-                'assets/box.png',
-                width: 120,
-              ),
+              // Image.asset(
+              //   'assets/box.png',
+              //   width: 120,
+              // ),
               Center(
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.5,
@@ -91,7 +91,7 @@ class _LoginState extends State<Login> with BasePage<LoginVM> {
                           ),
                           const SizedBox(height: 7),
                           InputField(
-                            hintText: "name@futurence.com",
+                            hintText: "name@futurense.com",
                             controller: provider.emailController,
                             prefixIcon: const Icon(
                               Icons.email_outlined,

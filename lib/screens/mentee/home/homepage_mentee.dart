@@ -39,8 +39,7 @@ final ZoomDrawerController z = ZoomDrawerController();
 
 class Zoom extends StatefulWidget {
   final jumbToIndex; //for changing the bottom navigation index
-  final bool? reload;
-  const Zoom({Key? key, this.jumbToIndex, this.reload}) : super(key: key);
+  const Zoom({Key? key, this.jumbToIndex}) : super(key: key);
 
   @override
   _ZoomState createState() => _ZoomState();
@@ -48,15 +47,10 @@ class Zoom extends StatefulWidget {
 
 class _ZoomState extends State<Zoom> {
   @override
-  void initState() {
-    print(widget.reload);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
       controller: z,
+
       style: DrawerStyle.defaultStyle,
       // style: DrawerStyle.style1,
       // showShadow: true,
@@ -68,168 +62,197 @@ class _ZoomState extends State<Zoom> {
       duration: const Duration(milliseconds: 500),
       // angle: 0.0,
       borderRadius: 24.0,
-      showShadow: true,
+      // showShadow: true,
 
       angle: -5.0,
 
       // slideWidth: MediaQuery.of(context).size.width *
       //     (ZoomDrawer.isRTL() ? .45 : 0.65),
       menuBackgroundColor: const Color(0xffFDBA2F),
-      mainScreen: HomePageMentee(reload: widget.reload),
+      mainScreen: const HomePageMentee(),
       menuScreen: Theme(
         data: ThemeData.dark(),
-        child: Scaffold(
-          backgroundColor: const Color(0xffFDBA2F),
-          body: Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Center(
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: [
-                  InkWell(
-                    child: DrawerHeader(
-                      decoration: const BoxDecoration(
-                          // color: Colors.blue,
-                          ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ProfileImage(locator<SharedPrefs>().user?.profilePic),
-                          const SizedBox(height: 5),
-                          Text(
-                            locator<SharedPrefs>()
-                                    .user
-                                    ?.mentorFirstName
-                                    .toString() ??
-                                "",
-                            style: TextStyles.titleM,
-                          ),
-                          const SizedBox(height: 5),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      z.close!();
-                      widget.jumbToIndex(4);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.home,
-                    ),
-                    title: const Text('Home'),
-                    onTap: () {
-                      z.close!();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ListTile(
-                    leading: SvgPicture.asset("assets/appointment.svg"),
-                    title: const Text('My Meetings'),
-                    onTap: () {
-                      widget.jumbToIndex(2);
-                    },
-                  ),
-                  // ListTile(
-                  //   leading: SvgPicture.asset(
-                  //     "assets/forumfilled.svg",
-                  //     color: Colors.white,
-                  //   ),
-                  //   title: const Text('Forum'),
-                  //   onTap: () {
-                  //     widget.jumbToIndex(1);
-                  //   },
-                  // ),
-                  // ListTile(
-                  //   leading: const Icon(
-                  //     Icons.message,
-                  //   ),
-                  //   title: const Text('Messages'),
-                  //   onTap: () {
-                  //     widget.jumbToIndex(3);
-                  //     // Navigator.pop(context);
-                  //   },
-                  // ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.notifications,
-                    ),
-                    title: const Text('Notifications'),
-                    onTap: () {
-                      // NotificationMentor
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NotificationMentee(),
-                        ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.note,
-                    ),
-                    title: const Text('Preferences'),
-                    onTap: () {
-                      PersistentNavBarNavigator.pushNewScreen(context,
-                          screen: const SetPrefrenceMentee(),
-                          withNavBar: false,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const SetPreferenceMentor(),
-                      //   ),
-                      // );
-                      // Navigator.pushAndRemoveUntil(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const SetPreferenceMentor(),
-                      //     ),
-                      //     (route) => false);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 90,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text(
-                      'Log Out',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          content:
-                              const Text('Are you sure you want to\nLog Out ?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'No'),
-                              child: const Text('Cancel'),
+        child: WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            backgroundColor: const Color(0xffFDBA2F),
+            body: Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Center(
+                child: ListView(
+                  // Important: Remove any padding from the ListView.
+                  padding: EdgeInsets.zero,
+                  children: [
+                    InkWell(
+                      child: DrawerHeader(
+                        decoration: const BoxDecoration(
+                            // color: Colors.blue,
                             ),
-                            TextButton(
-                              onPressed: () {
-                                locator<SharedPrefs>().removeAll();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Login()),
-                                    (route) => false);
-                              },
-                              child: const Text('OK'),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ProfileImage(
+                                locator<SharedPrefs>().user?.profilePic),
+                            const SizedBox(height: 5),
+                            Text(
+                              locator<SharedPrefs>()
+                                      .user
+                                      ?.mentorFirstName
+                                      .toString() ??
+                                  "",
+                              style: TextStyle(fontSize: 18),
                             ),
+                            const SizedBox(height: 5),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                      onTap: () {
+                        z.close!();
+                        widget.jumbToIndex(4);
+                      },
+                    ),
+                    ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            shape: BoxShape.circle),
+                        child: const Icon(
+                          Icons.home,
+                        ),
+                      ),
+                      title: const Text('Home'),
+                      onTap: () {
+                        z.close!();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListTile(
+                      leading: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              shape: BoxShape.circle),
+                          child: SvgPicture.asset("assets/appointment.svg")),
+                      title: const Text('My Meetings'),
+                      onTap: () {
+                        widget.jumbToIndex(2);
+                      },
+                    ),
+                    // ListTile(
+                    //   leading: SvgPicture.asset(
+                    //     "assets/forumfilled.svg",
+                    //     color: Colors.white,
+                    //   ),
+                    //   title: const Text('Forum'),
+                    //   onTap: () {
+                    //     widget.jumbToIndex(1);
+                    //   },
+                    // ),
+                    // ListTile(
+                    //   leading: const Icon(
+                    //     Icons.message,
+                    //   ),
+                    //   title: const Text('Messages'),
+                    //   onTap: () {
+                    //     widget.jumbToIndex(3);
+                    //     // Navigator.pop(context);
+                    //   },
+                    // ),
+                    ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            shape: BoxShape.circle),
+                        child: const Icon(
+                          Icons.notifications,
+                        ),
+                      ),
+                      title: const Text('Notifications'),
+                      onTap: () {
+                        // NotificationMentor
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NotificationMentee(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            shape: BoxShape.circle),
+                        child: const Icon(
+                          Icons.note,
+                        ),
+                      ),
+                      title: const Text('Preferences'),
+                      onTap: () {
+                        PersistentNavBarNavigator.pushNewScreen(context,
+                            screen: const SetPrefrenceMentee(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const SetPreferenceMentor(),
+                        //   ),
+                        // );
+                        // Navigator.pushAndRemoveUntil(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => const SetPreferenceMentor(),
+                        //     ),
+                        //     (route) => false);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 90,
+                    ),
+                    ListTile(
+                      leading: Container(
+                          padding: EdgeInsets.all(10),
+                          child: const Icon(Icons.logout)),
+                      title: const Text(
+                        'Log Out',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            content: const Text(
+                                'Are you sure you want to\nLog Out ?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'No'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  locator<SharedPrefs>().removeAll();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Login()),
+                                      (route) => false);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -277,8 +300,7 @@ class _ZoomState extends State<Zoom> {
 //Home Page design
 
 class HomePageMentee extends StatefulWidget {
-  bool? reload;
-  HomePageMentee({super.key, this.reload});
+  const HomePageMentee({super.key});
 
   @override
   State<HomePageMentee> createState() => _HomePageMenteeState();
@@ -287,129 +309,134 @@ class HomePageMentee extends StatefulWidget {
 class _HomePageMenteeState extends State<HomePageMentee>
     with BasePage<HomePageMenteeVM> {
   // zoomController
-  int counter = 0;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    print("changed");
-  }
+  // int counter = 0;
 
   @override
   Widget build(BuildContext context) {
-    return builder((() => Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(60.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffFFD680),
-                      spreadRadius: 0,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                      blurStyle: BlurStyle.normal),
-                ],
-              ),
-              child: AppBar(
-                leading: IconButton(
-                  icon: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffFDBA2F)),
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                    ),
-                  ),
-                  onPressed: () {
-                    // z.toggle!();
-                    z.toggle!();
-                  },
-                ),
-                actions: [
-                  // Using Stack to show Notification Badge
-                  Stack(
-                    children: <Widget>[
-                      IconButton(
-                          icon: const Icon(
-                            Icons.notifications,
-                            size: 30,
-                            color: Color(0xffFDBA2F),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NotificationMentee()));
-                            setState(() {
-                              // counter = 0;
-                            });
-                          }),
-                      counter != 0
-                          ? Positioned(
-                              right: 11,
-                              top: 11,
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xff682FFD),
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                        color: const Color(0xffA0A2B3)
-                                            .withOpacity(0.5))),
-                                constraints: const BoxConstraints(
-                                  minWidth: 14,
-                                  minHeight: 14,
-                                ),
-                                child: Text(
-                                  counter != 0 ? '$counter' : "",
-                                  //  style: GoogleFonts.archivo(
-                                  //     fontWeight: FontWeight.w700,
-                                  //     fontSize: 18,
-                                  //     color: Colors.black),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                ],
-                backgroundColor: Colors.white,
-                elevation: 0,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
-                )),
-              ),
-            ),
-          ),
-          body: CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _header(),
-                    // _searchField(),
-                    SearchMentee(topmentorlist: provider.topMentorList),
-                    _category(),
-                    _upcommingMeetings(),
-                    // _questionAnswer()
+    return builder((() => WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(60.0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xffFFD680),
+                        spreadRadius: 0,
+                        blurRadius: 6,
+                        offset: Offset(0, 2),
+                        blurStyle: BlurStyle.normal),
                   ],
                 ),
+                child: AppBar(
+                  leading: IconButton(
+                    icon: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xffFDBA2F)),
+                      child: const Icon(
+                        Icons.menu,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onPressed: () {
+                      // z.toggle!();
+                      z.toggle!();
+                    },
+                  ),
+                  actions: [
+                    // Using Stack to show Notification Badge
+                    Stack(
+                      children: <Widget>[
+                        IconButton(
+                            // padding: EdgeInsets.all(10),
+                            // color: Colors.red,
+
+                            icon: Container(
+                                padding: const EdgeInsets.all(5),
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color(0xffFDBA2F)),
+                                child: SvgPicture.asset('assets/bell.svg')),
+                            //  const Icon(
+                            //   Icons.notifications,
+                            //   size: 30,
+                            //   color: Color(0xffFDBA2F),
+                            // ),
+                            onPressed: () {
+                              setState(() {
+                                // counter = 0;
+                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const NotificationMentee(),
+                                ),
+                              );
+                            }),
+                        provider.count != null
+                            ? Positioned(
+                                right: 11,
+                                top: 11,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff682FFD),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: const Color(0xffA0A2B3)
+                                              .withOpacity(0.5))),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 15,
+                                    minHeight: 15,
+                                  ),
+                                  child: Text(
+                                    provider.count.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
+                  ],
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(25),
+                  )),
+                ),
               ),
-              _topmentorsList()
-            ],
+            ),
+            body: CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      _header(),
+                      // _searchField(),
+                      SearchMentee(topmentorlist: provider.topMentorList),
+                      _category(),
+                      _upcommingMeetings(),
+                      // _questionAnswer()
+                    ],
+                  ),
+                ),
+                _topmentorsList()
+              ],
+            ),
           ),
         )));
   }
@@ -422,27 +449,32 @@ class _HomePageMenteeState extends State<HomePageMentee>
       child: Row(
         children: [
           ProfileImage(provider.user?.profilePic.toString()),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Hello, ${provider.user?.mentorFirstName.toString()} ${provider.user?.mentorLastName.toString()}",
-                // style: TextStyle(
-                //     fontFamily: "Helvetica",
-                //     fontSize: 20,
-                //     fontWeight: FontWeight.w600)
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Hello, ${provider.user?.mentorFirstName.toString()} ${provider.user?.mentorLastName.toString()}",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: false,
+                  // style: TextStyle(
+                  //     fontFamily: "Helvetica",
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.w600)
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const Text(
-                "Welcome to the Futurense Family",
-                // style: TextStyles.h1Style
-                style: TextStyle(color: Color(0xff979797), fontSize: 14),
-              ),
-            ],
-          ).p16,
+                const Text(
+                  "Welcome to the Futurense Family",
+                  // style: TextStyles.h1Style
+                  style: TextStyle(color: Color(0xff979797), fontSize: 14),
+                ),
+              ],
+            ).p16,
+          ),
         ],
       ),
     );
@@ -463,7 +495,7 @@ class _HomePageMenteeState extends State<HomePageMentee>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const <Widget>[
-              Text("Category",
+              Text("Mentorship Categories",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
             ],
           ),
@@ -533,10 +565,11 @@ class _HomePageMenteeState extends State<HomePageMentee>
                 const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
             decoration: BoxDecoration(
               color: color,
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                  topLeft: Radius.circular(10)),
+              borderRadius: BorderRadius.circular(10),
+              // borderRadius: const BorderRadius.only(
+              //     bottomLeft: Radius.circular(10),
+              //     bottomRight: Radius.circular(10),
+              //     topLeft: Radius.circular(10)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                   offset: const Offset(4, 4),
@@ -722,8 +755,10 @@ class _HomePageMenteeState extends State<HomePageMentee>
                     //     withNavBar: false,
                     //     pageTransitionAnimation: PageTransitionAnimation.fade);
                   },
-                  child: const Text(
-                    "View All",
+                  child: Text(
+                    provider.confirmedupcomingmeetings.isNotEmpty
+                        ? "View All"
+                        : "Schedule",
                     style: TextStyle(
                         decoration: TextDecoration.underline,
                         color: Color(0xff682FFD)),
@@ -768,6 +803,13 @@ class _HomePageMenteeState extends State<HomePageMentee>
                                     .profilepic,
                                 meetingDetails:
                                     provider.confirmedupcomingmeetings[index],
+                                viewStatus: provider
+                                            .confirmedupcomingmeetings[index]
+                                            .status ==
+                                        'Received'
+                                    ? "Scheduled on time"
+                                    : "Meeting Rescheduled to ${provider.confirmedupcomingmeetings[index].fromDate} - ${provider.confirmedupcomingmeetings[index].startTime}",
+                                viewStatusColor: Color(0xff32CD32),
                                 buttonText1: "Reschedule",
                                 buttonText1pressed: () {
                                   //reschedule meeting
@@ -1142,38 +1184,33 @@ class _HomePageMenteeState extends State<HomePageMentee>
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
       // implement GridView.builder
       child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 210,
-          childAspectRatio:
-              ((MediaQuery.of(context).size.width / 2) - 30) / 210,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        itemCount: provider.topMentorList.length > 6
-            ? 6
-            : provider.topMentorList.length,
-        shrinkWrap: true,
-        physics:
-            const ScrollPhysics(), //only five topmentors need to be displayed
-        // shrinkWrap: true,
-        // physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext ctx, index) {
-          return InkWell(
-            onTap: (() {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MentorDetails(
-                          topmentor: provider.topMentorList[index])));
-            }),
-            child: Container(
-              height: 210,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              //  childAspectRatio: 3 / 3.8,
+
+              childAspectRatio:
+                  ((MediaQuery.of(context).size.width / 2) - 30) / 210,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: provider.topMentorList.length > 6
+              ? 6
+              : provider.topMentorList.length,
+          shrinkWrap: true,
+          physics:
+              const ScrollPhysics(), //only five topmentors need to be displayed
+          // shrinkWrap: true,
+          // physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext ctx, index) {
+            return InkWell(
+              onTap: (() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MentorDetails(
+                            topmentor: provider.topMentorList[index])));
+              }),
               child: Stack(
                 // alignment: Alignment.bottomCenter,
-                // overflow: Overflow.clip,
-                alignment: AlignmentDirectional.topCenter,
-                fit: StackFit.loose,
-                // clipBehavior: Clip.antiAlias,
                 children: [
                   Container(
                     constraints: const BoxConstraints(maxHeight: 200),
@@ -1205,18 +1242,21 @@ class _HomePageMenteeState extends State<HomePageMentee>
                         Text(provider.topMentorList[index].designationName
                             .toString()),
                         Text(
-                          provider.topMentorList[index].rating == null ||
-                                  provider.topMentorList[index].reviews == null
+                          provider.topMentorList[index].rating == "0" ||
+                                  provider.topMentorList[index].reviews == "0"
                               ? "No Reviews"
                               : "⭐️ ${provider.topMentorList[index].rating.toString()}(${provider.topMentorList[index].reviews.toString()} reviews)",
                           style: const TextStyle(color: Color(0xffFD2FE2)),
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(
+                          height: 15,
+                        ),
                       ],
                     ),
                   ),
                   Positioned(
-                    bottom: 0,
+                    bottom: -1,
+                    right: 40,
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -1231,10 +1271,8 @@ class _HomePageMenteeState extends State<HomePageMentee>
                   ),
                 ],
               ),
-            ),
-          );
-        },
-      ),
+            );
+          }),
     );
   }
 
@@ -1243,6 +1281,6 @@ class _HomePageMenteeState extends State<HomePageMentee>
 
   @override
   void initialise(BuildContext context) {
-    print(widget.reload);
+    // TODO: implement initialise
   }
 }

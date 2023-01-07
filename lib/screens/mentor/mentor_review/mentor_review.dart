@@ -209,7 +209,7 @@ class _MentorReviewState extends State<MentorReview>
               children: [
                 Text(
                   provider.reviewsList?.rating.toString() ?? "",
-                  style: TextStyle(
+                  style:const TextStyle(
                       color: Color(0xff6EBFC3),
                       fontSize: 24,
                       fontWeight: FontWeight.w700),
@@ -218,8 +218,8 @@ class _MentorReviewState extends State<MentorReview>
                   width: 20,
                 ),
                 RatingBarIndicator(
-                  rating: double.parse(provider.reviewsList?.rating ?? ""),
-                  itemBuilder: (context, index) => Icon(
+                  rating: 4.9,
+                  itemBuilder: (context, index) =>const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),

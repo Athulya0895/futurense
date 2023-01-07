@@ -67,8 +67,8 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                     const Text(
                       "Set your Preferences As Mentor",
                       style: TextStyle(
-                          color: Color(0xff202020),
-                          fontWeight: FontWeight.w500,
+                          color: Color(0xff222B45),
+                          fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),
                     const SizedBox(
@@ -84,7 +84,7 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                     const SizedBox(height: 10),
                     InputField(
                         hintText:
-                            "Use 3-4 sentence to sell yourself as a prospective mentor",
+                            "e.g., Career advice, Interview trainings, Technical discussions, Mental well being, etc.",
                         controller: provider.preferenceDescription,
                         maxline: 5,
                         // minline: 1,
@@ -166,11 +166,14 @@ class _SetPreferenceMentorState extends State<SetPreferenceMentor>
                               //     MaterialPageRoute(
                               //         builder: (context) => MentorMyaccount()));
                             } else {
-                             const SnackBar(
+                              const SnackBar(
                                   content: Text("select atleast one checkbox"));
                             }
                           }
                         }),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     // MaterialButton(
                     //     shape: const RoundedRectangleBorder(
                     //         borderRadius:

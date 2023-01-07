@@ -23,6 +23,7 @@ import 'package:futurensemobileapp/utils/share_prefs.dart';
 import 'package:futurensemobileapp/utils/validators.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../agora_video/src/pages/call.dart';
@@ -366,25 +367,60 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
 
                                                                     print(
                                                                         "go to reschedule page of particular mentor");
-
-                                                                    Navigator.push(
+                                                                    PersistentNavBarNavigator.pushNewScreen(
                                                                         context,
-                                                                        MaterialPageRoute(
-                                                                            builder: (context) => BookAppointment(
-                                                                                  topmentor: MentorModel(
-                                                                                    aboutYou: provider.confirmedupcomingmeetings[index].about,
-                                                                                    fName: provider.confirmedupcomingmeetings[index].userName,
-                                                                                    canHelpYou: provider.confirmedupcomingmeetings[index].canhelp,
-                                                                                    designationName: provider.confirmedupcomingmeetings[index].designtionName,
-                                                                                    id: provider.confirmedupcomingmeetings[index].userId,
-                                                                                    email: provider.confirmedupcomingmeetings[index].email,
-                                                                                    profilePic: provider.confirmedupcomingmeetings[index].profilepic,
-                                                                                  ),
-                                                                                  resheduleStatus: true,
-                                                                                  cancelReason: provider.currText,
-                                                                                  cancelDetail: provider.about.text,
-                                                                                  channelName: provider.confirmedupcomingmeetings[index].channelName,
-                                                                                )));
+                                                                        screen:
+                                                                            BookAppointment(
+                                                                          topmentor:
+                                                                              MentorModel(
+                                                                            aboutYou:
+                                                                                provider.confirmedupcomingmeetings[index].about,
+                                                                            fName:
+                                                                                provider.confirmedupcomingmeetings[index].userName,
+                                                                            canHelpYou:
+                                                                                provider.confirmedupcomingmeetings[index].canhelp,
+                                                                            designationName:
+                                                                                provider.confirmedupcomingmeetings[index].designtionName,
+                                                                            id: provider.confirmedupcomingmeetings[index].userId,
+                                                                            email:
+                                                                                provider.confirmedupcomingmeetings[index].email,
+                                                                            profilePic:
+                                                                                provider.confirmedupcomingmeetings[index].profilepic,
+                                                                          ),
+                                                                          resheduleStatus:
+                                                                              true,
+                                                                          cancelReason:
+                                                                              provider.currText,
+                                                                          cancelDetail: provider
+                                                                              .about
+                                                                              .text,
+                                                                          channelName: provider
+                                                                              .confirmedupcomingmeetings[index]
+                                                                              .channelName,
+                                                                        ),
+                                                                        withNavBar:
+                                                                            true,
+                                                                        pageTransitionAnimation:
+                                                                            PageTransitionAnimation.cupertino);
+
+                                                                    // Navigator.push(
+                                                                    //     context,
+                                                                    //     MaterialPageRoute(
+                                                                    //         builder: (context) => BookAppointment(
+                                                                    //               topmentor: MentorModel(
+                                                                    //                 aboutYou: provider.confirmedupcomingmeetings[index].about,
+                                                                    //                 fName: provider.confirmedupcomingmeetings[index].userName,
+                                                                    //                 canHelpYou: provider.confirmedupcomingmeetings[index].canhelp,
+                                                                    //                 designationName: provider.confirmedupcomingmeetings[index].designtionName,
+                                                                    //                 id: provider.confirmedupcomingmeetings[index].userId,
+                                                                    //                 email: provider.confirmedupcomingmeetings[index].email,
+                                                                    //                 profilePic: provider.confirmedupcomingmeetings[index].profilepic,
+                                                                    //               ),
+                                                                    //               resheduleStatus: true,
+                                                                    //               cancelReason: provider.currText,
+                                                                    //               cancelDetail: provider.about.text,
+                                                                    //               channelName: provider.confirmedupcomingmeetings[index].channelName,
+                                                                    //             )));
                                                                   }),
                                                               const SizedBox(
                                                                 height: 30,
@@ -625,6 +661,15 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                       meetingDetails: provider
                                                               .confirmedupcomingmeetings[
                                                           index],
+                                                      viewStatus: provider
+                                                                  .confirmedupcomingmeetings[
+                                                                      index]
+                                                                  .status ==
+                                                              'Confirmed'
+                                                          ? "Scheduled on time"
+                                                          : "Meeting Rescheduled to ${provider.confirmedupcomingmeetings[index].fromDate} - ${provider.confirmedupcomingmeetings[index].startTime}",
+                                                      viewStatusColor:
+                                                          Color(0xff32CD32),
                                                       icon: provider
                                                                   .confirmedupcomingmeetings[
                                                                       index]
@@ -1021,84 +1066,21 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                       },
                                                       iconbuttonPressed:
                                                           () async {
-                                                        // print(
-                                                        //     "channel Name mentee");
-                                                        // print(provider
-                                                        //     .confirmedupcomingmeetings[
-                                                        //         index]
-                                                        //     .channelName);
-                                                        // print(
-                                                        //     "channel Name mentee");
-                                                        // showDialog(
-                                                        //     context: context,
-                                                        //     builder:
-                                                        //         (BuildContext
-                                                        //             context) {
-                                                        //       return AlertDialog(
-                                                        //         title: Text(
-                                                        //             'Hey ,'), // To display the title it is optional
-                                                        //         content: Text(
-                                                        //             'Did you want to continue the call Click on Resume.or else click on Sharefeedback'), // Message which will be pop up on the screen
-                                                        //         // Action widget which will provide the user to acknowledge the choice
-                                                        //         actions: [
-                                                        //           MaterialButton(
-                                                        //             shape:
-                                                        //                 RoundedRectangleBorder(
-                                                        //               borderRadius:
-                                                        //                   BorderRadius.circular(
-                                                        //                       25),
-                                                        //             ),
-                                                        //             color: Color(
-                                                        //                 0xffFDBA2F),
-                                                        //             // FlatButton widget is used to make a text to work like a button
-                                                        //             textColor:
-                                                        //                 Colors
-                                                        //                     .white,
-                                                        //             onPressed:
-                                                        //                 () {
-                                                        //               print(
-                                                        //                   " Resume call");
-                                                        //               CallPage();
-                                                        //             }, // function used to perform after pressing the button
-                                                        //             child: Text(
-                                                        //                 'Resume call'),
-                                                        //           ),
-                                                        //           MaterialButton(
-                                                        //             shape:
-                                                        //                 RoundedRectangleBorder(
-                                                        //               borderRadius:
-                                                        //                   BorderRadius.circular(
-                                                        //                       25),
-                                                        //             ),
-                                                        //             color: Colors
-                                                        //                 .redAccent,
-                                                        //             textColor:
-                                                        //                 Colors
-                                                        //                     .white,
-                                                        //             onPressed:
-                                                        //                 () {
-                                                        //               //Go to feedback page make it must type
-                                                        //               Navigator.push(
-                                                        //                   context,
-                                                        //                   MaterialPageRoute(
-                                                        //                       builder: (Context) => FeedbackPage(mentor: provider.confirmedupcomingmeetings[index])));
-                                                        //             },
-                                                        //             child: Text(
-                                                        //                 'End Call'),
-                                                        //           ),
-                                                        //         ],
-                                                        //       );
-                                                        //     });
-                                                        provider
+                                                        print("pressed call");
+                                                        await provider
+                                                            .checkMeetingTime(
+                                                                provider
                                                                     .confirmedupcomingmeetings[
                                                                         index]
-                                                                    .canJoin ==
-                                                                true
-                                                            ? await onJoin(provider.confirmedupcomingmeetings[
+                                                                    .channelName
+                                                                    .toString());
+                                                        provider.canJoin == "true"
+                                                            ? onJoin(provider
+                                                                    .confirmedupcomingmeetings[
                                                                 index])
                                                             : Fluttertoast.showToast(
                                                                 msg:
-                                                                    "Your Meeting is not yet started.wait for your sheduled time",
+                                                                    "Your Meeting is not yet started. Wait for your scheduled time",
                                                                 toastLength: Toast
                                                                     .LENGTH_SHORT,
                                                                 gravity:
@@ -1115,8 +1097,29 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                               );
                                             },
 
-                                            iconButtonpressed: () {
-                                              //agora video call / audio call
+                                            iconButtonpressed: () async {
+                                              print("pressed call");
+                                              await provider.checkMeetingTime(
+                                                  provider
+                                                      .confirmedupcomingmeetings[
+                                                          index]
+                                                      .channelName
+                                                      .toString());
+                                              provider.canJoin == "true"
+                                                  ? onJoin(provider
+                                                          .confirmedupcomingmeetings[
+                                                      index])
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "Your Meeting is not yet started. Wait for your scheduled time",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      gravity:
+                                                          ToastGravity.CENTER,
+                                                      timeInSecForIosWeb: 1,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                              // agora video call / audio call
                                               // DateFormat.jm()
                                               //                 .format(DateTime
                                               //                     .now())
@@ -1134,31 +1137,6 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                               //                     index]
                                               //                 .fromDate
                                               //     ?
-                                              provider
-                                                          .confirmedupcomingmeetings[
-                                                              index]
-                                                          .canJoin ==
-                                                      true
-                                                  ?
-                                                  // print("channel Name mentee");
-                                                  // print(provider
-                                                  //     .confirmedupcomingmeetings[
-                                                  //         index]
-                                                  //     .channelName);
-                                                  // print("channel Name mentee");
-                                                  onJoin(provider
-                                                          .confirmedupcomingmeetings[
-                                                      index])
-                                                  : Fluttertoast.showToast(
-                                                      msg:
-                                                          "Your Meeting is not yet started.wait for your sheduled time",
-                                                      toastLength:
-                                                          Toast.LENGTH_SHORT,
-                                                      gravity:
-                                                          ToastGravity.CENTER,
-                                                      timeInSecForIosWeb: 1,
-                                                      textColor: Colors.white,
-                                                      fontSize: 16.0);
                                             },
                                           );
                                         }),
@@ -1237,6 +1215,10 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                     meetingDetails: provider
                                                             .sentUpcomingMeeting[
                                                         index],
+                                                    viewStatus:
+                                                        "Request has not been accepted yet!",
+                                                    viewStatusColor:
+                                                        Color(0xffFF5458),
                                                     // buttonText1: "",
                                                     buttonText1pressed: () {
                                                       //reschedule meeting
@@ -1328,7 +1310,6 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                       index]
                                                   .channelName
                                                   .toString());
-                                            
                                             },
                                             buttonText2: "Cancel",
                                             buttonText2pressed: () {
@@ -1555,6 +1536,20 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                                     meetingDetails: provider
                                                             .receivedUpcomingMeeting[
                                                         index],
+                                                    viewStatus: provider
+                                                                .receivedUpcomingMeeting[
+                                                                    index]
+                                                                .status ==
+                                                            "Rescheduled"
+                                                        ? "Meeting Rescheduled to ${provider.receivedUpcomingMeeting[index].fromDate} - ${provider.receivedUpcomingMeeting[index].startTime}"
+                                                        : "",
+                                                    viewStatusColor: provider
+                                                                .receivedUpcomingMeeting[
+                                                                    index]
+                                                                .status ==
+                                                            "Rescheduled"
+                                                        ? Color(0xffFF7901)
+                                                        : Colors.white,
                                                     buttonText1: "Accept",
                                                     buttonText1pressed: () {
                                                       //Accept meeting
@@ -1781,7 +1776,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                                       child: DataNotFound(
                                         nodataimg: "assets/nodatafound.svg",
                                         cancelledText1:
-                                            "No Meeting Request Received",
+                                            "No Meeting Requests Received",
                                         cancelledText2:
                                             "You have not received any meeting\n requests",
                                         buttonText: "Schedule Meeting ->",
@@ -1811,6 +1806,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
 
     await _handleCameraAndMic(Permission.camera);
     await _handleCameraAndMic(Permission.microphone);
+    print("meeting modeupcoming = ${mentee?.communicationMode}");
     // push video page with given channel name
 
     await Navigator.push(
@@ -1870,7 +1866,10 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (Context) => FeedbackPage(mentor: mentee)));
+                          builder: (Context) => FeedbackPage(
+                                mentor: mentee,
+                                role: "mentee",
+                              )));
                 },
                 child: Text('End Call'),
               ),

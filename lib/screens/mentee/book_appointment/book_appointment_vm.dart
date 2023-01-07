@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/main.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 
 import 'package:futurensemobileapp/screens/mentee/home/home/home.dart';
 
 import 'package:futurensemobileapp/screens/mentee/mentor_list/mentor_list.dart';
+import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/upcoming_appointments_mentee/upcoming_appointments_mentee.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -106,7 +108,7 @@ class BookAppointmentVM extends BaseViewModel {
                           height: 5,
                         ),
                         const Text(
-                          " Sent Sucessfully",
+                          " Sent Successfully",
                           style:
                               TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
                           textAlign: TextAlign.center,
@@ -115,7 +117,7 @@ class BookAppointmentVM extends BaseViewModel {
                           height: 10,
                         ),
                         Text(
-                          "Mentor : ${topmentor?.fName} ${topmentor?.lName}\n \n Date & Time :${DateFormat('dd-MM-yyyy').format(focusedDay)} at $selectedTimeslot",
+                          "Mentor : ${topmentor?.fName} ${topmentor?.lName}\nDate:${DateFormat('dd-MM-yyyy').format(focusedDay)}\nTime:$selectedTimeslot",
                           // "Mentor : Pro.B. Nicholas\n Date & Time : DD/MM/YYYY ",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
@@ -154,7 +156,8 @@ class BookAppointmentVM extends BaseViewModel {
                         ),
                         TextButton(
                             onPressed: () {
-                              // Navigator.pop(context);
+                              print("pressed Schedule another");
+                              Navigator.pop(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -267,7 +270,7 @@ class BookAppointmentVM extends BaseViewModel {
       MapEntry("time", selectedTimeslot.toString()),
       MapEntry("mode", selectedMeetingMode),
       MapEntry("duration", meetingDuration),
-      MapEntry("mode", problemDetail.text),
+      MapEntry("agenda", problemDetail.text),
     ]);
     showLoading();
     var res = await api.menteeRepo.rescheduleMeeting(formData);
@@ -275,6 +278,9 @@ class BookAppointmentVM extends BaseViewModel {
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         // showNotification(res.data['message']);
+        // getreceivedUpcomingMeeting();
+        //   getConfirmedUpcomingMeeting();
+        //   getSentUpcomingMeeting();
         showDialog<void>(
           context: context,
           builder: (BuildContext context) {
@@ -337,21 +343,24 @@ class BookAppointmentVM extends BaseViewModel {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          // PersistentNavBarNavigator.pushNewScreen(context,
-                          //     screen: Home(),
-                          //     withNavBar: false,
-                          //     pageTransitionAnimation:
-                          //         PageTransitionAnimation.cupertino);
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Navigator.of(context, rootNavigator: false).push(
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             UpcomingAppointmentsMentee(),
+                          //         maintainState: true));
+                          PersistentNavBarNavigator.pushNewScreen(MyApp.context,
+                              screen: UpcomingAppointmentsMentee(),
+                              withNavBar: true,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(
                           //         builder: (context) =>
-                          //             UpcomingMeetingMentor(
-                          //               mentor: mentor,
-                          //             )));
+                          //             UpcomingAppointmentsMentee()));
                         },
                         color: const Color(0xffFDBA2F),
                         textColor: Colors.white,
@@ -372,8 +381,77 @@ class BookAppointmentVM extends BaseViewModel {
           },
         );
       } else {
-        showError(res.data['message']);
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              backgroundColor: Colors.white,
+              elevation: 3,
+              child: Container(
+                padding: const EdgeInsets.all(26),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset("assets/failedsection.png"),
+                    Center(
+                      child: Lottie.asset(
+                        'assets/failedsection.json',
+                        repeat: true,
+                        // width: 300,
+                        // height: 300,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    const Text(
+                      "oops!",
+                      style: TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      "Looks like your choosen time-slot is reserved.\nTry again with a new slot",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xffA0A2B3),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 47),
+                    Container(
+                      height: 56,
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      width: double.infinity,
+                      child: MaterialButton(
+                        disabledColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        color: const Color(0xffFDBA2F),
+                        textColor: Colors.white,
+                        child: const Text(
+                          "Retry",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 17),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
       }
+    } else {
+      showError("Something Went Wrong");
     }
   }
 }

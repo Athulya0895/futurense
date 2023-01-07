@@ -6,6 +6,7 @@ import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/mentee/review_feedback/feedback.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../utils/settings.dart';
 
@@ -62,7 +63,9 @@ class _CallPageState extends State<CallPage> {
   void initState() {
     super.initState();
     // initialize agora sdk
-    initialize();
+    widget.mentor?.communicationMode == 'Video Call'
+        ? initialize()
+        : setupVoiceSDKEngine();
   }
 
   Future<void> initialize() async {
@@ -76,8 +79,31 @@ class _CallPageState extends State<CallPage> {
       return;
     }
 
+    // widget.mentor?.communicationMode == 'Video Call'
     await _initAgoraRtcEngine();
-    // _addAgoraEventHandlers();
+    // : await _initAudioAgoraRtcEngine();
+    _addAgoraEventHandlers();
+    VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
+    configuration.dimensions = const VideoDimensions(width: 1920, height: 1080);
+    await _engine.setVideoEncoderConfiguration(configuration);
+    await _engine.joinChannel(widget.tokenAgora, widget.channelName!, null, 0);
+  }
+
+  //agora audio call initialize
+  Future<void> setupVoiceSDKEngine() async {
+    if (appId.isEmpty) {
+      setState(() {
+        _infoStrings.add(
+          'APP_ID missing, please provide your APP_ID in settings.dart',
+        );
+        _infoStrings.add('Agora Engine is not starting');
+      });
+      return;
+    }
+    await _initAudioAgoraRtcEngine();
+    _addAgoraEventHandlers();
+    // retrieve or request microphone permission
+    // await [Permission.microphone].request();
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = const VideoDimensions(width: 1920, height: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
@@ -86,51 +112,72 @@ class _CallPageState extends State<CallPage> {
 
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
+    print("Video Call");
     _engine = await RtcEngine.create(appId);
-    widget.meetingMode == 'Video Call'
-        ? await _engine.enableVideo()
-        : await _engine.disableVideo();
-    // await _engine.disableVideo(); //
+    print("meeting modecallpage = ${widget.mentor?.communicationMode}");
+    print(widget.meetingMode);
+
+    await _engine.enableVideo();
+    // if (widget.mentor?.communicationMode == 'Audio Call') {
+    //   await _engine.disableVideo();
+    // }
+    // widget.mentor?.communicationMode == 'Audio Call'
+    //     ? await _engine.disableVideo()
+    //     : await _engine.enableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(widget.role!);
   }
 
-  /// Add agora event handlers
-  // void _addAgoraEventHandlers() {
-  //   _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
-  //     setState(() {
-  //       final info = 'onError: $code';
-  //       _infoStrings.add(info);
-  //     });
-  //   }, joinChannelSuccess: (channel, uid, elapsed) {
-  //     setState(() {
-  //       final info = 'onJoinChannel: $channel, uid: ${widget.mentor?.userName}';
-  //       _infoStrings.add(info);
-  //     });
-  //   }, leaveChannel: (stats) {
-  //     setState(() {
-  //       _infoStrings.add('onLeaveChannel');
-  //       _users.clear();
-  //     });
-  //   }, userJoined: (uid, elapsed) {
-  //     setState(() {
-  //       final info = 'userJoined: $uid';
-  //       _infoStrings.add(info);
-  //       _users.add(uid);
-  //     });
-  //   }, userOffline: (uid, elapsed) {
-  //     setState(() {
-  //       final info = 'userOffline: $uid';
-  //       _infoStrings.add(info);
-  //       _users.remove(uid);
-  //     });
-  //   }, firstRemoteVideoFrame: (uid, width, height, elapsed) {
-  //     setState(() {
-  //       final info = 'firstRemoteVideo: $uid ${width}x $height';
-  //       _infoStrings.add(info);
-  //     });
-  //   }));
-  // }
+  //Audio Call
+  /// Create agora sdk instance and initialize
+  Future<void> _initAudioAgoraRtcEngine() async {
+    print("Audio Call");
+    _engine = await RtcEngine.create(appId);
+    print("meeting modecallpage = ${widget.mentor?.communicationMode}");
+    print(widget.meetingMode);
+
+    await _engine.disableVideo();
+
+    await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    await _engine.setClientRole(widget.role!);
+  }
+
+  // Add agora event handlers
+  void _addAgoraEventHandlers() {
+    _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
+      setState(() {
+        final info = 'onError: $code';
+        _infoStrings.add(info);
+      });
+    }, joinChannelSuccess: (channel, uid, elapsed) {
+      setState(() {
+        final info = 'onJoinChannel: $channel, uid: ${widget.mentor?.userName}';
+        _infoStrings.add(info);
+      });
+    }, leaveChannel: (stats) {
+      setState(() {
+        _infoStrings.add('onLeaveChannel');
+        _users.clear();
+      });
+    }, userJoined: (uid, elapsed) {
+      setState(() {
+        final info = 'userJoined: $uid';
+        _infoStrings.add(info);
+        _users.add(uid);
+      });
+    }, userOffline: (uid, elapsed) {
+      setState(() {
+        final info = 'userOffline: $uid';
+        _infoStrings.add(info);
+        _users.remove(uid);
+      });
+    }, firstRemoteVideoFrame: (uid, width, height, elapsed) {
+      setState(() {
+        final info = 'firstRemoteVideo: $uid ${width}x $height';
+        _infoStrings.add(info);
+      });
+    }));
+  }
 
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
@@ -228,48 +275,6 @@ class _CallPageState extends State<CallPage> {
               print("Click on call end");
               // Navigator.pop(context);
               Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext context) {
-              //       return AlertDialog(
-              //         title:
-              //             Text('Hey ,'), // To display the title it is optional
-              //         content: Text(
-              //             'Did you want to continue the call Click on Resume.or else click on Sharefeedback'), // Message which will be pop up on the screen
-              //         // Action widget which will provide the user to acknowledge the choice
-              //         actions: [
-              //           MaterialButton(
-              //             shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(25),
-              //             ),
-              //             color: Color(0xffFDBA2F),
-              //             // FlatButton widget is used to make a text to work like a button
-              //             textColor: Colors.white,
-              //             onPressed: () {
-              //               print(" Resume call");
-              //               CallPage();
-              //             }, // function used to perform after pressing the button
-              //             child: Text('Resume call'),
-              //           ),
-              //           MaterialButton(
-              //             shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(25),
-              //             ),
-              //             color: Colors.redAccent,
-              //             textColor: Colors.white,
-              //             onPressed: () {
-              //               //Go to feedback page make it must type
-              //               Navigator.push(
-              //                   context,
-              //                   MaterialPageRoute(
-              //                       builder: (Context) =>
-              //                           FeedbackPage(mentor: widget.mentor)));
-              //             },
-              //             child: Text('End Call'),
-              //           ),
-              //         ],
-              //       );
-              //     });
             },
             shape: const CircleBorder(),
             elevation: 2.0,

@@ -12,7 +12,8 @@ import 'package:futurensemobileapp/utils/validators.dart';
 
 class FeedbackPage extends StatefulWidget {
   final MeetingModel? mentor;
-  FeedbackPage({super.key, required this.mentor});
+  final String? role;
+  FeedbackPage({super.key, required this.mentor, required this.role});
 
   @override
   State<FeedbackPage> createState() => _FeedbackPageState();
@@ -77,7 +78,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                   ),
                   Text(
                     widget.mentor!.userName.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xff777A95),
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
@@ -86,7 +87,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                     height: 20,
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                     decoration: BoxDecoration(
                         color: Color(0xffEBF6F7),
                         borderRadius: BorderRadius.circular(10)),
@@ -166,7 +167,8 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                       textColor: Colors.white,
                       color: const Color(0xffFDBA2F),
                       onPressed: () {
-                        provider.postFeedback(context,widget.mentor?.channelName.toString());
+                        provider.postFeedback(
+                            context, widget.mentor?.channelName.toString());
                       }),
                   // const Text(
                   //     "Would you recommend Pro. Bellamy Nicholas to your friends?"),
@@ -198,5 +200,6 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
   @override
   void initialise(BuildContext context) {
     provider.mentor = widget.mentor;
+    provider.role = widget.role;
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+
 import 'package:futurensemobileapp/api/api_config.dart';
-import 'package:futurensemobileapp/api/mentor_service.dart';
+
 import 'package:futurensemobileapp/utils/locator.dart';
 import 'package:futurensemobileapp/utils/share_prefs.dart';
 
@@ -30,6 +30,8 @@ abstract class MenteeRepo {
   Future<dynamic> cancelMeeting(FormData body);
   Future<dynamic> rescheduleMeeting(FormData body);
   Future<dynamic> getNotification();
+  Future<dynamic> checkMeetingTime(FormData body);
+  Future<dynamic> checkNewNotification();
 }
 
 class _MenteeServices implements MenteeRepo {
@@ -338,6 +340,32 @@ class _MenteeServices implements MenteeRepo {
       return res;
     } catch (e) {
       log("Error while calling getNotification");
+      return false;
+    }
+  }
+
+  @override
+  Future checkMeetingTime(FormData body) async {
+    try {
+      final res = await _dio.post(ApiConfig.baseapi,
+          data: body, queryParameters: {'fn': "CheckMeetingTime"});
+      return res;
+    } catch (e) {
+      log("Error While Calling CheckMeetingTime");
+      return false;
+    }
+  }
+
+  @override
+  Future checkNewNotification() async {
+    try {
+      final res = await _dio.get(ApiConfig.baseapi, queryParameters: {
+        'fn': 'NewNotificationsCount',
+        'user_id': prefs.userId.toString(),
+      });
+      return res;
+    } catch (e) {
+      log("Error while calling CheckNotification");
       return false;
     }
   }

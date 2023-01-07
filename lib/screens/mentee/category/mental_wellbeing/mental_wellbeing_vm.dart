@@ -173,7 +173,7 @@ class MentalWellBeingVM extends BaseViewModel {
 
         filterList =
             tempfilterList.map((e) => MentorModel.fromjson(e)).toList();
-        showNotification(res.data["message"]);
+        // showNotification(res.data["message"]);
 
         notifyListeners();
       } else {

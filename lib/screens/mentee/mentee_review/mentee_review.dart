@@ -38,7 +38,7 @@ class _MenteeReviewState extends State<MenteeReview>
                 title: const Text(
                   "Reviews",
                   style: TextStyle(
-                      color:  Color(0xffFDBA2F),
+                      color: Color(0xffFDBA2F),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -54,7 +54,7 @@ class _MenteeReviewState extends State<MenteeReview>
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding:const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               // margin:
               //     EdgeInsets.symmetric(vertical: 10, horizontal: 10)
               child: Column(
@@ -74,13 +74,13 @@ class _MenteeReviewState extends State<MenteeReview>
                   Container(
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: provider.reviewsList!.feedbacksBy!.length,
+                      itemCount: provider.reviewsList?.feedbacksBy?.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
-                          margin:const EdgeInsets.symmetric(vertical: 10),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
@@ -90,7 +90,7 @@ class _MenteeReviewState extends State<MenteeReview>
                                       const Color(0xffBDBCBC).withOpacity(0.25),
                                   spreadRadius: 0,
                                   blurRadius: 6,
-                                  offset:const Offset(0, 2),
+                                  offset: const Offset(0, 2),
                                   blurStyle: BlurStyle.normal),
                             ],
                           ),
@@ -124,7 +124,8 @@ class _MenteeReviewState extends State<MenteeReview>
                                                 color: Colors.grey[500])),
                                         RatingBarIndicator(
                                           rating: 2.5,
-                                          itemBuilder: (context, index) =>const Icon(
+                                          itemBuilder: (context, index) =>
+                                              const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                           ),
@@ -171,14 +172,14 @@ class _MenteeReviewState extends State<MenteeReview>
             height: 15,
           ),
           Text(
-            "${widget.mentordetails!.fName.toString()} ${widget.mentordetails!.lName.toString()}",
-            style:const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+            "${widget.mentordetails?.fName.toString()} ${widget.mentordetails?.lName.toString()}",
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           const SizedBox(
             height: 2,
           ),
           Text(
-            widget.mentordetails!.designationName.toString(),
+            widget.mentordetails?.designationName ?? "-",
             textAlign: TextAlign.center,
           ),
           const SizedBox(

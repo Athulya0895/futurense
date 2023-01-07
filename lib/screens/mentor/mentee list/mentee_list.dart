@@ -40,7 +40,7 @@ class _MenteeListState extends State<MenteeList> with BasePage<MenteeListVM> {
                 centerTitle: true,
                 title: const Center(
                   child: Text(
-                    "Our Mentors",
+                    "Listed Mentees",
                     style: TextStyle(
                         color: Color(0xffFDBA2F),
                         fontSize: 20,
