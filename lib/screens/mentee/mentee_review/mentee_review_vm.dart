@@ -11,16 +11,15 @@ class MenteeReviewVM extends BaseViewModel {
 
   ReviewModel? reviewsList;
   //get Reviews of student
-  late MentorModel? mentor;
+  late MentorModel? mentee;
   void getReviews() async {
     showLoading();
-    var res = await api.mentorRepo.getReview(mentor!.id.toString());
+    var res = await api.menteeRepo.getReview(mentee!.id.toString());
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        reviewsList = ReviewModel.fromJson(res.data['Data']);
-     
-     
+        reviewsList = ReviewModel.fromJson(res.data['Data'] );
+   
         notifyListeners();
       } else {
         showNotification("No reviews Found");

@@ -3,19 +3,21 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 
 import 'package:futurensemobileapp/base/base_view_model.dart';
-import 'package:futurensemobileapp/main.dart';
+
 import 'package:futurensemobileapp/models/user_model.dart';
+
 
 import 'package:futurensemobileapp/screens/mentor/setPreference/setpreference.dart';
 
-import 'package:image_picker/image_picker.dart';
+
 import 'package:lottie/lottie.dart';
 
+
 class MentorMyaccountVM extends BaseViewModel {
-  late AnimationController _controller;
+  bool showLottie = true;
   @override
   void onInit() {
     user = prefs.user;
@@ -23,31 +25,6 @@ class MentorMyaccountVM extends BaseViewModel {
     getCurrentCompany();
     getJobtitle();
     getExperience();
-    //  _controller = AnimationController(
-    //   duration: Duration(seconds: (3)),
-    //   vsync: this,
-    // );
-
-    // firstName.text = user!.mentorFirstName ?? " ";
-    // lastName.text = user!.mentorLastName ?? "";
-    // email.text = user!.mentorEmail ?? "";
-    // phoneNumber.text = user!.mentorMobile ?? "";
-    // linkedinid.text = user!.linkedinId ?? "";
-    // currentCompany.text = user!.currentCompany ?? "";
-    // jobTitle.text = user!.jobTitle ?? "";
-    // print(user!.experience);
-    // experience.text = user?.experience ?? "";
-    // about.text = user!.about ?? "";
-    // // selectedCompany = user!.currentCompany as CurrentCompanyModel?;
-
-    // // print("Current Company Name");
-    // // print(selectedCompany?.currentCompanyName);
-    // // selectedJob = user!.jobTitle as JobttileModel?;
-    // selectedCompany?.currentCompanyName = user!.currentCompany.toString();
-    // // selectedJob = user!.jobTitle;
-    // // selectedExperience = user?.experience;
-    // selectedJob?.jobtitlename = user?.jobTitle ?? "";
-    // selectedExperience?.experienceName = user?.experience ?? "";
 
     notifyListeners();
   }
@@ -90,24 +67,26 @@ class MentorMyaccountVM extends BaseViewModel {
   File? image;
 
   pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
     if (result != null) {
       image = File(result.files.single.path!);
       notifyListeners();
     } else {}
   }
 
-  final ImagePicker picker = ImagePicker();
-  PickedFile? imageFile; //store image that is choosen from camera or gallery
-  void takePhoto(ImageSource source) async {
-    final pickedFile = await picker.getImage(
-      source: source,
-    );
-    // setState(() {
-    imageFile = pickedFile;
-    // });
-    notifyListeners();
-  }
+  // final ImagePicker picker = ImagePicker();
+  // PickedFile? imageFile; //store image that is choosen from camera or gallery
+  // void takePhoto(ImageSource source) async {
+  //   final pickedFile = await picker.getImage(
+  //     source: source,
+  //   );
+  //   // setState(() {
+  //   imageFile = pickedFile;
+  //   // });
+  //   notifyListeners();
+  // }
 
 //get userdetails
   UserModel? user;
@@ -298,48 +277,69 @@ class MentorMyaccountVM extends BaseViewModel {
               return Dialog(
                 backgroundColor: Colors.white,
                 elevation: 3,
-                child: Container(
-                  padding: const EdgeInsets.all(26),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Image.asset("assets/success.png"),
-                      Center(
-                        child: Lottie.asset('assets/Rescheduled.json',
-                            fit: BoxFit.fill,
-                            reverse: true,
-                            repeat: false, onLoaded: (value) async {
-                          await Future.delayed(value.duration);
-                          if (home != true) {
-                            Navigator.push(
-                                MyApp.context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SetPreferenceMentor()));
-                            // Navigator.push(
-                            //     MyApp.context, MaterialPageRoute(builder: (context) => Home()));
-                          } else {
-                            edit = false;
-                            notifyListeners();
-                          }
-                        }),
-                      ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset("assets/success.png"),
+                    Center(
+                      child: Lottie.asset(
+                        'assets/Rescheduled.json',
+                        fit: BoxFit.fill,
+                        reverse: false,
+                        repeat: false,
 
-                      const SizedBox(
-                        height: 5,
+                        //      onLoaded: (value) async {
+                        //   await Future.delayed(value.duration);
+                        //   if (home != true) {
+                        //     Navigator.push(
+                        //         MyApp.context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => SetPreferenceMentor()));
+                        //     // Navigator.push(
+                        //     //     MyApp.context, MaterialPageRoute(builder: (context) => Home()));
+                        //   } else {
+                        //     edit = false;
+                        //     // showLottie = false;
+                        //     notifyListeners();
+                        //     Navigator.pop(context);
+                        //   }
+                        // }
+                        onLoaded: (value) async {
+                          Future.delayed(value.duration).then((value) {
+                            if (home != true) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation1, animation2) =>
+                                              const SetPreferenceMentor(),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero),
+                                  (route) => false);
+                            } else {
+                              edit = false;
+                              // showLottie = false;
+                              notifyListeners();
+                              Navigator.pop(context);
+                            }
+                          });
+                        },
                       ),
-                      const Text(
-                        "Changes Saved!",
-                        style:
-                            TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
+                    ),
+
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Text(
+                      "Changes Saved!",
+                      style: TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
               );
             },

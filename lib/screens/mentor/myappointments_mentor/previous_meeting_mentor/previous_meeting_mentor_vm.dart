@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
+import 'package:futurensemobileapp/screens/mentee/review_feedback/feedback.dart';
+import 'package:lottie/lottie.dart';
 
 class PreviousMeetingMentorVM extends BaseViewModel {
   @override
@@ -39,7 +42,99 @@ class PreviousMeetingMentorVM extends BaseViewModel {
         showError(res.data['message']);
       }
     } else {
-      showError("Servere Error");
+      showError("Server Error");
+    }
+  }
+
+  String? canLeaveReview;
+  checkLeaveReview(String channelName, MeetingModel? mentee, context) async {
+    print("check review");
+    print("channel name");
+    print(channelName);
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+    print(formData);
+    final res = await api.mentorRepo.checkLeaveReview(formData);
+
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        print("true");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (Context) => FeedbackPage(
+                      mentor: mentee,
+                      role: "mentor",
+                    )));
+        notifyListeners();
+      } else {
+        // Fluttertoast.showToast(
+        //     msg: "Already submitted your feedback",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.CENTER,
+        //     timeInSecForIosWeb: 1,
+        //     textColor: Colors.white,
+        //     fontSize: 16.0);
+        await showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              backgroundColor: Colors.white,
+              elevation: 3,
+              child: Container(
+                padding: const EdgeInsets.all(26),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset("assets/success.png"),
+                    Center(
+                      child: Lottie.asset(
+                        'assets/failedsection.json',
+                        fit: BoxFit.fill,
+                        reverse: true,
+                        repeat: false,
+                        onLoaded: (value) async {
+                          Future.delayed(value.duration).then((value) {
+                            Navigator.pop(context);
+                            // Navigator.pushAndRemoveUntil(
+                            //     context,
+                            //     PageRouteBuilder(
+                            //         pageBuilder:
+                            //             (context, animation1, animation2) =>
+                            //                 const Home(),
+                            //         transitionDuration: Duration.zero,
+                            //         reverseTransitionDuration: Duration.zero),
+                            //     (route) => false);
+                          });
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Text(
+                      "Your Feedback has  already been Submitted",
+                      style: TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      }
+    } else {
+      showError("Something Went Wrong");
     }
   }
 }

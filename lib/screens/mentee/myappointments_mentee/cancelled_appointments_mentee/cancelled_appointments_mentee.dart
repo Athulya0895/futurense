@@ -7,7 +7,7 @@ import 'package:futurensemobileapp/components/input/input_field.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/mentee/book_appointment/book_appointment.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/cancelled_appointments_mentee/cancelled_appointments_mentee_vm.dart';
-import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/myappointments_mentee.dart';
+
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/data_notfound.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/meetingcard_widget.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/view_detail.dart';
@@ -64,6 +64,7 @@ class _CancelledAppointmentsMenteeState
           body: provider.cancelMeetings.isNotEmpty
               ? Center(
                   child: ListView.builder(
+                      padding:const EdgeInsets.only(bottom: 40),
                       itemCount: provider.cancelMeetings.length,
                       itemBuilder: (BuildContext context, int index) {
                         return MeetingCard(
@@ -77,6 +78,7 @@ class _CancelledAppointmentsMenteeState
 
                           buttonText1: "Reschedule",
                           // buttonText2: "Leave a Review",
+                          buttonText2: "",
                           buttonText1pressed: () {
                             showDialog(
                                 context: context,
@@ -84,6 +86,11 @@ class _CancelledAppointmentsMenteeState
                                   return StatefulBuilder(
                                       builder: (context, setState) {
                                     return Dialog(
+                                      insetPadding:
+                                        const  EdgeInsets.only(left: 10, right: 10),
+                                      shape:const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
                                       backgroundColor: Colors.white,
                                       elevation: 3,
                                       child: Padding(
@@ -305,6 +312,13 @@ class _CancelledAppointmentsMenteeState
                                       provider.cancelMeetings[index].profilepic,
                                   meetingDetails:
                                       provider.cancelMeetings[index],
+                                  viewStatus: "This meeting has been cancelled",
+                                  cancelReason: provider
+                                      .cancelMeetings[index].cancelReason,
+                                  cancelDetailReason: provider
+                                      .cancelMeetings[index].cancelDetailReason,
+                                  viewStatusColor:const Color(0xffFF7901),
+                                  buttonText2: "",
                                   buttonText1: "Reschedule",
                                   buttonText1pressed: () {
                                     //reschedule meeting
@@ -314,6 +328,13 @@ class _CancelledAppointmentsMenteeState
                                           return StatefulBuilder(
                                               builder: (context, setState) {
                                             return Dialog(
+                                              insetPadding:const EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              shape:const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10.0))),
                                               backgroundColor: Colors.white,
                                               elevation: 3,
                                               child: Padding(
@@ -378,7 +399,7 @@ class _CancelledAppointmentsMenteeState
                                                                               child: Row(
                                                                                 children: <Widget>[
                                                                                   Checkbox(
-                                                                                    activeColor:const Color(0xffFDBA2F),
+                                                                                    activeColor: const Color(0xffFDBA2F),
                                                                                     value: area["isChecked"],
                                                                                     onChanged: (value) {
                                                                                       setState(() => area["isChecked"] = value);
@@ -419,8 +440,10 @@ class _CancelledAppointmentsMenteeState
                                                     ),
                                                     const SizedBox(height: 10),
                                                     Padding(
-                                                      padding:const EdgeInsets.only(
-                                                          left: 15, right: 15),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 15,
+                                                              right: 15),
                                                       child: InputField(
                                                         maxline: 3,
                                                         // minline: 1,
@@ -437,8 +460,8 @@ class _CancelledAppointmentsMenteeState
                                                       height: 30,
                                                     ),
                                                     MaterialButton(
-                                                        color:
-                                                          const Color(0xffFDBA2F),
+                                                        color: const Color(
+                                                            0xffFDBA2F),
                                                         materialTapTargetSize:
                                                             MaterialTapTargetSize
                                                                 .shrinkWrap,
@@ -519,19 +542,21 @@ class _CancelledAppointmentsMenteeState
                         );
                       }),
                 )
-              : Center(
+              : const Center(
                   child: DataNotFound(
                     nodataimg: "assets/nodatafound.svg",
                     cancelledText1: "No Cancelled Meetings",
                     cancelledText2:
                         "You do not have any cancelled meetings to\n show",
-                    buttonText: "My Meetings ->",
-                    buttonpress: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>const MyappointmentsMentee()));
-                    },
+                    // buttonText: "",
+                    // buttonpress: () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const MyappointmentsMentee())
+                    //               );
+                    // },
                   ),
                 ),
         )));

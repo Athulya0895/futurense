@@ -109,6 +109,7 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
           ),
         ),
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               SearchMentee(topmentorlist: provider.topTechmentorList),
@@ -131,116 +132,148 @@ class _TechnicalAssistanceState extends State<TechnicalAssistance>
         )));
   }
 
-//search all mentors
-//also can search based on filter
-  Widget _searchField() {
-    return Container(
-      height: 55,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: const Color(0xff6B779A).withOpacity(0.1),
-        borderRadius: const BorderRadius.all(Radius.circular(13)),
-        // boxShadow: <BoxShadow>[
-        //   BoxShadow(
-        //     color: Colors.grey,
-        //     blurRadius: 15,
-        //     offset: Offset(5, 5),
-        //   )
-        // ],
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          border: InputBorder.none,
-          hintText: "Search for mentor",
-          hintStyle: TextStyles.body.subTitleColor,
-          suffixIcon: SizedBox(
-            width: 50,
-            child: const Icon(Icons.search, color: Colors.orange)
-                .alignCenter
-                .ripple(
-                  () {},
-                  borderRadius: BorderRadius.circular(13),
-                ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  //list of all mentors
 
   //top Mentors list
-
   Widget _allmentorWidgetList() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, bottom: 40),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
       // implement GridView.builder
       child: SizedBox(
         // height: 500,
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 3.5,
+                childAspectRatio: 3 / 3.8,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
-            itemCount: provider.topTechmentorList.length,
+            itemCount: provider.filterList.isEmpty &&
+                    provider.isSelectedfilter == false
+                ? provider.topTechmentorList.length
+                : provider.filterList.length,
+            //  provider.topMentorList.length > 6
+            //     ? 6
+            //     : provider.topMentorList
+            //         .length, //only five topmentors need to be displayed
             shrinkWrap: true,
             physics: const ScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext ctx, index) {
               return InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 15),
-                    // alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color: const Color(0xff979797).withOpacity(0.1)),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            offset: Offset(0, 1),
-                            blurStyle: BlurStyle.inner,
-                            blurRadius: 10,
-                            color: Color(0xffFFD680),
-                          )
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MentorDetails(
+                              topmentor: provider.topTechmentorList[index])));
+                }),
+                child: Stack(
+                  // alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(maxHeight: 200),
+                      padding: const EdgeInsets.only(top: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: const Color(0xff979797).withOpacity(0.1)),
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              offset: Offset(0, 2),
+                              blurStyle: BlurStyle.inner,
+                              blurRadius: 6,
+                              spreadRadius: 1.5,
+                              color: Color(0xffFFD680),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ProfileImage(
+                              url:
+                                  provider.topTechmentorList[index].profilePic),
+                          //                   const SizedBox(
+                          //                     height: 20,
+                          //                   ),
+                          provider.isSelectedfilter == false ||
+                                  provider.filterList.isEmpty
+                              ? Text(
+                                  "${provider.topTechmentorList[index].fName.toString()} ${provider.topTechmentorList[index].lName.toString()}",
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:const TextStyle(
+                                      color: Color(0xff222B45),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                )
+                              : Text(
+                                  "${provider.filterList[index].fName.toString()} ${provider.filterList[index].lName.toString()}",
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:const TextStyle(
+                                      color: Color(0xff222B45),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                          provider.isSelectedfilter == false ||
+                                  provider.filterList.isEmpty
+                              ? Text(
+                                  provider
+                                      .topTechmentorList[index].designationName
+                                      .toString(),
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      color: Color(0xff6B779A), fontSize: 10),
+                                )
+                              : Text(
+                                  provider.filterList[index].designationName
+                                      .toString(),
+                                  style:const TextStyle(
+                                      color: Color(0xff6B779A), fontSize: 10),
+                                ),
+                          provider.isSelectedfilter == false ||
+                                  provider.filterList.isEmpty
+                              ? Text(
+                                  "⭐️ ${provider.topTechmentorList[index].rating.toString()}(${provider.topTechmentorList[index].reviews.toString()} reviews,)",
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      const TextStyle(color: Color(0xffFD2FE2)),
+                                )
+                              : Text(
+                                  "⭐️ ${provider.filterList[index].rating.toString()}(${provider.filterList[index].reviews.toString()} reviews)",
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      const TextStyle(color: Color(0xffFD2FE2)),
+                                ),
+                          const SizedBox(
+                            height: 15,
+                          ),
                         ],
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ProfileImage(
-                            provider.topTechmentorList[index].profilePic),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "${provider.topTechmentorList[index].fName.toString()} ${provider.topTechmentorList[index].lName.toString()}",
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          provider.topTechmentorList[index].designationName
-                              .toString(),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "⭐️ ${provider.topTechmentorList[index].rating.toString()}(${provider.topTechmentorList[index].reviews.toString()} reviews)",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: Color(0xffFD2FE2)),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MentorDetails(
-                                  topmentor: provider.topTechmentorList[index],
-                                )));
-                  });
+                    Positioned(
+                      bottom: -1,
+                      right: 40,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xff6EBFC3),
+                        ),
+                        child: const Text(
+                          "View More",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }),
       ),
     );

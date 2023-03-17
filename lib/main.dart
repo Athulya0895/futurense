@@ -1,17 +1,25 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:futurensemobileapp/firebase_options.dart';
 import 'package:futurensemobileapp/screens/splas_screen/splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laravel_echo/laravel_echo.dart';
+
 import 'package:provider/provider.dart';
 import 'utils/locator.dart';
 import 'utils/share_prefs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.high,
+    playSound: true);
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
@@ -21,69 +29,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  // const String BEARER_TOKEN = 'YOUR_BEARER_TOKEN_HERE';
-
-// // Create socket.io client
-//   IO.Socket socket = IO.io(
-//     'http://13.127.192.123',
-//     IO.OptionBuilder()
-//         .disableAutoConnect()
-//         .setTransports(['websocket']).build(),
-//   );
-
-// // Create echo instance
-//   Echo echo = new Echo(
-//     broadcaster: EchoBroadcasterType.SocketIO,
-//     client: socket,
-//   );
-
-// // Listening public channel
-//   echo.channel('messages').listen('MessageCreated', (e) {
-//     print(e);
-//   });
-
-// // Listening private channel
-// // Needs auth. See details how to authorize channel below in guides
-//   echo.private('messages').listen('MessageCreated', (e) {
-//     print(e);
-//   });
-
-// // Listening presence channel
-// // Needs auth. See details how to authorize channel below in guides
-//   echo.join('presence-channel').here((users) {
-//     print(users);
-//   }).joining((user) {
-//     print(user);
-//   }).leaving((user) {
-//     print(user);
-//   }).listen('PresenceEvent', (e) {
-//     print(e);
-//   });
-
-// Accessing socket instance
-  // echo.connector.socket.onConnect((_) => print('connected'));
-  // echo.connector.socket.onDisconnect((_) => print('disconnected'));
-  //socket Nodejs
-  // String url = 'http://13.127.192.123';
-  // String url1 = 'http://192.168.69.106:6001';
-  // String url2 = 'http://192.168.70.102:6001';
-  // String url3 = 'http://13.127.192.123:6001';
-  // IO.Socket socket = IO.io(
-  //     url2,
-  //     IO.OptionBuilder().setTransports(['websocket']) // for Flutter or Dart VM
-  //         .setExtraHeaders({'foo': 'bar'}) // optional
-  //         .build());
-  // socket.onConnect((_) {
-  //   print('connect');
-  //   socket.emit('msg', 'test');
-  // });
-  // //socket on userId
-  // socket.on('', (data) {});
-  // socket.onDisconnect((_) => print('disconnect'));
-  // socket.onerror((e) => print(e));
-  // socket.on('fromServer', () => print());
-  //socket nodejs
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -99,6 +44,16 @@ void main() async {
   await locator<SharedPrefs>().init();
   locator<SharedPrefs>().firsttimeLogin = false;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -119,6 +74,48 @@ void main() async {
       print('Message also contained a notification: ${message.notification}');
     }
   });
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null) {
+      flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ));
+    }
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print('A new onMessageOpenedApp event was published!');
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null) {
+      showDialog(
+          context: MyApp.context,
+          builder: (_) {
+            return AlertDialog(
+              title: Text(notification.title!),
+              content: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Text(notification.body!)],
+                ),
+              ),
+            );
+          });
+    }
+  });
 
   runApp(const MyApp());
 }
@@ -130,6 +127,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.3);
+        return MediaQuery(
+          child: child!,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+        );
+      },
       debugShowCheckedModeBanner: false,
       title: 'futurense Mobile App',
       navigatorKey: navigatorKey,
@@ -138,7 +143,8 @@ class MyApp extends StatelessWidget {
               primary: const Color(0xff6EBFC3),
             ),
         textTheme: GoogleFonts.poppinsTextTheme(),
-      ),
+      ),  
+
       // theme: ThemeData(primarySwatch: Colors.yellow),
       home: const SplashScreen(),
     );

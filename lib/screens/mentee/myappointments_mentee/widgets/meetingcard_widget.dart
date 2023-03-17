@@ -56,7 +56,7 @@ class MeetingCard extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileImage(url),
+                    ProfileImage(url:url),
                   ],
                 ),
                 const SizedBox(
@@ -72,6 +72,8 @@ class MeetingCard extends StatelessWidget {
                             fontSize: 16,
                             color: Color(0xff202020),
                             fontWeight: FontWeight.w600),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(
                         height: 5,
@@ -133,7 +135,7 @@ class MeetingCard extends StatelessWidget {
                     IconButton(
                         onPressed: () {
                           iconButtonpressed!();
-                          print("meeting");
+                          // print("meeting");
                         },
                         icon:
                             SvgPicture.asset(icon ?? "assets/cancelledimg.svg"))
@@ -164,7 +166,7 @@ class MeetingCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  buttonText2 != null
+                  buttonText2!.isNotEmpty
                       ? Align(
                           alignment: Alignment.centerRight,
                           child: MaterialButton(
@@ -191,6 +193,7 @@ class MeetingCard extends StatelessWidget {
                                     fontSize: 12, fontWeight: FontWeight.bold),
                               ),
                               onPressed: () {
+                                // print("pressed");
                                 buttonText2pressed!();
                               }),
                         )
@@ -198,7 +201,7 @@ class MeetingCard extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  buttonText1 != null
+                  buttonText1!.isNotEmpty
                       ? Align(
                           alignment: Alignment.centerRight,
                           child: MaterialButton(

@@ -4,6 +4,7 @@ import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/dropdown/dropdown_menu_mode.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
+import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
@@ -55,13 +56,50 @@ class _BookAppointmentState extends State<BookAppointment>
             ),
             child: AppBar(
               centerTitle: true,
-              title: const Text(
-                "Schedule Meeting",
-                style: TextStyle(
-                    color: Color(0xffFDBA2F),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              title: Row(
+                children: [
+                  ProfileImage(
+                    url: widget.topmentor?.profilePic,
+                    heighturl: 35,
+                    widthurl: 35,
+                    heightpng: 35,
+                    widthpng: 35,
+                  ),
+                 const SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      Text(
+                        "${widget.topmentor?.fName.toString()} ${widget.topmentor?.lName ?? ""}",
+                        style: const TextStyle(
+                            color: Color(0xffFDBA2F),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        widget.topmentor?.designationName.toString() ?? "",
+                        style: const TextStyle(
+                            color: Color(0xff6B779A),
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ],
               ),
+              //  const Text(
+              //   "Schedule Meeting",
+              //   style: TextStyle(
+              //       color: Color(0xffFDBA2F),
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.bold),
+              // ),
               leading: const BackButtonCustom(),
               backgroundColor: Colors.white,
               elevation: 0,
@@ -73,6 +111,7 @@ class _BookAppointmentState extends State<BookAppointment>
           ),
         ),
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: provider.formKey,
             child: Column(
@@ -98,7 +137,7 @@ class _BookAppointmentState extends State<BookAppointment>
                       ),
                       child: TableCalendar(
                         // currentDay: DateTime.now(),
-
+                        calendarFormat: CalendarFormat.month,
                         firstDay: DateTime.now(),
                         lastDay: DateTime.utc(2030, 3, 14),
                         focusedDay: provider.focusedDay,
@@ -176,7 +215,7 @@ class _BookAppointmentState extends State<BookAppointment>
                             style: TextStyles.title.bold,
                           ),
                           const Text(
-                            "swipe ->",
+                            "->",
                             style: TextStyle(color: Color(0xffFDBA2F)),
                           )
                         ],
@@ -185,67 +224,116 @@ class _BookAppointmentState extends State<BookAppointment>
                         height: 20,
                       ),
                       SizedBox(
-                        height: 150,
-                        child: GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 100,
-                                    childAspectRatio: 4 / 6,
-                                    crossAxisSpacing: 20,
-                                    mainAxisSpacing: 10),
-                            itemCount: provider.availableTimeSlots.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext ctx, index) {
-                              return InkWell(
-                                child: Container(
-                                  // alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: provider.availableTimeSlots[index]
-                                                    ["time"] ==
-                                                provider.selectedTimeslot &&
-                                            provider.availableTimeSlots[index]
-                                                    ["isAvailable"] ==
-                                                true
-                                        ? const Color(0xffFDBA2F)
-                                        : slotcolor,
-                                    border: Border.all(
-                                        color: const Color(0xff6B779A)
-                                            .withOpacity(0.10)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                      child: Text(
-                                    provider.availableTimeSlots[index]["time"],
-                                    style: TextStyle(
-                                        color: provider.availableTimeSlots[
-                                                    index]['isAvailable'] ==
-                                                false
-                                            ? const Color(0xff6B779A)
-                                                .withOpacity(0.5)
-                                            : provider.availableTimeSlots[index]
-                                                            ["time"] ==
-                                                        provider
-                                                            .selectedTimeslot &&
-                                                    provider.availableTimeSlots[
-                                                                index]
-                                                            ["isAvailable"] ==
-                                                        true
-                                                ? Colors.white
-                                                : const Color(0xff202020)),
-                                  )),
-                                ),
-                                onTap:
-                                    // provider.availableTimeSlots.contains(index)?null:
-                                    () {
-                                  setState(() {
-                                    onclick = true;
-                                    provider.selectedTimeslot = provider
-                                        .availableTimeSlots[index]["time"];
-                                  });
-                                },
-                              );
-                            }),
+            height: 130,
+            child: GridView.builder(
+              itemCount: provider.timeSlots.length,
+              scrollDirection: Axis.horizontal,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 100,
+                childAspectRatio: 4 / 6,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 10,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    // handle tap on time slot
+                    setState(() {
+                      provider.selectedTimeslot = provider.timeSlots[index];
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color:
+                          provider.selectedTimeslot == provider.timeSlots[index]
+                              ? const Color(0xffFDBA2F)
+                              : slotcolor,
+                      border: Border.all(
+                          color: const Color(0xff6B779A).withOpacity(0.10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        provider.timeSlots[index],
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: provider.selectedTimeslot ==
+                                    provider.timeSlots[index]
+                                ? FontWeight.bold
+                                : FontWeight.w400,
+                            color: provider.selectedTimeslot ==
+                                    provider.timeSlots[index]
+                                ? Colors.white
+                                : Color(0xff202020)),
                       ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+                      // SizedBox(
+                      //   height: 150,
+                      //   child: GridView.builder(
+                      //       gridDelegate:
+                      //           const SliverGridDelegateWithMaxCrossAxisExtent(
+                      //               maxCrossAxisExtent: 100,
+                      //               childAspectRatio: 4 / 6,
+                      //               crossAxisSpacing: 20,
+                      //               mainAxisSpacing: 10),
+                      //       itemCount: provider.availableTimeSlots.length,
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemBuilder: (BuildContext ctx, index) {
+                      //         return InkWell(
+                      //           child: Container(
+                      //             // alignment: Alignment.center,
+                      //             decoration: BoxDecoration(
+                      //               color: provider.availableTimeSlots[index]
+                      //                               ["time"] ==
+                      //                           provider.selectedTimeslot &&
+                      //                       provider.availableTimeSlots[index]
+                      //                               ["isAvailable"] ==
+                      //                           true
+                      //                   ? const Color(0xffFDBA2F)
+                      //                   : slotcolor,
+                      //               border: Border.all(
+                      //                   color: const Color(0xff6B779A)
+                      //                       .withOpacity(0.10)),
+                      //               borderRadius: BorderRadius.circular(10),
+                      //             ),
+                      //             child: Center(
+                      //                 child: Text(
+                      //               provider.availableTimeSlots[index]["time"],
+                      //               style: TextStyle(
+                      //                   color: provider.availableTimeSlots[
+                      //                               index]['isAvailable'] ==
+                      //                           false
+                      //                       ? const Color(0xff6B779A)
+                      //                           .withOpacity(0.5)
+                      //                       : provider.availableTimeSlots[index]
+                      //                                       ["time"] ==
+                      //                                   provider
+                      //                                       .selectedTimeslot &&
+                      //                               provider.availableTimeSlots[
+                      //                                           index]
+                      //                                       ["isAvailable"] ==
+                      //                                   true
+                      //                           ? Colors.white
+                      //                           : const Color(0xff202020)),
+                      //             )),
+                      //           ),
+                      //           onTap:
+                      //               // provider.availableTimeSlots.contains(index)?null:
+                      //               () {
+                      //             setState(() {
+                      //               onclick = true;
+                      //               provider.selectedTimeslot = provider
+                      //                   .availableTimeSlots[index]["time"];
+                      //             });
+                      //           },
+                      //         );
+                      //       }),
+                      // ),
                     ],
                   ),
                 ),
@@ -275,7 +363,7 @@ class _BookAppointmentState extends State<BookAppointment>
                         enabledValidation: true,
                         borderRadius: 10,
                         selectedItem: provider.selectedMeetingMode,
-                        hinttext: "",
+                        hinttext: "Audio/Video Call",
                         validationText: "Please Select your Meeting Mode",
                         items: const [
                           "Video Call",
@@ -301,7 +389,8 @@ class _BookAppointmentState extends State<BookAppointment>
                         enabledValidation: true,
                         borderRadius: 10,
                         selectedItem: provider.meetingDuration,
-                        hinttext: "	",
+                        hinttext: "Select Duration",
+                        // labeltext: "meeting Duration",
                         validationText: "Please Select Meeting duration",
                         items: const ["15 min", "30 min", "45 min"],
                         setdata: (val) {
@@ -326,7 +415,8 @@ class _BookAppointmentState extends State<BookAppointment>
                           maxline: 5,
                           controller: provider.problemDetail,
                           // prefixIcon: const Icon(Icons.person),
-                          validation: Validators.basic),
+
+                          validation: Validators.meetingagenda),
                       const SizedBox(height: 20),
                     ],
                   ),
@@ -337,9 +427,11 @@ class _BookAppointmentState extends State<BookAppointment>
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
                     color: const Color(0xffFDBA2F),
-                    child: const Text(
-                      "Send Request",
-                      style: TextStyle(
+                    child: Text(
+                      widget.resheduleStatus != true
+                          ? "Send Request"
+                          : "Reschedule",
+                      style:const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
@@ -497,7 +589,7 @@ class _BookAppointmentState extends State<BookAppointment>
                                 provider.availableTimeSlots[index]
                                         ["isAvailable"] ==
                                     true
-                            ? Color(0xffFDBA2F)
+                            ?const Color(0xffFDBA2F)
                             : slotcolor,
                         border: Border.all(
                             color: const Color(0xff6B779A).withOpacity(0.10)),
@@ -554,7 +646,7 @@ class _BookAppointmentState extends State<BookAppointment>
           const Text(
             "Meeting Mode",
             style: TextStyle(
-              color: Color(0xff9295A3),
+              color: Color(0xff202020),
             ),
           ),
           const SizedBox(
@@ -582,7 +674,7 @@ class _BookAppointmentState extends State<BookAppointment>
           const Text(
             "Meeting Duration",
             style: TextStyle(
-              color: Color(0xff9295A3),
+              color: Color(0xff202020),
             ),
           ),
           const SizedBox(
@@ -606,7 +698,7 @@ class _BookAppointmentState extends State<BookAppointment>
           const Text(
             "Meeting Agenda",
             style: TextStyle(
-              color: Color(0xff9295A3),
+              color: Color(0xff202020),
             ),
           ),
           const SizedBox(

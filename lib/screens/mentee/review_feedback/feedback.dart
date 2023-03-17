@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
-import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+
 import 'package:futurensemobileapp/components/input/input_field.dart';
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
@@ -12,7 +11,8 @@ import 'package:futurensemobileapp/utils/validators.dart';
 
 class FeedbackPage extends StatefulWidget {
   final MeetingModel? mentor;
-  FeedbackPage({super.key, required this.mentor});
+  final String? role;
+  const FeedbackPage({super.key, required this.mentor, required this.role});
 
   @override
   State<FeedbackPage> createState() => _FeedbackPageState();
@@ -25,7 +25,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
     return builder((() => Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize:const Size.fromHeight(60.0),
           child: Container(
             decoration: const BoxDecoration(
               boxShadow: [
@@ -42,7 +42,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
               title: const Text(
                 "Feedback",
                 style: TextStyle(
-                    color: const Color(0xffFDBA2F),
+                    color:  Color(0xffFDBA2F),
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
@@ -58,13 +58,13 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
         ),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
+            padding:const EdgeInsets.fromLTRB(20, 20, 20, 40),
             child: SingleChildScrollView(
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ProfileImage(widget.mentor!.profilepic.toString()),
+                  ProfileImage(url:widget.mentor!.profilepic.toString()),
                   const SizedBox(
                     height: 25,
                   ),
@@ -77,7 +77,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                   ),
                   Text(
                     widget.mentor!.userName.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xff777A95),
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
@@ -86,9 +86,9 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                     height: 20,
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                     decoration: BoxDecoration(
-                        color: Color(0xffEBF6F7),
+                        color:const Color(0xffEBF6F7),
                         borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
@@ -109,7 +109,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                             itemCount: 5,
                             ratingWidget: RatingWidget(
                                 full:
-                                    Icon(Icons.star, color: Color(0xffFDBA2F)),
+                                  const  Icon(Icons.star, color: Color(0xffFDBA2F)),
                                 half: const Icon(
                                   Icons.star_half,
                                   color: Color(0xffFDBA2F),
@@ -122,7 +122,7 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                               setState(() {
                                 provider.ratingValue = value;
                               });
-                              print(provider.ratingValue);
+                              // print(provider.ratingValue);
                             }),
                       ],
                     ),
@@ -159,15 +159,16 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
                   MaterialButton(
                       minWidth: MediaQuery.of(context).size.width * 0.7,
                       padding: const EdgeInsets.only(top: 15, bottom: 15),
-                      child: const Text("Done"),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       textColor: Colors.white,
                       color: const Color(0xffFDBA2F),
                       onPressed: () {
-                        provider.postFeedback(context,widget.mentor?.channelName.toString());
-                      }),
+                        provider.postFeedback(
+                            context, widget.mentor?.channelName.toString());
+                      },
+                      child: const Text("Done")),
                   // const Text(
                   //     "Would you recommend Pro. Bellamy Nicholas to your friends?"),
                   // Row(
@@ -198,5 +199,6 @@ class _FeedbackPageState extends State<FeedbackPage> with BasePage<FeedbackVM> {
   @override
   void initialise(BuildContext context) {
     provider.mentor = widget.mentor;
+    provider.role = widget.role;
   }
 }

@@ -23,22 +23,26 @@ class NotificationModel {
 
 class Notification {
   String? title;
+  int? index;
   String? body;
 
   Notification({
     this.title,
+    this.index,
     this.body,
   });
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
       title: json['title'],
+      index: json['index'],
       body: json['body'],
     );
   }
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'title': title,
+      'index': index,
       'body': body,
     };
   }

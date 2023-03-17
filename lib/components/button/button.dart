@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 
 class CustomMaterialButtton extends StatelessWidget {
   final Color? textColor;
@@ -31,7 +31,7 @@ class CustomMaterialButtton extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
           // minWidth: MediaQuery.of(context).size.width * 0.2,
-          color: buttonColor == null ? Color(0xffFDBA2F) : buttonColor,
+          color: buttonColor == null ?  Color(0xffFDBA2F) : buttonColor,
           child: Text(
             text,
             style: TextStyle(

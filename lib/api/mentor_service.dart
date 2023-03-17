@@ -29,6 +29,11 @@ abstract class MentorRepo {
   Future<dynamic> rescheduleMeeting(FormData body);
   Future<dynamic> filterMentor(FormData body, String category);
   Future<dynamic> getReview(String userId);
+  Future<dynamic> getNotification();
+  Future<dynamic> checkMeetingTime(FormData body);
+  Future<dynamic> checkNewNotification();
+  Future<dynamic> checkEndCall(FormData body);
+  Future<dynamic> checkLeaveReview(FormData body);
 }
 
 class _MentorServices implements MentorRepo {
@@ -163,13 +168,13 @@ class _MentorServices implements MentorRepo {
   @override
   Future getTimeslotMentor(FormData body, String id) async {
     try {
-      final res = await _dio.post(ApiConfig.baseapi,
-          data: body,
-          queryParameters: {
-            'fn': "GetTimeSlotsById",
-            'id': id,
-            'role': "mentor"
-          });
+      final res =
+          await _dio.post(ApiConfig.baseapi, data: body, queryParameters: {
+        'fn': "GetTimeSlotsById",
+        'id': id,
+        'my_id': prefs.userId.toString(),
+        'role': "mentor"
+      });
       return res;
     } catch (e) {
       log("Error While running getTimeSlotsmentor ", error: e);
@@ -286,7 +291,7 @@ class _MentorServices implements MentorRepo {
     try {
       final res =
           await _dio.post(ApiConfig.baseapi, data: body, queryParameters: {
-        'role': "mentee",
+        'role': "mentor",
         'fn': "ShareFeedback",
         'faculty_id': prefs.userId.toString(),
         "student_id": menteeId,
@@ -357,6 +362,76 @@ class _MentorServices implements MentorRepo {
       return res;
     } catch (e) {
       log("Error while runnuning getReviews", error: e);
+      return false;
+    }
+  }
+
+  @override
+  Future getNotification() async {
+    try {
+      final res = await _dio.get(ApiConfig.baseapi, queryParameters: {
+        'fn': "getNotifications",
+        'user_id': prefs.userId.toString(),
+      });
+      return res;
+    } catch (e) {
+      log("Error while calling getNotification");
+      return false;
+    }
+  }
+
+  @override
+  Future checkMeetingTime(FormData body) async {
+    try {
+      final res = await _dio.post(ApiConfig.baseapi,
+          data: body, queryParameters: {'fn': "CheckMeetingTime"});
+      return res;
+    } catch (e) {
+      log("Error While Calling CheckMeetingTime");
+      return false;
+    }
+  }
+
+  @override
+  Future checkNewNotification() async {
+    // print("Check new notification");
+    // print(prefs.userId.toString());
+    try {
+      final res = await _dio.get(ApiConfig.baseapi, queryParameters: {
+        'fn': 'NewNotificationsCount',
+        'user_id': prefs.userId.toString(),
+      });
+      return res;
+    } catch (e) {
+      log("Error while calling CheckNotification");
+      return false;
+    }
+  }
+
+  @override
+  Future checkEndCall(FormData body) async {
+    try {
+      final res = await _dio.post(ApiConfig.baseapi,
+          data: body, queryParameters: {'fn': 'EndCall'});
+      return res;
+    } catch (e) {
+      log("Error While Calling CheckEndCall");
+      return false;
+    }
+  }
+
+  @override
+  Future checkLeaveReview(FormData body) async {
+    try {
+      final res = await _dio.post(ApiConfig.baseapi,
+          data: body,
+          queryParameters: {
+            'fn': "LeaveReview",
+            'user_id': prefs.userId.toString()
+          });
+      return res;
+    } catch (e) {
+      log("Error While Calling CheckLeaveReview");
       return false;
     }
   }

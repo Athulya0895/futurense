@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futurensemobileapp/components/button/button.dart';
 import 'package:lottie/lottie.dart';
 
 class AppointmentSuccess extends StatelessWidget {
@@ -38,17 +39,22 @@ class AppointmentSuccess extends StatelessWidget {
           const SizedBox(
             height: 40,
           ),
-          MaterialButton(
-            minWidth: double.infinity,
-            color: const Color(0xffFDBA2F),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Okay",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
+          CustomMaterialButtton(
+              text: "Okay",
+              onPressed: () {
+                Navigator.pop(context);
+              })
+          // MaterialButton(
+          //   minWidth: double.infinity,
+          //   color: const Color(0xffFDBA2F),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          //   child: const Text(
+          //     "Okay",
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // )
         ],
       ),
     );
@@ -65,7 +71,7 @@ class AppointmentSuccess extends StatelessWidget {
         color: Colors.white,
         boxShadow: <BoxShadow>[
           BoxShadow(
-            offset:const Offset(4, 2),
+            offset: const Offset(4, 2),
             blurRadius: 3,
             color: const Color(0xffA0A2B3).withOpacity(0.5),
           )

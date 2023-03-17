@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/main.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/models/user_model.dart';
 
@@ -9,6 +12,28 @@ class HomePageMentorVM extends BaseViewModel {
   void onInit() {
     getUserDetails();
     user = prefs.user;
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        await checkNewNotification();
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
+    checkNewNotification();
     getConfirmedUpcomingMeeting();
     getTopMentees();
   }
@@ -29,24 +54,23 @@ class HomePageMentorVM extends BaseViewModel {
   List tempmenteeList = [];
   List<MentorModel> topMenteeList = [];
   void getTopMentees() async {
-    print("aaabbccdd");
+ 
     showLoading();
     final res = await api.mentorRepo.getTopMentees();
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        print("length");
+        
         tempmenteeList = res.data['DATA'] as List;
         topMenteeList =
             tempmenteeList.map((e) => MentorModel.fromjson(e)).toList();
-        print(topMenteeList.length);
-        print("length");
+      
         notifyListeners();
       } else {
         showError(res.data['message']);
       }
     } else {
-      showError("servere Error");
+      showError("server Error");
     }
   }
 
@@ -63,10 +87,10 @@ class HomePageMentorVM extends BaseViewModel {
     ]);
     showLoading();
     final res = await api.mentorRepo.getMentor(formData);
-    print(res);
+  
     hideLoading();
     if (res.runtimeType == Response) {
-      print("true response");
+   
       if (res.data["status"] == true) {
         final data = res.data['data'];
         // user = UserModel.fromJson(data);
@@ -74,13 +98,12 @@ class HomePageMentorVM extends BaseViewModel {
         // print(user);
         // print("prefs user");
         if (data?.isNotEmpty == true) {
-          print("not empty");
+         
           user = UserModel.fromJson(data);
           notifyListeners();
           prefs.user = user;
-          print("pref user");
-          print(user);
-          print("prefs user");
+         
+       
         }
         notifyListeners();
       } else {
@@ -104,9 +127,9 @@ class HomePageMentorVM extends BaseViewModel {
         tempconfirmed = res.data['DATA'] ?? [];
         confirmedupcomingmeetings =
             tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
-        print("confirmedupcomingmeetings");
-        print(confirmedupcomingmeetings);
-        print("confirmedupcomingmeetings");
+        // print("confirmedupcomingmeetings");
+        // print(confirmedupcomingmeetings);
+        // print("confirmedupcomingmeetings");
       } else {
         showError(res.data['message']);
       }
@@ -114,4 +137,29 @@ class HomePageMentorVM extends BaseViewModel {
       showError("Servere Error");
     }
   }
+
+  checkMeetingTime(String string) {}
+
+  // check Notification
+  String? count;
+  checkNewNotification() async {
+    // print("check new notifications");
+    // showLoading();
+    final res = await api.mentorRepo.checkNewNotification();
+    // print(res);
+    // hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        count = res.data['Data']['count'] ?? "0";
+       
+        notifyListeners();
+      } else {
+        print("No notification");
+      }
+    } else {
+      print("Something Went Wrong");
+    }
+  }
+
+  //
 }

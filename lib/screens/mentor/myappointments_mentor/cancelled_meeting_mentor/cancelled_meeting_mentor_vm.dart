@@ -32,9 +32,7 @@ class CancelledMeetingMentorVM extends BaseViewModel {
         tempCancel = res.data['DATA'] ?? [];
         cancelMeetings =
             tempCancel.map((e) => MeetingModel.fromjson(e)).toList();
-        print("cancelMeetings");
-        print(cancelMeetings);
-        print("cancelMeetings");
+       
       } else {
         showError(res.data['message']);
       }

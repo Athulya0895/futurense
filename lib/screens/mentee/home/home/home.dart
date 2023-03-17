@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
-import 'package:futurensemobileapp/main.dart';
+
 import 'package:futurensemobileapp/screens/mentee/chat/chat_home/chat_home.dart';
 import 'package:futurensemobileapp/screens/mentee/forum/forum.dart';
 import 'package:futurensemobileapp/screens/mentee/home/home/home_vm.dart';
@@ -99,7 +99,7 @@ class _HomeMenteeState extends State<HomeMentee> with BasePage<HomeMenteeVM> {
     return builder((() => Scaffold(
           // drawer: ,
           body: PersistentTabView(
-            MyApp.context,
+            context,
             controller: controller,
             onItemSelected: (index) {
               setState(() {});

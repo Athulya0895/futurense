@@ -45,7 +45,7 @@ class InputField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(15),
+        // contentPadding: EdgeInsets.all(15),
         hintText: hintText,
         filled: true,
         fillColor: const Color(0xffEBF6F7),

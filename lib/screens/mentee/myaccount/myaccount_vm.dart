@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
-import 'package:futurensemobileapp/main.dart';
+
 import 'package:futurensemobileapp/models/user_model.dart';
 
 import 'package:futurensemobileapp/screens/mentee/setPreference/setPreference.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:lottie/lottie.dart';
 
 class MyAccountVM extends BaseViewModel {
@@ -72,24 +72,26 @@ class MyAccountVM extends BaseViewModel {
   File? image;
 
   pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
     if (result != null) {
       image = File(result.files.single.path!);
       notifyListeners();
     } else {}
   }
 
-  final ImagePicker picker = ImagePicker();
-  PickedFile? imageFile; //store image that is choosen from camera or gallery
-  void takePhoto(ImageSource source) async {
-    final pickedFile = await picker.getImage(
-      source: source,
-    );
-    // setState(() {
-    imageFile = pickedFile;
-    // });
-    notifyListeners();
-  }
+  // final ImagePicker picker = ImagePicker();
+  // PickedFile? imageFile; //store image that is choosen from camera or gallery
+  // void takePhoto(ImageSource source) async {
+  //   final pickedFile = await picker.getImage(
+  //     source: source,
+  //   );
+  //   // setState(() {
+  //   imageFile = pickedFile;
+  //   // });
+  //   notifyListeners();
+  // }
 
 //get userdetails
   UserModel? user;
@@ -103,10 +105,10 @@ class MyAccountVM extends BaseViewModel {
     ]);
     showLoading();
     final res = await api.mentorRepo.getMentor(formData);
-    print(res);
+  
     hideLoading();
     if (res.runtimeType == Response) {
-      print("true response");
+     
       if (res.data["status"] == true) {
         final data = res.data['data'];
 
@@ -257,63 +259,124 @@ class MyAccountVM extends BaseViewModel {
               return Dialog(
                 backgroundColor: Colors.white,
                 elevation: 3,
-                child: Container(
-                  padding: const EdgeInsets.all(26),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Image.asset("assets/success.png"),
-                      Center(
-                        child: Lottie.asset('assets/Rescheduled.json',
-                            fit: BoxFit.fill,
-                            reverse: true,
-                            repeat: false, onLoaded: (value) async {
-                          await Future.delayed(value.duration);
-                          if (home != true) {
-                            Navigator.push(
-                                MyApp.context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SetPrefrenceMentee()));
-                            // Navigator.push(
-                            //     MyApp.context, MaterialPageRoute(builder: (context) => Home()));
-                          } else {
-                            edit = false;
-                            notifyListeners();
-                          }
-                        }),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset("assets/success.png"),
+                    Center(
+                      child: Lottie.asset(
+                        'assets/Rescheduled.json',
+                        fit: BoxFit.fill,
+                        reverse: true,
+                        repeat: false,
+                        onLoaded: (value) async {
+                          Future.delayed(value.duration).then((value) {
+                            if (home != true) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation1, animation2) =>
+                                              const SetPrefrenceMentee(),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero),
+                                  (route) => false);
+                            } else {
+                              edit = false;
+                              // showLottie = false;
+                              notifyListeners();
+                              Navigator.pop(context);
+                            }
+                          });
+                        },
+                        //      onLoaded: (value) async {
+                        //   await Future.delayed(value.duration);
+                        //   if (home != true) {
+                        //     Navigator.push(
+                        //         MyApp.context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => SetPrefrenceMentee()));
+                        //     // Navigator.push(
+                        //     //     MyApp.context, MaterialPageRoute(builder: (context) => Home()));
+                        //   } else {
+                        //     edit = false;
+                        //     // showLottie = false;
+                        //     notifyListeners();
+                        //     Navigator.pop(context);
+                        //   }
+                        // }
                       ),
+                    ),
 
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Text(
-                        "Changes Saved!",
-                        style:
-                            TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Text(
+                      "Changes Saved!",
+                      style: TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
               );
             },
           );
-          // showNotification(res.data["message"]);
-          // if (home != true) {
-          //   Navigator.push(MyApp.context,
-          //       MaterialPageRoute(builder: (context) => const SetPrefrenceMentee()));
-          //   // Navigator.push(MyApp.context,
-          //   //     MaterialPageRoute(builder: (context) => HomeMentee()));
-          // } else {
-          //   edit = false;
-          //   notifyListeners();
-          // }
+          // notifyListeners();
+          // await showDialog<void>(
+          //   context: context,
+          //   builder: (BuildContext context) {
+          //     return Dialog(
+          //       insetPadding: EdgeInsets.only(left: 10, right: 10),
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          //       backgroundColor: Colors.white,
+          //       elevation: 3,
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           // Image.asset("assets/success.png"),
+          //           Center(
+          //             child: Lottie.asset('assets/Rescheduled.json',
+          //                 fit: BoxFit.fill,
+          //                 reverse: true,
+          //                 repeat: false, onLoaded: (value) async {
+          //               await Future.delayed(value.duration);
+          //               if (home != true) {
+          //                  Navigator.push(
+          //                     MyApp.context,
+          //                     MaterialPageRoute(
+          //                         builder: (context) => SetPrefrenceMentee()));
+          //                 // Navigator.push(
+          //                 //     MyApp.context, MaterialPageRoute(builder: (context) => Home()));
+          //               } else {
+          //                 edit = false;
+          //                 notifyListeners();
+          //                 Navigator.pop(context);
+          //               }
+          //             }),
+          //           ),
 
+          //           const SizedBox(
+          //             height: 5,
+          //           ),
+          //           const Text(
+          //             "Changes Saved!",
+          //             style: TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
+          //             textAlign: TextAlign.center,
+          //           ),
+          //           const SizedBox(
+          //             height: 10,
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // );
         } else {
           showError(res.data["message"]);
         }

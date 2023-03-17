@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:lottie/lottie.dart';
 
 class ComingSoon extends StatelessWidget {
@@ -30,7 +29,7 @@ class ComingSoon extends StatelessWidget {
           // "Messaging Feature Coming\n Soon!",
           text1!,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style:const TextStyle(
               color: Color(0xff202020),
               fontSize: 16,
               fontWeight: FontWeight.w500),
@@ -39,7 +38,7 @@ class ComingSoon extends StatelessWidget {
           // "You will be able to start\n messaging your mentors\n directly!",
           text2!,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style:const TextStyle(
               color: Color(0xffFDBA2F),
               fontSize: 18,
               fontWeight: FontWeight.w500),

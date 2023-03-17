@@ -9,6 +9,7 @@ class MentorReviewVM extends BaseViewModel {
     getReviews();
   }
 
+// List<ReviewModel> jobtitleList = [];
   ReviewModel? reviewsList;
   //get Reviews of student
   late MentorModel? mentee;
@@ -18,11 +19,8 @@ class MentorReviewVM extends BaseViewModel {
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        reviewsList = ReviewModel.fromJson(res.data['Data']);
-        print("review list");
-        print(reviewsList);
-        print(reviewsList?.rating);
-        print("review list");
+        reviewsList = ReviewModel.fromJson(res.data['Data'] ?? "");
+       
         notifyListeners();
       } else {
         showNotification("No reviews Found");

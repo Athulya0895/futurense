@@ -34,7 +34,7 @@ class MentalWellBeingVM extends BaseViewModel {
         showError(res.data['message']);
       }
     } else {
-      showError("servere Error");
+      showError("Server Error");
     }
   }
 
@@ -60,7 +60,7 @@ class MentalWellBeingVM extends BaseViewModel {
         // print("firstWhere");
         // print(selectedCompany);
       } else {
-        showError(res.data['message'] ?? "No data from backend");
+        showError(res.data['message'] ?? "Server Error");
       }
     } else {
       showError("Server Error");
@@ -84,7 +84,7 @@ class MentalWellBeingVM extends BaseViewModel {
 
         // print(selectedCompany);
       } else {
-        showError(res.data['message'] ?? "No data from backend");
+        showError(res.data['message'] ?? "something went wrong");
       }
     } else {
       showError("Server Error");
@@ -173,7 +173,7 @@ class MentalWellBeingVM extends BaseViewModel {
 
         filterList =
             tempfilterList.map((e) => MentorModel.fromjson(e)).toList();
-        showNotification(res.data["message"]);
+        // showNotification(res.data["message"]);
 
         notifyListeners();
       } else {

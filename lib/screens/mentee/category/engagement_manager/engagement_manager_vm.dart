@@ -29,7 +29,7 @@ class EngagementManagerVM extends BaseViewModel {
         showError(res.data['message']);
       }
     } else {
-      showError("servere Error");
+      showError("server Error");
     }
   }
 }

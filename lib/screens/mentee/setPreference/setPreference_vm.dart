@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
-import 'package:futurensemobileapp/main.dart';
+
 import 'package:futurensemobileapp/screens/mentee/home/home/home.dart';
-import 'package:futurensemobileapp/screens/mentee/myaccount/myaccount.dart';
+
 import 'package:lottie/lottie.dart';
 
 class SetPreferenceMenteeVM extends BaseViewModel {
@@ -40,7 +40,7 @@ class SetPreferenceMenteeVM extends BaseViewModel {
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == "true") {
-        print("true");
+        // print("true");
         areaslooking = res.data['Data']['areaslooking'];
         description = res.data['Data']['mentorship'] ?? "";
         notifyListeners();
@@ -53,7 +53,7 @@ class SetPreferenceMenteeVM extends BaseViewModel {
 
 //update mentee preference
   void UpdateMenteePreference(BuildContext context) async {
-    print("asdfgh");
+ 
     List<Map> checkboxlist = [];
     for (var i = 0; i < areaslooking.length; i++) {
       checkboxlist.add({
@@ -61,7 +61,7 @@ class SetPreferenceMenteeVM extends BaseViewModel {
         "isChecked": areaslooking[i]['isChecked']
       });
     }
-    print(checkboxlist);
+    // print(checkboxlist);
     final body = jsonEncode({
       "mentorship": preferenceDescription.text,
       "areaslooking": checkboxlist
@@ -69,10 +69,9 @@ class SetPreferenceMenteeVM extends BaseViewModel {
 
     showLoading();
     final res = await api.menteeRepo.postMenteePreference(body);
-    print(res);
+  
     hideLoading();
     if (res.runtimeType == Response) {
-      print("enter");
       if (res.data['status'] == "true") {
         // showNotification(res.data['message']);
         await showDialog<void>(
@@ -89,16 +88,46 @@ class SetPreferenceMenteeVM extends BaseViewModel {
                   children: [
                     // Image.asset("assets/success.png"),
                     Center(
-                      child: Lottie.asset('assets/Rescheduled.json',
-                          fit: BoxFit.fill,
-                          reverse: true,
-                          repeat: false, onLoaded: (value) async {
-                        await Future.delayed(value.duration);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeMentee()));
-                      }),
+                      child: Lottie.asset(
+                        'assets/Rescheduled.json',
+                        fit: BoxFit.fill,
+                        reverse: true,
+                        repeat: false,
+                        //      onLoaded: (value) async {
+                        //   await Future.delayed(value.duration);
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => HomeMentee()));
+                        // }
+                        onLoaded: (value) async {
+                          // Future.delayed(value.duration).then((value) {
+                          //   Navigator.push(
+                          //     context,
+                          //     PageRouteBuilder(
+                          //       pageBuilder:
+                          //           (context, animation1, animation2) =>
+                          //               const HomeMentee(),
+                          //       transitionDuration: Duration.zero,
+                          //       reverseTransitionDuration: Duration.zero,
+                          //     ),
+                          //     // MaterialPageRoute(
+                          //     //     builder: (context) => const HomeMentee()),
+                          //   );
+                          // });
+                          Future.delayed(value.duration).then((value) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            const HomeMentee(),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero),
+                                (route) => false);
+                          });
+                        },
+                      ),
                     ),
 
                     const SizedBox(

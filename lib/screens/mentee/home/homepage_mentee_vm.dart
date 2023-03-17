@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/main.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/models/user_model.dart';
 
@@ -10,6 +13,29 @@ class HomePageMenteeVM extends BaseViewModel {
   void onInit() {
     getUserDetails();
     user = prefs.user;
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        await checkNewNotification();
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
+    checkNewNotification();
+
     getCategory();
     getConfirmedUpcomingMeeting();
     getTopMentors();
@@ -70,7 +96,7 @@ class HomePageMenteeVM extends BaseViewModel {
         showError(res.data['message']);
       }
     } else {
-      showError("servere Error");
+      showError("server Error");
     }
   }
 
@@ -86,7 +112,7 @@ class HomePageMenteeVM extends BaseViewModel {
       MapEntry("user_id", prefs.userId.toString()),
     ]);
     showLoading();
-    final res = await api.mentorRepo.getMentor(formData);
+    final res = await api.menteeRepo.getMentee(formData);
 
     hideLoading();
     if (res.runtimeType == Response) {
@@ -97,13 +123,12 @@ class HomePageMenteeVM extends BaseViewModel {
         // print(user);
         // print("prefs user");
         if (data?.isNotEmpty == true) {
-          print("not empty");
+         
           user = UserModel.fromJson(data);
           notifyListeners();
           prefs.user = user;
-          print("pref user");
-          print(user);
-          print("prefs user");
+        
+         
         }
         notifyListeners();
       } else {
@@ -127,14 +152,35 @@ class HomePageMenteeVM extends BaseViewModel {
         tempconfirmed = res.data['DATA'] ?? [];
         confirmedupcomingmeetings =
             tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
-        print("confirmedupcomingmeetings");
-        print(confirmedupcomingmeetings);
-        print("confirmedupcomingmeetings");
+       
       } else {
         showError(res.data['message']);
       }
     } else {
       showError("Servere Error");
+    }
+  }
+
+  // check Notification
+  // check Notification
+  String? count;
+  checkNewNotification() async {
+
+    // showLoading();
+    final res = await api.mentorRepo.checkNewNotification();
+
+    // hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        count = res.data['Data']['count'];
+        
+       
+        notifyListeners();
+      } else {
+        // print("No notification");
+      }
+    } else {
+      print("Something Went Wrong");
     }
   }
 }

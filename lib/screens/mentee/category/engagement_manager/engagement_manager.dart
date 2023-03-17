@@ -56,7 +56,8 @@ class _EngagementManagerState extends State<EngagementManager>
           ),
           body: Padding(
             padding:const EdgeInsets.fromLTRB(20, 0, 20, 10),
-            child: SingleChildScrollView(
+            child: SingleChildScrollView(physics:const BouncingScrollPhysics(),
+
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +129,7 @@ class _EngagementManagerState extends State<EngagementManager>
                               // mainAxisAlignment: MainAxisAlignment.end,
                               // crossAxisAlignment: cross,
                               children: [
-                                ProfileImage(provider
+                                ProfileImage(url:provider
                                     .topEngagementmanager[index].profilePic),
                                 const SizedBox(
                                   width: 15,

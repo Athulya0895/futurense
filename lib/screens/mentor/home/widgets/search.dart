@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee_detail/mentee_detail.dart';
@@ -29,12 +28,12 @@ class Search extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide.none,
               ),
               filled: true,
               fillColor: const Color(0xffEBF6F7),
-              hintText: 'Search for mentee by-Skills, Domain, Job Title..',
+              hintText: 'Search for mentee by Skills, Domain, Job Title..',
               hintStyle:
                   const TextStyle(color: Color(0xff6EBFC3), fontSize: 10),
 
@@ -45,13 +44,15 @@ class Search extends StatelessWidget {
               // ),
               suffixIcon: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff6EBFC3).withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(20),
+                  color:const Color(0xff6EBFC3).withOpacity(0.5),
+                  borderRadius:const BorderRadius.only(
+                      topRight: Radius.circular(10.0),
+                      bottomRight: Radius.circular(10.0)),
                 ),
                 child: IconButton(
                   iconSize: 20,
                   splashRadius: 20,
-                  color: Color(0xff6EBFC3),
+                  color:const Color(0xff6EBFC3),
                   icon: const Icon(Icons.search),
                   onPressed: () {},
                 ),
@@ -101,7 +102,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return SizedBox();
+    return const SizedBox();
   }
 
   @override
@@ -109,7 +110,11 @@ class CustomSearchDelegate extends SearchDelegate {
     //show when someone searches for anything
     List<MentorModel> mentors = mentee
         .where((element) =>
-            element.fName?.toLowerCase().contains(query.toLowerCase()) ==
+            element.fName
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ==
+                true ||
+            element.lName?.toLowerCase().contains(query.toLowerCase()) ==
                 true ||
             element.designationName
                     ?.toLowerCase()
@@ -153,7 +158,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ProfileImage(mentors[index].profilePic),
+                      ProfileImage(url:mentors[index].profilePic),
                     ],
                   ),
                   const SizedBox(

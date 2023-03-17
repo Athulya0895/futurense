@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/screens/mentor/chat_mentor/chat_mentor_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/coming_soon/coming_soon.dart';
-import 'package:lottie/lottie.dart';
+
 
 class ChatMentor extends StatefulWidget {
   final jumbToIndex;
@@ -20,7 +19,7 @@ class _ChatMentorState extends State<ChatMentor> with BasePage<ChatMentorVM> {
     return builder((() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+            preferredSize:const Size.fromHeight(60.0),
             child: Container(
               decoration: const BoxDecoration(
                 boxShadow: [
@@ -35,9 +34,9 @@ class _ChatMentorState extends State<ChatMentor> with BasePage<ChatMentorVM> {
               child: AppBar(
                 title: const Center(
                   child: Text(
-                    "Chat",
+                    "Messages",
                     style: TextStyle(
-                        color: const Color(0xffFDBA2F),
+                        color:  Color(0xffFDBA2F),
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -55,7 +54,7 @@ class _ChatMentorState extends State<ChatMentor> with BasePage<ChatMentorVM> {
           body: const ComingSoon(
               text1: "Messaging Feature Coming\n Soon!",
               text2:
-                  "You will be able to start\n messaging your mentors\n directly!"),
+                  "You will be able to start\n messaging your mentees\n directly!"),
         )));
   }
 

@@ -39,7 +39,7 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
               child: AppBar(
                 centerTitle: true,
                 title: const Text(
-                  "My Meeting Room",
+                  "My Meetings",
                   style: TextStyle(
                       color: Color(0xffFDBA2F),
                       fontSize: 18,
@@ -101,11 +101,8 @@ class _MyappointmentsMenteeState extends State<MyappointmentsMentee>
     required Function onpressed,
   }) {
     TextStyle titleStyle = TextStyles.title.bold.white;
-    TextStyle subtitleStyle = TextStyles.body.bold.white;
-    // if (AppTheme.fullWidth(context) < 392) {
-    //   titleStyle = TextStyles.body.bold.white;
-    //   subtitleStyle = TextStyles.bodySm.bold.white;
-    // }
+    
+ 
     return AspectRatio(
       aspectRatio: 8 / 3,
       child: InkWell(

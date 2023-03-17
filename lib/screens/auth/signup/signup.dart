@@ -36,6 +36,7 @@ class _SignupState extends State<Signup> with BasePage<SignupVM> {
           child: Visibility(
             // visible: provider.currentScreen == Screens.detailsScreen,
             child: SingleChildScrollView(
+              physics:const BouncingScrollPhysics(),
               child: Form(
                 key: provider.formKey,
                 child: Column(

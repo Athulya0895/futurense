@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
-import 'package:futurensemobileapp/components/back_button/backbutton.dart';
+
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
-import 'package:futurensemobileapp/components/theme/theme.dart';
+
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/cancelled_meeting_mentor/cancelled_meeting_mentor.dart';
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/myappointments_mentor_vm.dart';
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/previous_meeting_mentor/previous_meeting_mentor.dart';
-import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeeting_mentor.dart';
+
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeting_mentor_vm.dart';
 
 class MyappointmentsMentor extends StatefulWidget {
@@ -27,7 +26,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
     return builder((() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+            preferredSize:const Size.fromHeight(60.0),
             child: Container(
               decoration: const BoxDecoration(
                 boxShadow: [
@@ -40,11 +39,11 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                 ],
               ),
               child: AppBar(
-                title: Center(
-                  child: const Text(
-                    "My Meeting Room",
+                title:const Center(
+                  child:  Text(
+                    "My Meetings",
                     style: TextStyle(
-                        color: const Color(0xffFDBA2F),
+                        color:  Color(0xffFDBA2F),
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
@@ -68,7 +67,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UpcomingMeetingMentor()));
+                        builder: (context) =>const UpcomingMeetingMentor()));
               },
                   color: const Color(0xffFDBA2F),
                   lightColor: const Color(0xffFFC958)),
@@ -76,7 +75,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PreviousMeetingMentor()));
+                        builder: (context) =>const PreviousMeetingMentor()));
               },
                   color: const Color(0xff90D8DC),
                   lightColor: const Color(0xff95E1E4)),
@@ -84,7 +83,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CancelledMeetingMentor()));
+                        builder: (context) =>const CancelledMeetingMentor()));
               },
                   color: const Color(0xffFFAA5F),
                   lightColor: const Color(0xffFFBC80)),
@@ -107,8 +106,8 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
     required Color lightColor,
     required Function onpressed,
   }) {
-    TextStyle titleStyle = TextStyles.title.bold.white;
-    TextStyle subtitleStyle = TextStyles.body.bold.white;
+     TextStyle titleStyle = TextStyles.title.bold.white;
+    // TextStyle subtitleStyle = TextStyles.body.bold.white;
     // if (AppTheme.fullWidth(context) < 392) {
     //   titleStyle = TextStyles.body.bold.white;
     //   subtitleStyle = TextStyles.bodySm.bold.white;
@@ -129,7 +128,7 @@ class _MyappointmentsMentorState extends State<MyappointmentsMentor>
                   topLeft: Radius.circular(10)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  offset: Offset(4, 4),
+                  offset:const Offset(4, 4),
                   blurRadius: 10,
                   color: lightColor.withOpacity(.8),
                 )

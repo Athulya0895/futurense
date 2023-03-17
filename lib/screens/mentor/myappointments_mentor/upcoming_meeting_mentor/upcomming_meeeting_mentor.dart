@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/components/dialogue_callpage/schedule_dialogue.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -17,7 +18,7 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
     // String url = 'http://13.127.192.123';
     // String url1 = 'http://192.168.69.106:6001';
     // String url2 = 'http://192.168.70.102:6001';
-    String url3 = "http://13.127.192.123:6001";
+    String url3 = "http://65.1.1.15:6001";
 
     IO.Socket socket = IO.io(
         url3,
@@ -37,10 +38,12 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
       tempconfirmed = data['confirmed'] ?? [];
       confirmedupcomingmeetings =
           tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
 
       tempsent = data['sent'] ?? [];
       sentUpcomingMeeting =
           tempsent.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
       tempreceived = data['received'] ?? [];
       receivedUpcomingMeeting =
           tempreceived.map((e) => MeetingModel.fromjson(e)).toList();
@@ -135,56 +138,33 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
   }
 
 //Accept meetingrequest from mentor
-  void acceptMeeting(String channelName, context) async {
+  void acceptMeeting(
+      String channelName, MeetingModel receivedUpcomingMeeting, context) async {
     FormData formData = FormData();
     formData.fields.addAll([MapEntry("channel_name", channelName)]);
     showLoading();
     final res = await api.mentorRepo.acceptMeeting(formData);
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        showNotification(res.data['message']);
-        // showDialog<void>(
-        //   context: context,
-        //   builder: (BuildContext context) {
-        //     return Dialog(
-        //       backgroundColor: Colors.white,
-        //       elevation: 3,
-        //       child: Container(
-        //         padding: const EdgeInsets.all(26),
-        //         child: Column(
-        //           mainAxisSize: MainAxisSize.min,
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             // Image.asset("assets/success.png"),
-        //             Center(
-        //               child: Lottie.asset('assets/Rescheduled.json',
-        //                   fit: BoxFit.fill,
-        //                   reverse: true,
-        //                   repeat: false, onLoaded: (value) async {
-        //                 await Future.delayed(value.duration);
-        //                 // Navigator.pop(context);
-        //                 // Navigator.push(context,
-        //                 //     MaterialPageRoute(builder: (context) => Home()));
-        //               }),
-        //             ),
+        // showNotification(res.data['message']);
+        await showDialog(
+          context: context,
+          builder: (context) => ScheduleDialogue(
+            dt: receivedUpcomingMeeting.fromDate!,
+            user: receivedUpcomingMeeting.userName!,
+            lottieWidget: Lottie.asset(
+              'assets/Rescheduled.json',
+              width: 270,
+              height: 203,
+            ),
+            text: "Your meeting is\n Successfully Scheduled!",
+          ),
+        );
+        getreceivedUpcomingMeeting();
+        getConfirmedUpcomingMeeting();
+        getSentUpcomingMeeting();
 
-        //             const SizedBox(
-        //               height: 5,
-        //             ),
-        //             const Text(
-        //               "Meeting accepted",
-        //               style: TextStyle(color: Color(0xff6EBFC3), fontSize: 24),
-        //               textAlign: TextAlign.center,
-        //             ),
-        //             const SizedBox(
-        //               height: 10,
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
+  
       } else {
         showNotification(res.data['message']);
       }
@@ -204,25 +184,51 @@ class UpcommingMeetingMentorVM extends BaseViewModel {
     {"name": "Others", "isChecked": false},
   ];
 
-  // void cancelMeeting(String channelName, context) async {
-  //   FormData formData = FormData();
-  //   formData.fields.addAll([
-  //     MapEntry("channel_name", channelName),
-  //     MapEntry("cancel_reason", currText),
-  //     MapEntry("cancel_detail", about.text),
-  //   ]);
-  //   showLoading();
-  //   final res = await api.menteeRepo.cancelMeeting(formData);
-  //   if (res.runtimeType == Response) {
-  //     if (res.data['status'] == true) {
-  //       showNotification(res.data['message']);
-  //       Navigator.pop(context);
-  //     } else {
-  //       showError(res.data['message']);
-  //     }
-  //   } else {
-  //     showError("something went Wrong");
-  //   }
-  // }
+  String? canJoin;
+  checkMeetingTime(String channelName) async {
+    print("channel name");
+    print(channelName);
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+    print(formData);
+    final res = await api.mentorRepo.checkMeetingTime(formData);
+    print("result from backend");
+    print(res);
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        canJoin = res.data['Data']['can_join'];
 
+        notifyListeners();
+      } else {
+        print("can't join");
+      }
+    } else {
+      showError("Something Went Wrong");
+    }
+  }
+
+  //checkEndcall
+  void checkEndCall(String channelName) async {
+    print(channelName);
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+    final res = await api.mentorRepo.checkEndCall(formData);
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        print("End Call");
+      } else {
+        print("Call is not ");
+      }
+    } else {
+      print("something went Wrong");
+    }
+  }
 }

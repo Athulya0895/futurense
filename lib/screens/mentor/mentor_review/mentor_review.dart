@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
-import 'package:futurensemobileapp/components/show_more.dart';
+
 import 'package:futurensemobileapp/models/mentor_model.dart';
-import 'package:futurensemobileapp/screens/mentee/mentor_detail/mentor_detail_vm.dart';
+
 import 'package:futurensemobileapp/screens/mentor/mentor_review/mentor_review_vm.dart';
+import 'package:readmore/readmore.dart';
 
 class MentorReview extends StatefulWidget {
   final MentorModel? menteedetail;
@@ -38,10 +38,11 @@ class _MentorReviewState extends State<MentorReview>
                 ],
               ),
               child: AppBar(
+                centerTitle: true,
                 title: const Text(
                   "Reviews",
                   style: TextStyle(
-                      color: const Color(0xffFDBA2F),
+                      color:  Color(0xffFDBA2F),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -62,6 +63,7 @@ class _MentorReviewState extends State<MentorReview>
               //     EdgeInsets.symmetric(vertical: 10, horizontal: 10)
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   headerdetailmentor(),
                   const SizedBox(
@@ -74,88 +76,96 @@ class _MentorReviewState extends State<MentorReview>
                   const SizedBox(
                     height: 30,
                   ),
-                  Container(
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: provider.reviewsList!.feedbacksBy!.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0xffBDBCBC).withOpacity(0.25),
-                                  spreadRadius: 0,
-                                  blurRadius: 6,
-                                  offset: Offset(0, 2),
-                                  blurStyle: BlurStyle.normal),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              ProfileImage(
-                                provider.reviewsList?.feedbacksBy?[index]
-                                    .profilePic,
-                              ),
-                              // SvgPicture.asset("assets/profile.svg"),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            provider
-                                                    .reviewsList
-                                                    ?.feedbacksBy?[index]
-                                                    .name ??
-                                                "",
-                                            style: TextStyle(
-                                                color: Colors.grey[500])),
-                                        RatingBarIndicator(
-                                          rating: double.parse(provider
-                                                  .reviewsList
-                                                  ?.feedbacksBy?[index]
-                                                  .rating ??
-                                              ""),
-                                          itemBuilder: (context, index) => Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
-                                          itemCount: 5,
-                                          itemSize: 16.0,
-                                          direction: Axis.horizontal,
+                  ListView.builder(
+                    physics:const NeverScrollableScrollPhysics(),
+                    itemCount: provider.reviewsList?.feedbacksBy?.length ?? 0,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding:
+                          const  EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        margin:const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                color:const Color(0xffBDBCBC).withOpacity(0.25),
+                                spreadRadius: 0,
+                                blurRadius: 6,
+                                offset:const Offset(0, 2),
+                                blurStyle: BlurStyle.normal),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            ProfileImage(
+                              url: provider
+                                  .reviewsList?.feedbacksBy?[index].profilePic,
+                            ),
+                            // SvgPicture.asset("assets/profile.svg"),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        // provider.reviewsList
+                                        //         ?.feedbacksBy?[index].name ??
+                                        //     "",
+                                        provider.reviewsList!
+                                                    .feedbacksBy![index].name
+                                                    .toString()
+                                                    .length <
+                                                16
+                                            ? "${provider.reviewsList?.feedbacksBy![index].name},"
+                                            : "${provider.reviewsList?.feedbacksBy![index].name!.substring(0, 16)}...",
+                                        style:
+                                            TextStyle(color: Colors.grey[500]),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      RatingBarIndicator(
+                                        rating: double.parse(provider
+                                                .reviewsList
+                                                ?.feedbacksBy?[index]
+                                                .rating ??
+                                            ""),
+                                        itemBuilder: (context, index) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
                                         ),
-                                      ],
-                                    ),
-                                    // Text('Very interactive and detailed ..'),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    ViewMore(
-                                        text: provider.reviewsList
-                                                ?.feedbacksBy?[index].review ??
-                                            "")
-                                  ],
-                                ),
+                                        itemCount: 5,
+                                        itemSize: 16.0,
+                                        direction: Axis.horizontal,
+                                      ),
+                                    ],
+                                  ),
+                                  // Text('Very interactive and detailed ..'),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  // ViewMore(
+                                  //     text: provider.reviewsList
+                                  //             ?.feedbacksBy?[index].review ??
+                                  //         "")
+                                  showMoretext(provider.reviewsList
+                                          ?.feedbacksBy?[index].review ??
+                                      "")
+                                ],
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -172,19 +182,19 @@ class _MentorReviewState extends State<MentorReview>
           const SizedBox(
             height: 10,
           ),
-          ProfileImage(widget.menteedetail?.profilePic),
+          ProfileImage(url: widget.menteedetail?.profilePic),
           const SizedBox(
             height: 15,
           ),
           Text(
-            "${widget.menteedetail?.fName.toString()} ${widget.menteedetail!.lName.toString()}",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+            "${widget.menteedetail?.fName.toString()} ${widget.menteedetail?.lName.toString()}",
+            style:const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           const SizedBox(
             height: 2,
           ),
           Text(
-            widget.menteedetail!.designationName.toString(),
+            widget.menteedetail?.designationName.toString() ?? "-",
             textAlign: TextAlign.center,
           ),
           const SizedBox(
@@ -193,15 +203,15 @@ class _MentorReviewState extends State<MentorReview>
           Text(
             widget.menteedetail?.email.toString() ?? "email@example.com",
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xff7AC4C8)),
+            style:const TextStyle(color: Color(0xff7AC4C8)),
           ),
           const SizedBox(
             height: 20,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
-                color: Color(0xffEBF6F7),
+                color:const Color(0xffEBF6F7),
                 borderRadius: BorderRadius.circular(10)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -209,7 +219,7 @@ class _MentorReviewState extends State<MentorReview>
               children: [
                 Text(
                   provider.reviewsList?.rating.toString() ?? "",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff6EBFC3),
                       fontSize: 24,
                       fontWeight: FontWeight.w700),
@@ -218,8 +228,8 @@ class _MentorReviewState extends State<MentorReview>
                   width: 20,
                 ),
                 RatingBarIndicator(
-                  rating: double.parse(provider.reviewsList?.rating ?? ""),
-                  itemBuilder: (context, index) => Icon(
+                  rating: 4.9,
+                  itemBuilder: (context, index) => const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
@@ -232,6 +242,22 @@ class _MentorReviewState extends State<MentorReview>
           ),
         ],
       ),
+    );
+  }
+
+  Widget showMoretext(String text) {
+    return ReadMoreText(
+      text,
+      style:const TextStyle(color: Color(0xff6B779A)),
+      trimLines: 2,
+      colorClickableText: Colors.pink,
+      trimMode: TrimMode.Line,
+      trimCollapsedText: 'View More',
+      trimExpandedText: 'Show less',
+      moreStyle:const TextStyle(
+          color: Color(0xff682FFD),
+          decoration: TextDecoration.underline,
+          fontSize: 12),
     );
   }
 

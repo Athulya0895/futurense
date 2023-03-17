@@ -15,7 +15,7 @@ class _ViewMoreState extends State<ViewMore> {
 
   @override
   void initState() {
-    if (widget.text.length > 30) {
+    if (widget.text.length > 40) {
       firstHalf = widget.text.substring(0, 30);
       secondHalf = widget.text.substring(30, widget.text.length);
     } else {
@@ -31,11 +31,11 @@ class _ViewMoreState extends State<ViewMore> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(flag ? ("$firstHalf...") : (firstHalf + secondHalf),
-            style:const TextStyle(
+            style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 12,
                 color: Color(0xff6B779A))),
-       const SizedBox(
+        const SizedBox(
           height: 5,
         ),
         InkWell(

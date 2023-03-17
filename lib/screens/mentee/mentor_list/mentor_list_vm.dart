@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:math';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,8 @@ import 'package:futurensemobileapp/models/user_model.dart';
 class MentorListVM extends BaseViewModel {
   @override
   void onInit() {
-    getTopMentees();
+    // getTopMentees();
+    getTopMentors();
     getExperience();
     getJobtitle();
     getDomainExpertise();
@@ -19,20 +19,41 @@ class MentorListVM extends BaseViewModel {
   }
 
 //get Top MentorList
+  // List tempmentorList = [];
+  // List<MentorModel> topMentorList = [];
+  // void getTopMentees() async {
+  //   showLoading();
+  //   final res = await api.menteeRepo.getTopMentors();
+  //   hideLoading();
+  //   if (res.runtimeType == Response) {
+  //     if (res.data['status'] == true) {
+  //       print("------");
+  //       tempmentorList = res.data['DATA'] as List;
+  //       topMentorList =
+  //           tempmentorList.map((e) => MentorModel.fromjson(e)).toList();
+  //       print(topMentorList);
+  //       print("+++++++++");
+  //       notifyListeners();
+  //     } else {
+  //       showError(res.data['message']);
+  //     }
+  //   } else {
+  //     showError("server Error");
+  //   }
+  // }
+//get Top MentorList
   List tempmentorList = [];
   List<MentorModel> topMentorList = [];
-  void getTopMentees() async {
+  void getTopMentors() async {
     showLoading();
     final res = await api.menteeRepo.getTopMentors();
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        print("------");
         tempmentorList = res.data['DATA'] as List;
         topMentorList =
             tempmentorList.map((e) => MentorModel.fromjson(e)).toList();
-        print(topMentorList);
-        print("+++++++++");
+
         notifyListeners();
       } else {
         showError(res.data['message']);
@@ -56,7 +77,7 @@ class MentorListVM extends BaseViewModel {
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        print("true status");
+    
         List tempexperienceList = res.data['DATA'] as List;
         experiencesList =
             tempexperienceList.map((e) => ExperienceModel.fromJson(e)).toList();
@@ -77,7 +98,7 @@ class MentorListVM extends BaseViewModel {
   void getJobtitle() async {
     showLoading();
     final res = await api.mentorRepo.getJobtitle();
-    print(res);
+   
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
@@ -86,7 +107,7 @@ class MentorListVM extends BaseViewModel {
             tempjobtitleList.map((e) => JobttileModel.fromJson(e)).toList();
         // selectedJob = jobtitleList
         //     .firstWhere((element) => element.name == prefs.user!.jobTitle);
-        print("firstWhere");
+   
         // print(selectedCompany);
       } else {
         showError(res.data['message'] ?? "No data from backend");
@@ -102,7 +123,7 @@ class MentorListVM extends BaseViewModel {
   void getDomainExpertise() async {
     showLoading();
     final res = await api.mentorRepo.getDomainExpertise();
-    print(res);
+  
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
@@ -112,7 +133,7 @@ class MentorListVM extends BaseViewModel {
             .toList();
         // selectedJob = domainExpertiseList
         //     .firstWhere((element) => element.name == prefs.user!.jobTitle);
-        print("firstWhere");
+  
         // print(selectedCompany);
       } else {
         showError(res.data['message'] ?? "No data from backend");
@@ -127,10 +148,10 @@ class MentorListVM extends BaseViewModel {
 
   List<SkillsetModel> skillsetList = [];
   void getSkillSet() async {
-    print("entering the fn");
+
     showLoading();
     final res = await api.mentorRepo.getSkillset();
-    print(res);
+  
     hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
@@ -179,7 +200,7 @@ class MentorListVM extends BaseViewModel {
 
         filterList =
             tempfilterList.map((e) => MentorModel.fromjson(e)).toList();
-        showNotification(res.data["message"]);
+        // showNotification(res.data["message"]);
 
         notifyListeners();
       } else {
@@ -198,27 +219,4 @@ class MentorListVM extends BaseViewModel {
     selectedskillset = null;
     notifyListeners();
   }
-// //get Top MentorList
-//   List tempmentorList = [];
-//   List<MentorModel> topMentorList = [];
-//   void getTopMentees() async {
-//     showLoading();
-//     final res = await api.menteeRepo.getTopMentors();
-//     hideLoading();
-//     if (res.runtimeType == Response) {
-//       if (res.data['status'] == true) {
-//         print("------");
-//         tempmentorList = res.data['DATA'] as List;
-//         topMentorList =
-//             tempmentorList.map((e) => MentorModel.fromjson(e)).toList();
-//         print(topMentorList);
-//         print("+++++++++");
-//         notifyListeners();
-//       } else {
-//         showError(res.data['message']);
-//       }
-//     } else {
-//       showError("servere Error");
-//     }
-//   }
 }

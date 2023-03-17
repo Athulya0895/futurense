@@ -1,9 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import 'package:futurensemobileapp/base/base_view_model.dart';
+import 'package:futurensemobileapp/components/dialogue_callpage/schedule_dialogue.dart';
 import 'package:futurensemobileapp/models/mentor_model.dart';
+import 'package:lottie/lottie.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class UpcomingAppointmentsMenteeVM extends BaseViewModel {
@@ -15,13 +16,12 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
     getSentUpcomingMeeting();
     getreceivedUpcomingMeeting();
     //  final prefs = locator<SharedPrefs>();
-    print("useId_____");
-    print(prefs.userId);
+
     //socket Nodejs
     // String url = 'http://13.127.192.123';
     // String url1 = 'http://192.168.69.106:6001';
     // String url2 = 'http://192.168.70.102:6001';
-    String url3 = "http://13.127.192.123:6001";
+    String url3 = "http://65.1.1.15:6001 ";
 
     IO.Socket socket = IO.io(
         url3,
@@ -30,7 +30,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
             .setExtraHeaders({'foo': 'bar'}) // optional
             .build());
     socket.onConnect((_) {
-      print('connect');
+      // print('connect');
       socket.emit('msg', 'test');
     });
     //socket on userId
@@ -41,10 +41,12 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
       tempconfirmed = data['confirmed'] ?? [];
       confirmedupcomingmeetings =
           tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
 
       tempsent = data['sent'] ?? [];
       sentUpcomingMeeting =
           tempsent.map((e) => MeetingModel.fromjson(e)).toList();
+      // notifyListeners();
       tempreceived = data['received'] ?? [];
       receivedUpcomingMeeting =
           tempreceived.map((e) => MeetingModel.fromjson(e)).toList();
@@ -85,15 +87,15 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
         tempconfirmed = res.data['DATA'] ?? [];
         confirmedupcomingmeetings =
             tempconfirmed.map((e) => MeetingModel.fromjson(e)).toList();
-        print("confirmedupcomingmeetings");
-        print(confirmedupcomingmeetings);
-        print("confirmedupcomingmeetings");
+        // print("confirmedupcomingmeetings");
+        // print(confirmedupcomingmeetings);
+        // print("confirmedupcomingmeetings");
         notifyListeners();
       } else {
         showError(res.data['message']);
       }
     } else {
-      showError("Servere Error");
+      showError("Server Error");
     }
   }
 // //test server getconfirmed meeting
@@ -106,9 +108,31 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
 //   }
 
 //get sent upcoming meeting
+  // List tempsent = [];
+  // List<MeetingModel> sentUpcomingMeeting = [];
+  // getSentUpcomingMeeting() async {
+  //   showLoading();
+  //   final res = await api.menteeRepo.getSentUpcomingMeeting();
+  //   hideLoading();
+  //   if (res.runtimeType == Response) {
+  //     if (res.data['status'] == true) {
+  //       tempsent = res.data['DATA'] ?? [];
+  //       sentUpcomingMeeting =
+  //           tempsent.map((e) => MeetingModel.fromjson(e)).toList();
+
+  //       notifyListeners();
+  //     } else {
+  //       showError(res.data['message']);
+  //     }
+  //   } else {
+  //     showError("Servere Error");
+  //   }
+  // }
+
+//get sent upcoming meeting
   List tempsent = [];
   List<MeetingModel> sentUpcomingMeeting = [];
-  getSentUpcomingMeeting() async {
+   getSentUpcomingMeeting() async {
     showLoading();
     final res = await api.menteeRepo.getSentUpcomingMeeting();
     hideLoading();
@@ -117,9 +141,9 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
         tempsent = res.data['DATA'] ?? [];
         sentUpcomingMeeting =
             tempsent.map((e) => MeetingModel.fromjson(e)).toList();
-        print("sentUpcomingMeeting");
-        print(sentUpcomingMeeting);
-        print("sentUpcomingMeeting");
+        // print("sentUpcomingMeeting");
+        // print(sentUpcomingMeeting);
+        // print("sentUpcomingMeeting");
         notifyListeners();
       } else {
         showError(res.data['message']);
@@ -141,9 +165,7 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
         tempreceived = res.data['DATA'] ?? [];
         receivedUpcomingMeeting =
             tempreceived.map((e) => MeetingModel.fromjson(e)).toList();
-        print("receivedUpcomingMeeting");
-        print(receivedUpcomingMeeting);
-        print("receivedUpcomingMeeting");
+
         notifyListeners();
       } else {
         showError(res.data['message']);
@@ -154,14 +176,28 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
   }
 
 //Accept meetingrequest from mentor
-  void acceptMeeting(String channelName) async {
+  void acceptMeeting(String channelName,MeetingModel receivedUpcomingMeeting,context) async {
     FormData formData = FormData();
     formData.fields.addAll([MapEntry("channel_name", channelName)]);
     showLoading();
     final res = await api.menteeRepo.acceptMeeting(formData);
+    hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
-        showNotification(res.data['message']);
+        // showNotification(res.data['message']);
+          await showDialog(
+          context: context,
+          builder: (context) => ScheduleDialogue(
+            dt: receivedUpcomingMeeting.fromDate!,
+            user: receivedUpcomingMeeting.userName!,
+            lottieWidget: Lottie.asset(
+              'assets/Rescheduled.json',
+              width: 270,
+              height: 203,
+            ),
+            text: "Your meeting is\n Successfully Scheduled!",
+          ),
+        );
         getreceivedUpcomingMeeting();
         getConfirmedUpcomingMeeting();
         getSentUpcomingMeeting();
@@ -184,15 +220,64 @@ class UpcomingAppointmentsMenteeVM extends BaseViewModel {
     ]);
     showLoading();
     final res = await api.menteeRepo.cancelMeeting(formData);
+    hideLoading();
     if (res.runtimeType == Response) {
       if (res.data['status'] == true) {
         showNotification(res.data['message']);
+        getreceivedUpcomingMeeting();
+        getConfirmedUpcomingMeeting();
+        getSentUpcomingMeeting();
         Navigator.pop(context);
       } else {
         showError(res.data['message']);
       }
     } else {
       showError("something went Wrong");
+    }
+  }
+
+  //checkMeeting time
+  String? canJoin;
+  checkMeetingTime(String channelName) async {
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+
+    final res = await api.menteeRepo.checkMeetingTime(formData);
+
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        canJoin = res.data['Data']['can_join'];
+
+        notifyListeners();
+      } else {
+        print("can't join");
+      }
+    } else {
+      showError("Something Went Wrong");
+    }
+  }
+
+  //checkEndcall
+  void checkEndCall(String channelName) async {
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry("channel_name", channelName),
+    ]);
+    showLoading();
+    final res = await api.menteeRepo.checkEndCall(formData);
+    hideLoading();
+    if (res.runtimeType == Response) {
+      if (res.data['status'] == true) {
+        print("End Call");
+      } else {
+        print("Call is not ");
+      }
+    } else {
+      print("something went Wrong");
     }
   }
 }

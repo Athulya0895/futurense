@@ -5,15 +5,17 @@ import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
 import 'package:futurensemobileapp/components/theme/extension.dart';
 import 'package:futurensemobileapp/components/theme/text_styles.dart';
-import 'package:futurensemobileapp/models/mentor_model.dart';
+
 import 'package:futurensemobileapp/screens/mentee/home/widget/search_mentee.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_detail/mentor_detail.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_list/mentor_list_vm.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_list/widgets/filter.dart';
 
 class MentorList extends StatefulWidget {
-  final List<MentorModel>? topmentorlists;
-  const MentorList({super.key, this.topmentorlists});
+  // final List<MentorModel>? topmentorlists;
+  const MentorList({
+    super.key,
+  });
 
   @override
   State<MentorList> createState() => _MentorListState();
@@ -109,6 +111,7 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
           ),
         ),
         body: SingleChildScrollView(
+          physics:const BouncingScrollPhysics(),
           child: Column(
             children: [
               SearchMentee(topmentorlist: provider.topMentorList),
@@ -118,56 +121,23 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
         ))));
   }
 
-//search all mentors
-//also can search based on filter
-  Widget _searchField() {
-    return Container(
-      height: 55,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: const Color(0xff6B779A).withOpacity(0.1),
-        borderRadius: const BorderRadius.all(Radius.circular(13)),
-        // boxShadow: <BoxShadow>[
-        //   BoxShadow(
-        //     color: Colors.grey,
-        //     blurRadius: 15,
-        //     offset: Offset(5, 5),
-        //   )
-        // ],
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          border: InputBorder.none,
-          hintText: "Search for mentor",
-          hintStyle: TextStyles.body.subTitleColor,
-          suffixIcon: SizedBox(
-            width: 50,
-            child: const Icon(Icons.search, color: Colors.orange)
-                .alignCenter
-                .ripple(
-                  () {},
-                  borderRadius: BorderRadius.circular(13),
-                ),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   //top Mentors list
   Widget _allmentorWidgetList() {
+    
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 50),
       // implement GridView.builder
       child: SizedBox(
         // height: 500,
         child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 3.8,
+                //  childAspectRatio: 3 / 3.8,
+
+                childAspectRatio:
+                    ((MediaQuery.of(context).size.width / 2) - 30) / 210,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
             itemCount: provider.filterList.isEmpty &&
@@ -195,7 +165,7 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
                   children: [
                     Container(
                       constraints: const BoxConstraints(maxHeight: 200),
-                      padding: const EdgeInsets.only(top: 10),
+                      // padding: const EdgeInsets.only(top: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -216,19 +186,31 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ProfileImage(
-                              provider.topMentorList[index].profilePic),
-                          //                   const SizedBox(
-                          //                     height: 20,
-                          //                   ),
+                              url: provider.topMentorList[index].profilePic),
+                        const  SizedBox(
+                            height: 8,
+                          ),
                           provider.isSelectedfilter == false ||
                                   provider.filterList.isEmpty
                               ? Text(
                                   "${provider.topMentorList[index].fName.toString()} ${provider.topMentorList[index].lName.toString()}",
                                   textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:const TextStyle(
+                                      color: Color(0xff222B45),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
                                 )
                               : Text(
                                   "${provider.filterList[index].fName.toString()} ${provider.filterList[index].lName.toString()}",
                                   textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:const TextStyle(
+                                      color: Color(0xff222B45),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
                                 ),
                           provider.isSelectedfilter == false ||
                                   provider.filterList.isEmpty
@@ -236,6 +218,8 @@ class _MentorListState extends State<MentorList> with BasePage<MentorListVM> {
                                   provider.topMentorList[index].designationName
                                       .toString(),
                                   textAlign: TextAlign.center,
+                                  style:const TextStyle(
+                                      color: Color(0xff6B779A), fontSize: 10),
                                 )
                               : Text(provider.filterList[index].designationName
                                   .toString()),

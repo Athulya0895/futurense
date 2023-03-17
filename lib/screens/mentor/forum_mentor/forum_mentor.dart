@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/screens/mentor/coming_soon/coming_soon.dart';
 import 'package:futurensemobileapp/screens/mentor/forum_mentor/forum_mentor_vm.dart';
@@ -20,7 +19,7 @@ class _ForumMentorState extends State<ForumMentor>
     return builder((() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+            preferredSize:const Size.fromHeight(60.0),
             child: Container(
               decoration: const BoxDecoration(
                 boxShadow: [
@@ -37,7 +36,7 @@ class _ForumMentorState extends State<ForumMentor>
                   child: Text(
                     "Forum",
                     style: TextStyle(
-                        color: const Color(0xffFDBA2F),
+                        color:  Color(0xffFDBA2F),
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),

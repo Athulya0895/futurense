@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,9 +57,9 @@ class LoginVM extends BaseViewModel {
 
   login(BuildContext context) async {
     await Firebase.initializeApp();
-    print("firebase message");
+    // print("firebase message");
     String? deviceId = await FirebaseMessaging.instance.getToken();
-    print("firebase message1");
+    // print("firebase message1");
     if (formKey.currentState!.validate()) {
       FormData formData = FormData();
       formData.fields.addAll([
@@ -119,7 +119,7 @@ class LoginVM extends BaseViewModel {
           showError(response.data['MESSAGE'] ?? "Login failed");
         }
       } else {
-        showError("Server Error");
+        showError(response.data['MESSAGE']);
       }
     }
   }

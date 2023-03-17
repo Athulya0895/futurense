@@ -10,7 +10,7 @@ class NotificationMenteeVM extends BaseViewModel {
   }
 
   // NotificationModel? notificationList;
-  List<NotificationModel>? notifications;
+  List<NotificationModel> notifications = [];
   void getNotification() async {
     showLoading();
     var res = await api.menteeRepo.getNotification();
@@ -19,13 +19,13 @@ class NotificationMenteeVM extends BaseViewModel {
       if (res.data['status'] == true) {
         // notificationList = NotificationModel.fromJson(res.data['DATA']);
         final List data = res.data['DATA'] as List;
-        print(" Hey data");
-        print(data);
+      
+      
         notifications = data.map((e) => NotificationModel.fromJson(e)).toList();
-        print("hey notification");
-        print(notifications);
-        print(notifications?.length);
-        print(notifications?[0].notification?.length);
+        // print("hey notification");
+        // print(notifications);
+        // print(notifications?.length);
+        // print(notifications?[0].notification?.length);
         notifyListeners();
         //  var rest = data["articles"] as List;
         // print(rest);

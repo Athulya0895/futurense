@@ -81,14 +81,25 @@ class SetPreferenceMentorVM extends BaseViewModel {
                   children: [
                     // Image.asset("assets/success.png"),
                     Center(
-                      child: Lottie.asset('assets/Rescheduled.json',
-                          fit: BoxFit.fill,
-                          reverse: true,
-                          repeat: false, onLoaded: (value) async {
-                        await Future.delayed(value.duration);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home()));
-                      }),
+                      child: Lottie.asset(
+                        'assets/Rescheduled.json',
+                        fit: BoxFit.fill,
+                        reverse: true,
+                        repeat: false,
+                        onLoaded: (value) async {
+                          Future.delayed(value.duration).then((value) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            const Home(),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero),
+                                (route) => false);
+                          });
+                        },
+                      ),
                     ),
 
                     const SizedBox(

@@ -67,6 +67,7 @@ class _ForgetPasswordState extends State<ForgetPassword>
           body: Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: SingleChildScrollView(
+              physics:const BouncingScrollPhysics(),
               child: Form(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

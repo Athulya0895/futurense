@@ -94,6 +94,9 @@ class MeetingModel {
   String? profilepic;
   String? userId;
   String? cancelReason;
+  String? cancelDetailReason;
+  String? rescheduleReason;
+  String? rescheduleDetailReason;
   String? email;
   String? designtionName;
   String? workExperience;
@@ -117,6 +120,9 @@ class MeetingModel {
       this.profilepic,
       this.userId,
       this.cancelReason,
+      this.cancelDetailReason,
+      this.rescheduleReason,
+      this.rescheduleDetailReason,
       this.email,
       this.designtionName,
       this.canhelp,
@@ -140,6 +146,9 @@ class MeetingModel {
         profilepic: json['profile_pic'],
         userId: json['user_id'] ?? "",
         cancelReason: json['cancel_reason'] ?? "",
+        cancelDetailReason: json['cancel_detail_reason'] ?? "",
+        rescheduleReason: json['reschedule_reason'] ?? "",
+        rescheduleDetailReason: json['reschedule_detail_reason'] ?? "",
         about: json['about_you'] ?? "-",
         canhelp: json['can_help_you'] ?? "-",
         designtionName: json['designation_name'] ?? "-",
@@ -163,6 +172,9 @@ class MeetingModel {
       'profile_pic': profilepic,
       'user_id': userId,
       'cancel_reason': cancelReason,
+      'cancel_detail_reason': cancelDetailReason,
+      'reschedule_reason': rescheduleReason,
+      'reschedule_detail_reason': rescheduleDetailReason,
       'about_you': about,
       'can_help_you': canhelp,
       'designation_name': designtionName,

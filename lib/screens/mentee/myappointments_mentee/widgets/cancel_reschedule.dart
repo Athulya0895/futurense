@@ -27,6 +27,9 @@ class _CancelRescheduleState extends State<CancelReschedule> {
     return Dialog(
       backgroundColor: Colors.white,
       elevation: 3,
+      insetPadding:const EdgeInsets.only(left: 10, right: 10),
+      shape:const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -42,7 +45,7 @@ class _CancelRescheduleState extends State<CancelReschedule> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon:const Icon(Icons.close)),
+                  icon: const Icon(Icons.close)),
             ),
             Text(
               widget.headerText.toString(),
@@ -58,7 +61,7 @@ class _CancelRescheduleState extends State<CancelReschedule> {
             Column(
               children: text
                   .map((t) => CheckboxListTile(
-                        activeColor:const Color(0xffFDBA2F),
+                        activeColor: const Color(0xffFDBA2F),
                         title: Text(t),
                         value: isChecked,
                         onChanged: (bool? val) {
@@ -85,7 +88,7 @@ class _CancelRescheduleState extends State<CancelReschedule> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding:const EdgeInsets.only(left: 15, right: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: InputField(
                 maxline: 3,
                 // minline: 1,
@@ -99,7 +102,7 @@ class _CancelRescheduleState extends State<CancelReschedule> {
               height: 30,
             ),
             MaterialButton(
-                color:const Color(0xffFDBA2F),
+                color: const Color(0xffFDBA2F),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 // minWidth: 30,
                 // height: 30,

@@ -39,7 +39,7 @@ class CancelledAppointmentsMenteeVM extends BaseViewModel {
         showError(res.data['message']);
       }
     } else {
-      showError("Servere Error");
+      showError("Server Error");
     }
   }
 }

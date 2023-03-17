@@ -6,7 +6,7 @@ import 'package:futurensemobileapp/api/mentee_service.dart';
 import 'package:futurensemobileapp/api/mentor_service.dart';
 import './auth_services.dart';
 import '/api/api_config.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
 
 class ApiClient {
   final _dio = Dio(
@@ -35,6 +35,7 @@ class ApiClient {
       InterceptorsWrapper(
         onRequest: (RequestOptions options,
             RequestInterceptorHandler requestInterceptorHandler) async {
+              //add token
           return requestInterceptorHandler.next(options);
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
