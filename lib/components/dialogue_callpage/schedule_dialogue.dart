@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:futurensemobileapp/components/button/button.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_list/mentor_list.dart';
 
@@ -42,12 +41,12 @@ class _ScheduleDialogueState extends State<ScheduleDialogue> {
           // padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0xffD8D8D8),
+                color:const Color(0xffD8D8D8),
               ),
               shape: BoxShape.circle),
           child: IconButton(
               padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
+              constraints:const BoxConstraints(),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -67,7 +66,7 @@ class _ScheduleDialogueState extends State<ScheduleDialogue> {
             textAlign: TextAlign.center,
             text: TextSpan(
                 text: 'Your meeting is\n',
-                style: TextStyle(color: Color(0xffA0A2B3), fontSize: 12),
+                style:const TextStyle(color: Color(0xffA0A2B3), fontSize: 12),
                 children: <TextSpan>[
                 const  TextSpan(
                     text: 'Successfully Scheduled!\n\n',

@@ -1,14 +1,11 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 import 'package:futurensemobileapp/components/dialogue_callpage/call_dialogue.dart';
 import 'package:futurensemobileapp/components/input/input_field.dart';
-import 'package:futurensemobileapp/components/profile/profile_image.dart';
+
 import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/agora_video/src/pages/call.dart';
 import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/data_notfound.dart';
@@ -17,7 +14,7 @@ import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/widgets/
 import 'package:futurensemobileapp/screens/mentee/review_feedback/feedback.dart';
 import 'package:futurensemobileapp/screens/mentor/book_appointment/book_appointment.dart';
 import 'package:futurensemobileapp/screens/mentor/mentee%20list/mentee_list.dart';
-import 'package:futurensemobileapp/screens/mentor/mentee_detail/mentee_detail.dart';
+
 import 'package:futurensemobileapp/screens/mentor/myappointments_mentor/upcoming_meeting_mentor/upcomming_meeeting_mentor.dart';
 import 'package:futurensemobileapp/utils/validators.dart';
 import 'package:lottie/lottie.dart';
@@ -78,7 +75,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
     return builder((() => Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
+            preferredSize:const Size.fromHeight(60.0),
             child: Container(
               decoration: const BoxDecoration(
                 boxShadow: [
@@ -95,7 +92,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                 title: const Text(
                   "Upcoming Meetings",
                   style: TextStyle(
-                      color: const Color(0xffFDBA2F),
+                      color:  Color(0xffFDBA2F),
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
@@ -223,7 +220,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                 ? "Scheduled on time"
                                                                 : "Meeting Rescheduled to ${provider.confirmedupcomingmeetings[index].fromDate} - ${provider.confirmedupcomingmeetings[index].startTime}",
                                                             viewStatusColor:
-                                                                Color(
+                                                              const  Color(
                                                                     0xff32CD32),
                                                             buttonText2: "",
                                                             buttonText1:
@@ -265,7 +262,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                         onPressed: () {
                                                                                           Navigator.pop(context);
                                                                                         },
-                                                                                        icon: Icon(Icons.close)),
+                                                                                        icon:const Icon(Icons.close)),
                                                                                   ),
                                                                                   const Text(
                                                                                     "Reschedule",
@@ -276,7 +273,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                     height: 15,
                                                                                   ),
                                                                                   ListView(
-                                                                                    physics: NeverScrollableScrollPhysics(),
+                                                                                    physics:const NeverScrollableScrollPhysics(),
                                                                                     shrinkWrap: true,
                                                                                     children: <Widget>[
                                                                                       provider.rescheduleCheckbox.isNotEmpty
@@ -292,7 +289,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                                             child: Row(
                                                                                                               children: <Widget>[
                                                                                                                 Checkbox(
-                                                                                                                  activeColor: Color(0xffFDBA2F),
+                                                                                                                  activeColor:const Color(0xffFDBA2F),
                                                                                                                   value: area["isChecked"],
                                                                                                                   onChanged: (value) {
                                                                                                                     setState(() => area["isChecked"] = value);
@@ -342,7 +339,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                     height: 30,
                                                                                   ),
                                                                                   MaterialButton(
-                                                                                      color: Color(0xffFDBA2F),
+                                                                                      color:const Color(0xffFDBA2F),
                                                                                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                                                                       // minWidth: 30,
                                                                                       // height: 30,
@@ -483,7 +480,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                     buttonText1pressed:
                                                         () async {
                                                       //reschedule prssed
-                                                      final resShow =
+                                                      final  resShow =
                                                           showDialog(
                                                               context: context,
                                                               builder:
@@ -493,12 +490,12 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                         (context,
                                                                             setState) {
                                                                   return Dialog(
-                                                                    insetPadding: EdgeInsets.only(
+                                                                    insetPadding:const EdgeInsets.only(
                                                                         left:
                                                                             10,
                                                                         right:
                                                                             10),
-                                                                    shape: RoundedRectangleBorder(
+                                                                    shape:const RoundedRectangleBorder(
                                                                         borderRadius:
                                                                             BorderRadius.all(Radius.circular(10.0))),
                                                                     backgroundColor:
@@ -529,7 +526,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                   onPressed: () {
                                                                                     Navigator.pop(context);
                                                                                   },
-                                                                                  icon: Icon(Icons.close)),
+                                                                                  icon:const Icon(Icons.close)),
                                                                             ),
                                                                             const Text(
                                                                               "Reschedule",
@@ -540,7 +537,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                               height: 15,
                                                                             ),
                                                                             ListView(
-                                                                              physics: NeverScrollableScrollPhysics(),
+                                                                              physics:const NeverScrollableScrollPhysics(),
                                                                               shrinkWrap: true,
                                                                               children: <Widget>[
                                                                                 provider.rescheduleCheckbox.isNotEmpty
@@ -556,7 +553,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                                       child: Row(
                                                                                                         children: <Widget>[
                                                                                                           Checkbox(
-                                                                                                            activeColor: Color(0xffFDBA2F),
+                                                                                                            activeColor:const Color(0xffFDBA2F),
                                                                                                             value: area["isChecked"],
                                                                                                             onChanged: (value) {
                                                                                                               setState(() => area["isChecked"] = value);
@@ -606,7 +603,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                               height: 30,
                                                                             ),
                                                                             MaterialButton(
-                                                                                color: Color(0xffFDBA2F),
+                                                                                color:const Color(0xffFDBA2F),
                                                                                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                                                                 // minWidth: 30,
                                                                                 // height: 30,
@@ -736,7 +733,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                         : Center(
                                             child: SingleChildScrollView(
                                               physics:
-                                                  AlwaysScrollableScrollPhysics(),
+                                                const  AlwaysScrollableScrollPhysics(),
                                               child: DataNotFound(
                                                 nodataimg:
                                                     "assets/nodatafound.svg",
@@ -751,7 +748,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              MenteeList()));
+                                                            const  MenteeList()));
                                                 },
                                               ),
                                             ),
@@ -817,7 +814,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                         viewStatus:
                                                             "Request has not been accepted yet!",
                                                         viewStatusColor:
-                                                            Color(0xffFF5458),
+                                                           const Color(0xffFF5458),
                                                         // buttonText1: "Remind",
                                                         // buttonText1pressed: () {
                                                         //   //remind send notification to mentee
@@ -847,7 +844,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                     : Center(
                                         child: SingleChildScrollView(
                                           physics:
-                                              AlwaysScrollableScrollPhysics(),
+                                             const AlwaysScrollableScrollPhysics(),
                                           child: Center(
                                             child: DataNotFound(
                                               nodataimg:
@@ -983,9 +980,9 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                 setState) {
                                                                           return Dialog(
                                                                             insetPadding:
-                                                                                EdgeInsets.only(left: 10, right: 10),
+                                                                              const  EdgeInsets.only(left: 10, right: 10),
                                                                             shape:
-                                                                                RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                                              const  RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
                                                                             backgroundColor:
                                                                                 Colors.white,
                                                                             elevation:
@@ -1007,7 +1004,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                           onPressed: () {
                                                                                             Navigator.pop(context);
                                                                                           },
-                                                                                          icon: Icon(Icons.close)),
+                                                                                          icon:const Icon(Icons.close)),
                                                                                     ),
                                                                                     const Text(
                                                                                       "Reschedule",
@@ -1018,7 +1015,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                       height: 15,
                                                                                     ),
                                                                                     ListView(
-                                                                                      physics: NeverScrollableScrollPhysics(),
+                                                                                      physics:const NeverScrollableScrollPhysics(),
                                                                                       shrinkWrap: true,
                                                                                       children: <Widget>[
                                                                                         provider.rescheduleCheckbox.isNotEmpty
@@ -1034,7 +1031,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                                               child: Row(
                                                                                                                 children: <Widget>[
                                                                                                                   Checkbox(
-                                                                                                                    activeColor: Color(0xffFDBA2F),
+                                                                                                                    activeColor:const Color(0xffFDBA2F),
                                                                                                                     value: area["isChecked"],
                                                                                                                     onChanged: (value) {
                                                                                                                       setState(() => area["isChecked"] = value);
@@ -1188,12 +1185,12 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                         (context,
                                                                             setState) {
                                                                   return Dialog(
-                                                                    insetPadding: EdgeInsets.only(
+                                                                    insetPadding:const EdgeInsets.only(
                                                                         left:
                                                                             10,
                                                                         right:
                                                                             10),
-                                                                    shape: RoundedRectangleBorder(
+                                                                    shape:const RoundedRectangleBorder(
                                                                         borderRadius:
                                                                             BorderRadius.all(Radius.circular(10.0))),
                                                                     backgroundColor:
@@ -1224,7 +1221,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                                 onPressed: () {
                                                                                   Navigator.pop(context);
                                                                                 },
-                                                                                icon: Icon(Icons.close)),
+                                                                                icon:const Icon(Icons.close)),
                                                                           ),
                                                                           const Text(
                                                                             "Reschedule",
@@ -1241,7 +1238,7 @@ class _UpcomingMeetingMentorState extends State<UpcomingMeetingMentor>
                                                                           ),
                                                                           ListView(
                                                                             physics:
-                                                                                NeverScrollableScrollPhysics(),
+                                                                              const  NeverScrollableScrollPhysics(),
                                                                             shrinkWrap:
                                                                                 true,
                                                                             children: <Widget>[

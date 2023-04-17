@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_view_model.dart';
-import 'package:futurensemobileapp/main.dart';
+
 import 'package:futurensemobileapp/models/mentor_model.dart';
 
 import 'package:futurensemobileapp/screens/mentee/home/home/home.dart';
 
 import 'package:futurensemobileapp/screens/mentee/mentor_list/mentor_list.dart';
-import 'package:futurensemobileapp/screens/mentee/myappointments_mentee/upcoming_appointments_mentee/upcoming_appointments_mentee.dart';
+
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';

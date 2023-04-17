@@ -3,8 +3,7 @@ import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/back_button/backbutton.dart';
 
 import 'package:futurensemobileapp/components/profile/profile_image.dart';
-import 'package:futurensemobileapp/components/theme/extension.dart';
-import 'package:futurensemobileapp/components/theme/text_styles.dart';
+
 
 import 'package:futurensemobileapp/screens/mentee/home/widget/search_mentee.dart';
 import 'package:futurensemobileapp/screens/mentee/mentor_detail/mentor_detail.dart';

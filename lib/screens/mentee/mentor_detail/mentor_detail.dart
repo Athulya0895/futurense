@@ -409,17 +409,17 @@ class _MentorDetailsState extends State<MentorDetails>
                 color: Color(0xffDCF1F4),
                 spreadRadius: 0,
                 blurRadius: 4,
-                offset: const Offset(0, 3))
+                offset:  Offset(0, 3))
           ]),
       child: ReadMoreText(
         text,
-        style: TextStyle(color: Color(0xff6B779A)),
+        style:const TextStyle(color: Color(0xff6B779A)),
         trimLines: 2,
         colorClickableText: Colors.pink,
         trimMode: TrimMode.Line,
         trimCollapsedText: 'View More',
         trimExpandedText: 'Show less',
-        moreStyle: TextStyle(
+        moreStyle:const TextStyle(
             color: Color(0xff682FFD),
             decoration: TextDecoration.underline,
             fontSize: 12),

@@ -52,7 +52,7 @@ class _DropDownMenuModeState extends State<DropDownMenuMode> {
       // margin: const EdgeInsets.fromLTRB(20, 0, 20, 5),
       height: valid ? 50 : 70,
       child: DropdownSearch<dynamic>(
-        showSearchBox: true,
+        showSearchBox: false,
         enabled: widget.enabled,
         validator: widget.enabled && widget.enabledValidation
             ? (v) {
@@ -88,7 +88,7 @@ class _DropDownMenuModeState extends State<DropDownMenuMode> {
           labelText: widget.labeltext,
 
           hintText: widget.hinttext,
-          hintStyle: TextStyle(fontSize: 14, color: Color(0xff6EBFC3)),
+          hintStyle:const TextStyle(fontSize: 14, color: Color(0xff6EBFC3)),
           // hintStyle: TextStyle(fontSize: ),
           //  labelText: widget.hinttext,
           fillColor: const Color(0xffEBF6F7),

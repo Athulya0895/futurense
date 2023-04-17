@@ -433,7 +433,7 @@ class _MyAccountState extends State<MyAccount> with BasePage<MyAccountVM> {
                                         provider.updateProfile(context,
                                             home: true);
                                       })
-                                  : SizedBox(),
+                                  :const SizedBox(),
                               // Text("setPreference"),.
                               Center(
                                 child: TextButton(

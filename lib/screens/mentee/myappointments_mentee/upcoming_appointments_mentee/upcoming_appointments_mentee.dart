@@ -134,7 +134,7 @@ class _UpcomingAppointmentsMenteeState extends State<UpcomingAppointmentsMentee>
                               BorderSide(width: 3.0, color: Color(0xffFFAA5F)),
                           insets: EdgeInsets.symmetric(horizontal: 25.0),
                         ),
-                        tabs: [
+                        tabs:const [
                           TabWidget(
                             label: 'Confirmed',
                             rightDivider: true,

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:futurensemobileapp/base/base_page.dart';
 import 'package:futurensemobileapp/components/dialogue_callpage/call_dialogue.dart';
@@ -11,7 +11,7 @@ import 'package:futurensemobileapp/models/mentor_model.dart';
 import 'package:futurensemobileapp/screens/agora_video/src/pages/call_vm.dart';
 
 import 'package:lottie/lottie.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -121,10 +121,10 @@ class _CallPageState extends State<CallPage> with BasePage<CallPageVM> {
 
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
-    print("Video Call");
+    // print("Video Call");
     _engine = await RtcEngine.create(appId);
     print("meeting modecallpage = ${widget.mentor?.communicationMode}");
-    print(widget.meetingMode);
+    // print(widget.meetingMode);
 
     await _engine.enableVideo();
     // if (widget.mentor?.communicationMode == 'Audio Call') {
@@ -140,10 +140,10 @@ class _CallPageState extends State<CallPage> with BasePage<CallPageVM> {
   //Audio Call
   /// Create agora sdk instance and initialize
   Future<void> _initAudioAgoraRtcEngine() async {
-    print("Audio Call");
+    // print("Audio Call");
     _engine = await RtcEngine.create(appId);
     print("meeting modecallpage = ${widget.mentor?.communicationMode}");
-    print(widget.meetingMode);
+    // print(widget.meetingMode);
 
     await _engine.disableVideo();
 
@@ -336,7 +336,7 @@ class _CallPageState extends State<CallPage> with BasePage<CallPageVM> {
                       },
                     );
                   });
-              print("Click on call end");
+              // print("Click on call end");
               if (resShow == true) {
                 // _onCallEnd(context);
                 // Navigator.pop(context);
@@ -413,7 +413,7 @@ class _CallPageState extends State<CallPage> with BasePage<CallPageVM> {
                                 horizontal: 5,
                               ),
                               decoration: BoxDecoration(
-                                color: Color(0xffFDBA2F),
+                                color:const Color(0xffFDBA2F),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Text(

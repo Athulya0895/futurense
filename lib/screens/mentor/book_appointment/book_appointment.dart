@@ -304,7 +304,7 @@ class _BookAppointmentMentorState extends State<BookAppointmentMentor>
                             color: provider.selectedTimeslot ==
                                     provider.timeSlots[index]
                                 ? Colors.white
-                                : Color(0xff202020)),
+                                :const Color(0xff202020)),
                       ),
                     ),
                   ),

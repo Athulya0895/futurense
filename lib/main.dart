@@ -106,7 +106,7 @@ void main() async {
             return AlertDialog(
               title: Text(notification.title!),
               content: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics:const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [Text(notification.body!)],
